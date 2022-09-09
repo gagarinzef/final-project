@@ -1,18 +1,16 @@
 import { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 
 function ConfirmPage() {
   const params = useParams();
   const [error, setError] = useState(false);
-  const [message, setMessage] = useState("");
-    
+  const [message, setMessage] = useState("");  
 
   useEffect(() => {
     const verifUser = async () => {
         try {
             const { data } = await axios.get(`http://localhost:3001/users/verify/${params.token}`)
-            console.log(data);
             setMessage(data.message);
         } catch (error) {
             setError(true);
@@ -35,7 +33,7 @@ function ConfirmPage() {
           <p className="font-normal text-gray-700">
            {message}, Please Login first
           </p>
-          {!error ? (<Link to="/login" className="bg-green-500 text-white">Login Page</Link>) : null}
+          {!error ? (<Link to="/login" className="bg-green-500 text-white mt-5 rounded-lg">Login Page</Link>) : null}
         </a>
       </div>
     </div>

@@ -6,6 +6,7 @@ import VerifPage from "./components/VerifPage";
 import ConfirmPage from "./components/ConfirmPage";
 import LoginPage from "./components/LoginPage";
 import Navbar from "./components/Navbar";
+import InvitationPage from "./components/InvitationPage";
 import { Route, Routes } from "react-router-dom";
 
 function App() {
@@ -57,6 +58,16 @@ function App() {
             </ProtectedRoutesHome>
           }
         />
+
+        <Route
+          path="/invitation"
+          element={
+            <ProtectedRoutesLogin>
+              <InvitationPage />
+            </ProtectedRoutesLogin>
+          }
+        />
+
       </Routes>
     </div>
   );
