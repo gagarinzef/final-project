@@ -1,4 +1,4 @@
-const { Project, UserProject, Task } = require("../models");
+const { Project, UserProject, Task, User } = require("../models");
 
 class ProjectController {
   static async createProject(req, res, next) {
@@ -49,14 +49,36 @@ class ProjectController {
           UserId: id,
           ProjectId: projectId,
         },
-        include: {
-          model: Project,
-          include: [Task],
-        },
       });
 
       if (!data) throw { name: "forbidden" };
-      res.status(200).json(data);
+
+      const project = await Project.findByPk(projectId, {
+        include: {
+          model: Task,
+          include: {
+            model: User,
+            attributes: {
+              exclude: ["password", "token", "status"],
+            },
+          },
+        },
+      });
+
+      const member = await UserProject.findAll({
+        where: {
+          ProjectId: projectId,
+        },
+        attributes: ["id", "UserId", "role"],
+        include: {
+          model: User,
+          attributes: {
+            exclude: ["password", "token", "status"],
+          },
+        },
+      });
+
+      res.status(200).json({ project, member });
     } catch (error) {
       console.log(error);
       next(error);
