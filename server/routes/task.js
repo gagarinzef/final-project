@@ -3,11 +3,9 @@ const TaskController = require("../controllers/taskController");
 const authentication = require("../middlewares/authentication");
 
 router.use(authentication);
-
 // Get Task
 router.get("/", TaskController.findAllTaskByUserId);
-
 // Create Task
-router.post("/", TaskController.createTask) ;
+router.post("/", TaskController.createTask);
 
 module.exports = router;

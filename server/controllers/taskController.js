@@ -15,8 +15,9 @@ class TaskController {
   static async createTask(req, res, next) {
     try {
       const UserId = req.user.id;
-      const { title, date, color } = req.body;
+      const { title, date, color, ProjectId } = req.body;
       const task = await Task.create({
+        ProjectId: 1, // sementara nanti dinamis tergantung lg di project id berapa
         UserId,
         status: "Unprogress",
         title,

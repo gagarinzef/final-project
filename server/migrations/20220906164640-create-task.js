@@ -1,60 +1,60 @@
-'use strict';
+"use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Tasks', {
+    await queryInterface.createTable("Tasks", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
-      // ProjectId: {
-      //   allowNull: false,
-      //   type: Sequelize.INTEGER,
-      //   references: {
-      //     model: "Projects",
-      //     key: "id"
-      //   },
-      //   onDelete: "cascade",
-      //   onUpdate: "cascade"
-      // },
+      ProjectId: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: "Projects",
+          key: "id",
+        },
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      },
       UserId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: "Users",
-          key: "id"
+          key: "id",
         },
         onDelete: "cascade",
-        onUpdate: "cascade"
+        onUpdate: "cascade",
       },
       status: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       title: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       date: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       color: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Tasks');
-  }
+    await queryInterface.dropTable("Tasks");
+  },
 };
