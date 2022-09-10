@@ -6,7 +6,7 @@ const userProjectRouter = require("./userProject");
 const authentication = require("../middlewares/authentication");
 
 router.use("/users", userRouter);
-router.use(authentication);
+// router.use(authentication);
 router.use("/tasks", taskRouter);
 router.use("/projects", projectRouter);
 router.use("/userprojects", userProjectRouter);
