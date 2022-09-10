@@ -13,17 +13,17 @@ const invitationEmail = (obj) => {
   var mailOptions = {
     from: "fp.zurichfox@gmail.com",
     to: `${obj.email}`,
-    subject: `TODO - Invitation Project`,
+    subject: `WOK IT OUT - Invitation Project`,
     html: invitation(obj),
   };
 
-//   transporter.sendMail(mailOptions, function (error, info) {
-    // if (error) {
-    //   console.log(error);
-    // } else {
-    //   console.log("Email sent: " + info.response);
-    // }
-//   });
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      return console.log(error);
+    } else {
+      return console.log("Email sent: " + info.response);
+    }
+  });
 };
 
 module.exports = invitationEmail;
