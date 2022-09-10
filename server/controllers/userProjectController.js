@@ -5,7 +5,6 @@ class UserProjectController {
   static async inviteUser(req, res, next) {
     try {
       const { email, ProjectId } = req.body;
-      const UserId = req.user.id;
       if (!email) throw { name: "notFound" };
       const findInviteUser = await User.findByPk(UserId);
       const findUser = await User.findOne({ where: { email } });
@@ -17,9 +16,9 @@ class UserProjectController {
         name: findInviteUser.username,
         email: findUser.email,
         username: findUser.username,
+        UserId: findUser.id ,
         projectName: findProject.name,
-        ProjectId,
-        UserId,
+        ProjectId
       };
 
       await invitationEmail(obj);
@@ -27,8 +26,6 @@ class UserProjectController {
     } catch (error) {
       if (error.name === "notRegistered") {
         res.status(404).json({ message: "User not registered" });
-      } else if (error.name === "notRegistered") {
-        res.status(405).json({ message: "Fail to send invitation email" });
       } else {
         console.log(error);
         next(error);
