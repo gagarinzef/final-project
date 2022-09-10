@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const welcome = require("../assets/emailTemplates/welcome");
 
 const sendEmail = (obj) => {
     var transporter = nodemailer.createTransport({
@@ -12,9 +13,8 @@ const sendEmail = (obj) => {
     var mailOptions = {
         from: 'fp.zurichfox@gmail.com',
         to: `${obj.email}`,
-        subject: `TODO Welcome Email`,
-        html: `<h1>WELCOME</h1>
-        <p>Hello, ${obj.username}! Welcome to our app!</p>`,
+        subject: `WOK IT OUT - Welcome Email`,
+        html: welcome(obj)
     };
 
     transporter.sendMail(mailOptions, function (error, info) {

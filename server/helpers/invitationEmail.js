@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const invitation = require("../assets/emailTemplates/invitation");
 
 const invitationEmail = (obj) => {
     var transporter = nodemailer.createTransport({
@@ -13,8 +14,7 @@ const invitationEmail = (obj) => {
         from: 'fp.zurichfox@gmail.com',
         to: `${obj.email}`,
         subject: `TODO - Invitation Project`,
-        html: `<h3>Hello, ${obj.username}!</h3  >
-        <p>You have invitation from ${obj.name} to join project ${obj.projectName}, <a href="http://localhost:3000/invitation?UserId=${obj.UserId}&ProjectId=${obj.ProjectId}">click here<a/> to approve!<p>`
+        html: invitation(obj)
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
