@@ -5,6 +5,7 @@ class UserProjectController {
   static async inviteUser(req, res, next) {
     try {
       const { email, ProjectId } = req.body;
+      const UserId = req.user.id;
       if (!email) throw { name: "notFound" };
       const findInviteUser = await User.findByPk(UserId);
       const findUser = await User.findOne({ where: { email } });
