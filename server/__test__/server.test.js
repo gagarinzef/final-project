@@ -24,11 +24,29 @@ beforeAll(async () => {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        {
+          username: "costumer10",
+          email: "hanuna@gmail.com",
+          password: hashPassword("qwerty123"),
+          token:
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFwaXNpc2xhbWlAZ21haWwuY29tIiwicGFzc3dvcmQiOiJxd2VydHkxMjMiLCJpYXQiOjE2NjI4MDA2NzUsImV4cCI6MTY2Mjg4NzA3NX0.miTloujDJmyxFw6tmPY7zrdeynjOobhVqksdjIv6dXs",
+          status: "Active",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        // {
+        //   username: "costumer100",
+        //   email: "nina@gmail.com",
+        //   password: hashPassword("qwerty123"),
+        //   token:
+        //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFwaXNpc2xhbWlAZ21haWwuY29tIiwicGFzc3dvcmQiOiJxd2VydHkxMjMiLCJpYXQiOjE2NjI4MDA2NzUsImV4cCI6MTY2Mjg4NzA3NX0.miTloujDJmyxFw6tmPY7zrdeynjOobhVqksdjIv6dXs",
+        //   status: "Inactive",
+        //   createdAt: new Date(),
+        //   updatedAt: new Date(),
+        // },
       ],
       {}
-    ),
-      await queryInterface.bulkInsert("Categories", categories, {}),
-      await queryInterface.bulkInsert("News", news, {});
+    );
   } catch (error) {
     console.log(error);
   }
@@ -51,8 +69,8 @@ describe("POST /users", () => {
   describe("POST /users - Success", () => {
     it("Should return newly registered user's id and email", async () => {
       const registerData = {
-        username: "new comer",
-        email: "qwerty@gmail.com",
+        username: "costumer100",
+        email: "nina@gmail.com",
         password: "qwerty123",
       };
       const response = await request(app).post("/users").send(registerData);
@@ -68,8 +86,8 @@ describe("POST /users", () => {
         password: "qwerty123",
       };
       const response = await request(app).post("/users").send(registerData);
-      expect(response.status).toBe(500);
-      expect(response.body.message).toBe("internal server error");
+      expect(response.status).toBe(400);
+      expect(response.body.message).toEqual(expect.any(String));
     });
   });
 });
@@ -142,8 +160,40 @@ describe("POST /users/login", () => {
       expect(response.status).toBe(404);
       expect(response.body.message).toBe("User Not Found");
     });
+    it("Should return Email/Password Invalid", async () => {
+      const loginData = {
+        email: "apisislami@gmail.com",
+        password: "qwerty",
+      };
+      const response = await request(app).post("/users/login").send(loginData);
+      expect(response.status).toBe(400);
+      expect(response.body.message).toBe("Email/Password Invalid");
+    });
+    it("Should return Please activate your account, by checking your email!", async () => {
+      const login = { email: "nina@gmail.com", password: "qwerty123" };
+      const response = await request(app).post("/users/login").send(login);
+      expect(response.status).toBe(400);
+      expect(response.body.message).toBe(
+        "Please activate your account, by checking your email!"
+      );
+    });
   });
 });
+
+/*
+case "loginInvalid":
+          console.log("Email/Password Invalid")
+          res.status(400).json({ message: "Email/Password Invalid" });
+          break;
+        case "userInvalid":
+          res.status(400).json({
+            message: "Please activate your account, by checking your email!",
+          });
+          break;
+        case "userNotFound":
+          res.status(404).json({ message: "User Not Found" });
+          break;
+*/
 
 // Post Projects
 describe("POST /projects", () => {
@@ -271,7 +321,7 @@ describe("POST /tasks", () => {
     it("Should return Title name is required", async () => {
       const response = await request(app).post("/tasks").set({ access_token });
       expect(response.status).toBe(400);
-      expect(response.body.error.message).toBe("Title name is required");
+      expect(response.body.message).toBe("Title name is required");
     });
     it("Should return Date is required", async () => {
       const response = await request(app)
@@ -279,7 +329,7 @@ describe("POST /tasks", () => {
         .send({ title: "title" })
         .set({ access_token });
       expect(response.status).toBe(400);
-      expect(response.body.error.message).toBe("Date is required");
+      expect(response.body.message).toBe("Date is required");
     });
   });
 });
@@ -304,6 +354,64 @@ describe("GET /tasks", () => {
       const response = await request(app).get("/tasks");
       expect(response.status).toBe(403);
       expect(response.body.message).toBe("Please Login");
+    });
+    it("Should return Data not Found", async () => {
+      const response = await request(app).get("/tasks").set({
+        access_token:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjYyODI2ODM1fQ.B8r6Xh2kzrUzvmyDzKnJpfAC0s7gHKKi8khEjwfoQRM",
+      });
+      expect(response.status).toBe(404);
+      expect(response.body.error.message).toBe("Data not Found");
+    });
+    it("Should return Unauthorized", async () => {
+      const response = await request(app).get("/tasks").set({
+        access_token: "sembarangtoken",
+      });
+      expect(response.status).toBe(403);
+      expect(response.body.message).toBe("Invalid Token");
+    });
+  });
+});
+
+// Post Tasks
+describe("POST /userprojects", () => {
+  describe("POST /userprojects - Success", () => {
+    it("Should return message Invitation email has been sent", async () => {
+      const inviteData = {
+        email: "hanuna@gmail.com",
+        ProjectId: 1,
+      };
+      const response = await request(app)
+        .post("/userprojects")
+        .send(inviteData)
+        .set({ access_token });
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual(expect.any(Object));
+      expect(response.body.message).toBe("Invitation email has been sent");
+    });
+  });
+
+  describe("POST /userprojects - Error", () => {
+    it("Should return Please Login", async () => {
+      const response = await request(app).post("/userprojects");
+      expect(response.status).toBe(403);
+      expect(response.body.message).toBe("Please Login");
+    });
+    it("Should return Data not Found", async () => {
+      const response = await request(app)
+        .post("/userprojects")
+        .send({ email: "hanuna@gmail.com" })
+        .set({ access_token });
+      expect(response.status).toBe(404);
+      expect(response.body.error.message).toBe("Data not Found");
+    });
+    it("Should return Data not Found", async () => {
+      const response = await request(app)
+        .post("/userprojects")
+        .send({ ProjectId: 1 })
+        .set({ access_token });
+      expect(response.status).toBe(404);
+      expect(response.body.error.message).toBe("Data not Found");
     });
   });
 });

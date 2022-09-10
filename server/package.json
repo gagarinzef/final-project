@@ -10,12 +10,27 @@
     "sequelize": "^6.21.4"
   },
   "name": "sanbox-finalproject",
+  "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "app",
+      "controllers/**",
+      "helpers/**",
+      "middleware/**",
+      "routes/**"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "lines": 70
+      }
+    }
+  },
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon bin/www",
     "create-db": "npx sequelize db:drop && npx sequelize db:create && npx sequelize db:migrate",
-    "test": "npx sequelize-cli --env=test db:drop && npx sequelize-cli --env=test db:create && npx sequelize-cli --env=test db:migrate && jest --runInBand --forceExit --coverage"
+    "test": "npx sequelize-cli --env=test db:drop && npx sequelize-cli --env=test db:create && npx sequelize-cli --env=test db:migrate && jest --runInBand --forceExit "
   },
   "keywords": [],
   "author": "",

@@ -80,7 +80,7 @@ class ProjectController {
 
       res.status(200).json({ project, member });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       next(error);
     }
   }

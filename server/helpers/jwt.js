@@ -5,6 +5,11 @@ const createToken = (payload) => jwt.sign(payload, SECRET_KEY);
 const verifyToken = (token) => jwt.verify(token, SECRET_KEY);
 
 module.exports = {
-    createToken,
-    verifyToken
-}
+  createToken,
+  verifyToken,
+};
+
+const payload = {
+    id: 2,
+  };
+console.log(createToken(payload));

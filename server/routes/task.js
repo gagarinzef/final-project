@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const TaskController = require("../controllers/taskController");
-const authentication = require("../middlewares/authentication");
+const authentication = require("../middleware/authentication");
 
 router.use(authentication);
 // Get Task
