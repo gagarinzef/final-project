@@ -18,7 +18,7 @@ class ProjectController {
 
       res.status(201).json({ message: "Project created" });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       next(error);
     }
   }
@@ -34,7 +34,7 @@ class ProjectController {
       });
       res.status(200).json(data);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       next(error);
     }
   }
