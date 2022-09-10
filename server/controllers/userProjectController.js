@@ -17,9 +17,9 @@ class UserProjectController {
         name: findInviteUser.username,
         email: findUser.email,
         username: findUser.username,
+        UserId: findUser.id,
         projectName: findProject.name,
         ProjectId,
-        UserId,
       };
 
       await invitationEmail(obj);
@@ -27,8 +27,6 @@ class UserProjectController {
     } catch (error) {
       if (error.name === "notRegistered") {
         res.status(404).json({ message: "User not registered" });
-      } else if (error.name === "notRegistered") {
-        res.status(405).json({ message: "Fail to send invitation email" });
       } else {
         console.log(error);
         next(error);
