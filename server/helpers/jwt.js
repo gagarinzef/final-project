@@ -10,6 +10,6 @@ module.exports = {
 };
 
 const payload = {
-    id: 2,
+    id: 3,
   };
 console.log(createToken(payload));

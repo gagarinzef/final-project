@@ -33,7 +33,6 @@ const errorHandler = async (error, req, res, next) => {
     error.name == "JsonWebTokenError"
   ) {
     res.status(403).json({
-      statusCode: 403,
       message: "Invalid Token",
     });
   } else if (error.name == "nullToken") {
@@ -45,12 +44,14 @@ const errorHandler = async (error, req, res, next) => {
     res.status(404).json({ message: "User Not Found" });
   } else if (error.name == "notFound") {
     res.status(404).json({
-      statusCode: 404,
-      error: {
-        message: "Data not Found",
-      },
+      message: "Data not Found",
+    });
+  } else if (error.name == "alreadyEnroll") {
+    res.status(404).json({
+      message: "User already enrolled in this project",
     });
   }
+
   //   if (error.name === "invalidInput") {
   //     res
   //       .status(400)

@@ -16,7 +16,7 @@ class UserController {
       });
       res.status(200).json(user);
     } catch (error) {
-      res.status(500).json({ message: "internal server error" });
+      // next(error)
     }
   }
 
@@ -41,13 +41,11 @@ class UserController {
         email: register.email,
         token,
       });
-      console.log(email, password, "&&&&&&&&&&&");
       res.status(201).json({
         message: "Verify email has been sent",
       });
     } catch (error) {
-      console.log(error, '<<<<< error regis');
-      next(error)
+      next(error);
     }
   }
 
@@ -83,7 +81,7 @@ class UserController {
           res.status(404).json({ message: "User Not Found" });
           break;
         default:
-          next(error)
+          next(error);
           break;
       }
     }
@@ -94,13 +92,10 @@ class UserController {
     try {
       const { email, password } = req.body;
       const user = await User.findOne({ where: { email } });
-      console.log(user, "<<<<<<< CEK USER MASUK TIDAK");
       if (!user) {
-        console.log("<<<<<<<<<<< ini user not found");
         throw { name: "userNotFound" };
       }
       if (user.status === "Inactive") {
-        console.log("<<<<<<<<<<< ini inactive");
         throw { name: "userInvalid" };
       }
       const isPassValid = comparePassword(password, user.password);

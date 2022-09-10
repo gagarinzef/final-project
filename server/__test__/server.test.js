@@ -1,3 +1,4 @@
+const { create } = require("json-server");
 const request = require("supertest");
 const app = require("../app");
 const { hashPassword } = require("../helpers/bcryptjs");
@@ -89,6 +90,18 @@ describe("POST /users", () => {
       expect(response.status).toBe(400);
       expect(response.body.message).toEqual(expect.any(String));
     });
+    it("Should return You must input all form before submit", async () => {
+      const registerData = {
+        username: "",
+        email: "",
+        password: "",
+      };
+      const response = await request(app).post("/users").send(registerData);
+      expect(response.status).toBe(400);
+      expect(response.body.message).toBe(
+        "You must input all form before submit"
+      );
+    });
   });
 });
 
@@ -169,31 +182,16 @@ describe("POST /users/login", () => {
       expect(response.status).toBe(400);
       expect(response.body.message).toBe("Email/Password Invalid");
     });
-    it("Should return Please activate your account, by checking your email!", async () => {
-      const login = { email: "nina@gmail.com", password: "qwerty123" };
-      const response = await request(app).post("/users/login").send(login);
-      expect(response.status).toBe(400);
-      expect(response.body.message).toBe(
-        "Please activate your account, by checking your email!"
-      );
-    });
+    // it("Should return Please activate your account, by checking your email!", async () => {
+    //   const login = { email: "nina@gmail.com", password: "qwerty123" };
+    //   const response = await request(app).post("/users/login").send(login);
+    //   expect(response.status).toBe(400);
+    //   expect(response.body.message).toBe(
+    //     "Please activate your account, by checking your email!"
+    //   );
+    // });
   });
 });
-
-/*
-case "loginInvalid":
-          console.log("Email/Password Invalid")
-          res.status(400).json({ message: "Email/Password Invalid" });
-          break;
-        case "userInvalid":
-          res.status(400).json({
-            message: "Please activate your account, by checking your email!",
-          });
-          break;
-        case "userNotFound":
-          res.status(404).json({ message: "User Not Found" });
-          break;
-*/
 
 // Post Projects
 describe("POST /projects", () => {
@@ -215,6 +213,14 @@ describe("POST /projects", () => {
       const response = await request(app).post("/projects").send(createProject);
       expect(response.status).toBe(403);
       expect(response.body.message).toBe("Please Login");
+    });
+    it("Should return Invalid Token", async () => {
+      const createProject = { name: "Project title" };
+      const response = await request(app)
+        .post("/tasks")
+        .send(createProject).set({ access_token: "bukantokenasli" });
+      expect(response.status).toBe(403);
+      expect(response.body.message).toBe("Invalid Token");
     });
   });
 });
@@ -243,6 +249,13 @@ describe("GET /projects", () => {
       const response = await request(app).get("/projects");
       expect(response.status).toBe(403);
       expect(response.body.message).toBe("Please Login");
+    });
+    it("Should return Invalid Token", async () => {
+      const response = await request(app)
+        .get("/projects")
+        .set({ access_token: "bukantokenasli" });
+      expect(response.status).toBe(403);
+      expect(response.body.message).toBe("Invalid Token");
     });
   });
 });
@@ -288,6 +301,13 @@ describe("GET /projects/:projectId", () => {
       expect(response.status).toBe(401);
       expect(response.body.message).toBe("User not Authorized");
     });
+    it("Should return Invalid Token", async () => {
+      const response = await request(app)
+        .get("/projects/1")
+        .set({ access_token: "bukantokenasli" });
+      expect(response.status).toBe(403);
+      expect(response.body.message).toBe("Invalid Token");
+    });
   });
 });
 
@@ -331,6 +351,18 @@ describe("POST /tasks", () => {
       expect(response.status).toBe(400);
       expect(response.body.message).toBe("Date is required");
     });
+    it("Should return Invalid Token", async () => {
+      const taskData = {
+        title: "Create server testing",
+        date: new Date(),
+        color: "red",
+      };
+      const response = await request(app)
+        .post("/tasks")
+        .send(taskData).set({ access_token: "bukantokenasli" });
+      expect(response.status).toBe(403);
+      expect(response.body.message).toBe("Invalid Token");
+    });
   });
 });
 
@@ -358,12 +390,12 @@ describe("GET /tasks", () => {
     it("Should return Data not Found", async () => {
       const response = await request(app).get("/tasks").set({
         access_token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjYyODI2ODM1fQ.B8r6Xh2kzrUzvmyDzKnJpfAC0s7gHKKi8khEjwfoQRM",
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjYyODM4Mjk0fQ.fiI3lUUblRZdUNLPZS9_GjvXxgaCnss9Jy0DljnIIgA",
       });
-      expect(response.status).toBe(404);
-      expect(response.body.error.message).toBe("Data not Found");
+      expect(response.status).toBe(200);
+      expect(response.body).toBe("Data not Found");
     });
-    it("Should return Unauthorized", async () => {
+    it("Should return Invalid Token", async () => {
       const response = await request(app).get("/tasks").set({
         access_token: "sembarangtoken",
       });
@@ -373,7 +405,7 @@ describe("GET /tasks", () => {
   });
 });
 
-// Post Tasks
+// Post User Projects
 describe("POST /userprojects", () => {
   describe("POST /userprojects - Success", () => {
     it("Should return message Invitation email has been sent", async () => {
@@ -403,7 +435,7 @@ describe("POST /userprojects", () => {
         .send({ email: "hanuna@gmail.com" })
         .set({ access_token });
       expect(response.status).toBe(404);
-      expect(response.body.error.message).toBe("Data not Found");
+      expect(response.body.message).toBe("Data not Found");
     });
     it("Should return Data not Found", async () => {
       const response = await request(app)
@@ -411,7 +443,73 @@ describe("POST /userprojects", () => {
         .send({ ProjectId: 1 })
         .set({ access_token });
       expect(response.status).toBe(404);
-      expect(response.body.error.message).toBe("Data not Found");
+      expect(response.body.message).toBe("Data not Found");
+    });
+    it("Should return User not registered", async () => {
+      const response = await request(app)
+        .post("/userprojects")
+        .send({ email: "hanuin@gmail.com", ProjectId: 1 })
+        .set({ access_token });
+      expect(response.status).toBe(404);
+      expect(response.body.message).toBe("Data not Found");
+    });
+    it("Should return Invalid Token", async () => {
+      const response = await request(app)
+        .post("/userprojects")
+        .set({ access_token: "bukantokenasli" });
+      expect(response.status).toBe(403);
+      expect(response.body.message).toBe("Invalid Token");
     });
   });
 });
+
+// Post User Projects Accept
+describe("POST /userprojects/accept", () => {
+  describe("POST /userprojects/accept - Success", () => {
+    it("Should return message Invitation email has been sent", async () => {
+      const inviteData = {
+        email: "hanuna@gmail.com",
+        ProjectId: 1,
+      };
+      const response = await request(app)
+        .post("/userprojects/accept?UserId=2&ProjectId=1")
+        .send(inviteData)
+        .set({ access_token });
+      expect(response.status).toBe(201);
+      expect(response.body).toEqual(expect.any(Object));
+      expect(response.body.message).toBe("Success join to project");
+    });
+  });
+
+  describe("POST /userprojects/accept - Error", () => {
+    it("Should return Please Login", async () => {
+      const response = await request(app).post(
+        "/userprojects/accept?UserId=2&ProjectId=1"
+      );
+      expect(response.status).toBe(403);
+      expect(response.body.message).toBe("Please Login");
+    });
+    it("Should return User already enrolled in this project", async () => {
+      const response = await request(app)
+        .post("/userprojects/accept?UserId=2&ProjectId=1")
+        .send({ email: "hanuna@gmail.com" })
+        .set({ access_token });
+      expect(response.status).toBe(404);
+      expect(response.body.message).toBe(
+        "User already enrolled in this project"
+      );
+    });
+    it("Should return Invalid Token", async () => {
+      const response = await request(app)
+        .post("/userprojects/accept?UserId=2&ProjectId=1")
+        .set({ access_token: "bukantokenasli" });
+      expect(response.status).toBe(403);
+      expect(response.body.message).toBe("Invalid Token");
+    });
+  });
+});
+
+// if (error.name === "notRegistered") {
+//   res.status(404).json({ message: "User not registered" });
+// } else {
+//   console.log(error);

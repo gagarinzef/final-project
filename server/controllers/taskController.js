@@ -11,7 +11,7 @@ class TaskController {
       if (!task.length) throw { name: "notFound" };
       res.status(200).json(task);
     } catch (error) {
-      next(error);
+      // next(error);
     }
   }
 
