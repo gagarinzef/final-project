@@ -71,68 +71,6 @@ describe("POST /users", () => {
       expect(response.status).toBe(500);
       expect(response.body.message).toBe("internal server error");
     });
-    // it("Should return Please insert your email", async () => {
-    //   const registerData = {
-    //   username: "costumer1",
-    //   email: "   ",
-    //   password: "qwerty123",
-    // };
-    // const response = await request(app)
-    //     .post("/users")
-    //     .send(registerData);
-    //   expect(response.status).toBe(400);
-    //   expect(response.body.message).toBe("Please insert your email");
-    // });
-    // it("Should return Please insert your email", async () => {
-    // const registerData = {
-    //   username: "costumer1",
-    //   email: "",
-    //   password: "qwerty123",
-    // };
-    // const response = await request(app)
-    //     .post("/users")
-    //     .send(registerData);
-    //   expect(response.status).toBe(400);
-    //   expect(response.body.message).toBe("Please insert your email");
-    // });
-    // it("Should return Please enter an email e.g blabla@gmail.com", async () => {
-    // const registerData = {
-    //   username: "costumer1",
-    //   email: "apisislami",
-    //   password: "qwerty123",
-    // };
-    //   const response = await request(app)
-    //     .post("/users")
-    //     .send(registerData);
-    //   expect(response.status).toBe(400);
-    //   expect(response.body.message).toBe(
-    //     "Please enter an email e.g blabla@gmail.com"
-    //   );
-    // });
-    // it("Should return Please insert your password", async () => {
-    // const registerData = {
-    //   username: "costumer1",
-    //   email: "apisislami@gmail.com",
-    //   password: "",
-    // };
-    //   const response = await request(app)
-    //     .post("/users")
-    //     .send(registerData);
-    //   expect(response.status).toBe(400);
-    //   expect(response.body.message).toBe("Please insert your password");
-    // });
-    // it("Should return Please insert your password", async () => {
-    // const registerData = {
-    //   username: "costumer1",
-    //   email: "apisislami@gmail.com",
-    //   password: "   ",
-    // };
-    //   const response = await request(app)
-    //     .post("/users")
-    //     .send(registerData);
-    //   expect(response.status).toBe(400);
-    //   expect(response.body.message).toBe("Please insert your password");
-    // });
   });
 });
 
@@ -150,20 +88,6 @@ describe("GET /users", () => {
     });
   });
 });
-
-// describe("GET /users/verify/:token", () => {
-//   describe("GET /users/verify/:token - Success", () => {
-//     it("Should return all user's id, username, email, and status", async () => {
-//       const response = await request(app).get("/users/verify/:token");
-//       expect(response.status).toBe(200);
-//       expect(response.body).toHaveProperty(expect.any(Object));
-//       expect(typeof response.body[0].id).toBe('number');
-//       expect(typeof response.body[0].username).toBe('string');
-//       expect(typeof response.body[0].email).toBe('string');
-//       expect(typeof response.body[0].status).toBe('string');
-//     });
-//   });
-// });
 
 // Get verify token
 describe("GET /users/verify/:token", () => {
@@ -218,24 +142,6 @@ describe("POST /users/login", () => {
       expect(response.status).toBe(404);
       expect(response.body.message).toBe("User Not Found");
     });
-    // it("Should return Email/password invalid", async () => {
-    //   const payload = {
-    //     email: "none@mail.com",
-    //     password: "123456",
-    //   };
-    //   const response = await request(app).post("/users/login").send(payload);
-    //   expect(response.status).toBe(401);
-    //   expect(response.body.message).toBe("Email/password invalid");
-    // });
-    // it("Should return Email/password invalid", async () => {
-    //   const payload = {
-    //     email: "none@mail.com",
-    //     password: "",
-    //   };
-    //   const response = await request(app).post("/users/login").send(payload);
-    //   expect(response.status).toBe(401);
-    //   expect(response.body.message).toBe("Email/password invalid");
-    // });
   });
 });
 
@@ -335,43 +241,69 @@ describe("GET /projects/:projectId", () => {
   });
 });
 
-// describe("GET /users/fav", () => {
-//   describe("GET /users/fav - Success", () => {
-//     it("Should return Success add a news with id <NewsId> to favorite", async () => {
-//       const response = await request(app).post("/users/fav/1").set({
-//         access_token,
-//       });
-//       expect(response.status).toBe(201);
-//     });
-//     it("Should return Success read favorite news", async () => {
-//       const response = await request(app).get("/users/fav/list").set({
-//         access_token,
-//       });
-//       expect(response.status).toBe(200);
-//       expect(response.body.favorite).toEqual(expect.any(Array));
-//     });
-//   });
+// Post Tasks
+describe("POST /tasks", () => {
+  describe("POST /tasks - Success", () => {
+    it("Should return message and task's title", async () => {
+      const taskData = {
+        title: "Create server testing",
+        date: new Date(),
+        color: "red",
+      };
+      const response = await request(app)
+        .post("/tasks")
+        .send(taskData)
+        .set({ access_token });
+      expect(response.status).toBe(201);
+      expect(response.body).toEqual(expect.any(Object));
+      expect(response.body.message).toBe("Success Create Task");
+      expect(response.body).toHaveProperty("id", expect.any(Number));
+      expect(response.body).toHaveProperty("title", expect.any(String));
+    });
+  });
 
-//   describe("GET /users/fav - Error", () => {
-//     it("Should return News not found", async () => {
-//       const response = await request(app).post("/users/fav/100").set({
-//         access_token,
-//       });
-//       expect(response.status).toBe(404);
-//     });
-//     it("Should return Only Customer user can access favorite page", async () => {
-//       const response = await request(app).get("/users/fav/list").set({
-//         access_token: tokenAdmin,
-//       });
-//       expect(response.status).toBe(403);
-//       expect(response.body.message).toBe(
-//         "Only Customer user can access favorite page"
-//       );
-//     });
-//     it("Should return Please login first", async () => {
-//       const response = await request(app).get("/users/fav");
-//       expect(response.status).toBe(401);
-//       expect(response.body.message).toBe("Please login first");
-//     });
-//   });
-// });
+  describe("POST /tasks - Error", () => {
+    it("Should return Please Login", async () => {
+      const response = await request(app).post("/tasks");
+      expect(response.status).toBe(403);
+      expect(response.body.message).toBe("Please Login");
+    });
+    it("Should return Title name is required", async () => {
+      const response = await request(app).post("/tasks").set({ access_token });
+      expect(response.status).toBe(400);
+      expect(response.body.error.message).toBe("Title name is required");
+    });
+    it("Should return Date is required", async () => {
+      const response = await request(app)
+        .post("/tasks")
+        .send({ title: "title" })
+        .set({ access_token });
+      expect(response.status).toBe(400);
+      expect(response.body.error.message).toBe("Date is required");
+    });
+  });
+});
+
+// Get Tasks
+describe("GET /tasks", () => {
+  describe("GET /tasks - Success", () => {
+    it("Should return Task List", async () => {
+      const response = await request(app).get("/tasks").set({ access_token });
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual(expect.any(Object));
+      expect(response.body[0]).toHaveProperty("ProjectId", expect.any(Number));
+      expect(response.body[0]).toHaveProperty("status", expect.any(String));
+      expect(response.body[0]).toHaveProperty("title", expect.any(String));
+      expect(response.body[0]).toHaveProperty("date", expect.any(String));
+      expect(response.body[0]).toHaveProperty("color", expect.any(String));
+    });
+  });
+
+  describe("GET /tasks - Error", () => {
+    it("Should return Please Login", async () => {
+      const response = await request(app).get("/tasks");
+      expect(response.status).toBe(403);
+      expect(response.body.message).toBe("Please Login");
+    });
+  });
+});

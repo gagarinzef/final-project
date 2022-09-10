@@ -25,7 +25,7 @@ class TaskController {
         color,
       });
       res.status(201).json({
-        message: "succes create task",
+        message: "Success Create Task",
         id: task.id,
         title: task.title,
       });
