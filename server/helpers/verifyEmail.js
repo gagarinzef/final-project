@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const verify = require("../assets/emailTemplates/verify");
 
 const verifyEmail = (obj) => {
     var transporter = nodemailer.createTransport({
@@ -12,8 +13,8 @@ const verifyEmail = (obj) => {
     var mailOptions = {
         from: 'fp.zurichfox@gmail.com',
         to: `${obj.email}`,
-        subject: `TODO Welcome Email`,
-        html: `<p>Please verify your email, <a href="http://localhost:3000/verified/${obj.token}">Click here!<a/><p>`
+        subject: `WOK IT OUT - Verify Email`,
+        html: verify(obj)
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
