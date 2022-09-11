@@ -1,4 +1,4 @@
-const { Project, UserProject, Task, User } = require("../models");
+const { Project, UserProject, Task, User, Chat } = require("../models");
 
 class ProjectController {
   static async createProject(req, res, next) {
@@ -42,6 +42,7 @@ class ProjectController {
   static async getProjectChatById(req, res, next) {
     const { projectId } = req.params;
     const { id } = req.user;
+    console.log(req.user, 'INI REQ USER')
 
     try {
       const data = await UserProject.findOne({
@@ -76,6 +77,7 @@ class ProjectController {
   static async getProjectById(req, res, next) {
     const { projectId } = req.params;
     const { id } = req.user;
+    console.log(id)
     try {
       const data = await UserProject.findOne({
         where: {
