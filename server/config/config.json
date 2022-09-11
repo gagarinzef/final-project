@@ -2,16 +2,16 @@
   "development": {
     "username": "postgres",
     "password": "postgres",
-    "database": "sandbox-fp",
     "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "database": "sandbox-fp"
   },
   "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
+    "username": "postgres",
+    "password": "postgres",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "postgres",
+    "database": "database_test"
   },
   "production": {
     "username": "root",

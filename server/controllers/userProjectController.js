@@ -25,12 +25,7 @@ class UserProjectController {
       await invitationEmail(obj);
       res.status(200).json({ message: "Invitation email has been sent" });
     } catch (error) {
-      if (error.name === "notRegistered") {
-        res.status(404).json({ message: "User not registered" });
-      } else {
-        console.log(error);
-        next(error);
-      }
+      next(error);
     }
   }
   static async acceptInvite(req, res, next) {
@@ -47,13 +42,7 @@ class UserProjectController {
       });
       res.status(201).json({ message: "Success join to project" });
     } catch (error) {
-      if (error.name === "alreadyEnroll") {
-        res
-          .status(400)
-          .json({ message: "User already enrolled in this project" });
-      } else {
-        next(error);
-      }
+      next(error);
     }
   }
 }
