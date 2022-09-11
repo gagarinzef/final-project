@@ -39,6 +39,40 @@ class ProjectController {
     }
   }
 
+  static async getProjectChatById(req, res, next) {
+    const { projectId } = req.params;
+    const { id } = req.user;
+
+    try {
+      const data = await UserProject.findOne({
+        where: {
+          UserId: id,
+          ProjectId: projectId,
+        },
+      });
+
+      if (!data) throw { name: "forbidden" };
+
+      const chat = await Chat.findAll({
+        where: {
+          ProjectId: projectId
+        },
+        include: {
+          model: User,
+          attributes: {
+            exclude: ["password", "token", "status"],
+          },
+        },
+      })
+
+
+      res.status(200).json({ chat });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  }
+
   static async getProjectById(req, res, next) {
     const { projectId } = req.params;
     const { id } = req.user;
@@ -77,7 +111,13 @@ class ProjectController {
         },
       });
 
-      res.status(200).json({ project, member });
+      const chat = await Chat.findAll({
+        where: {
+          ProjectId: projectId
+        }
+      })
+
+      res.status(200).json({ project, member, chat });
     } catch (error) {
       // console.log(error);
       // next(error);
