@@ -8,8 +8,3 @@ module.exports = {
   createToken,
   verifyToken,
 };
-
-const payload = {
-    id: 3,
-  };
-console.log(createToken(payload));

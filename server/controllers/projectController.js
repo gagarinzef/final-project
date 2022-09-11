@@ -42,12 +42,11 @@ class ProjectController {
   static async getProjectById(req, res, next) {
     const { projectId } = req.params;
     const { id } = req.user;
-    console.log(id);
     try {
       const data = await UserProject.findOne({
         where: {
           UserId: id,
-          ProjectId: projectId,
+          ProjectId: projectId, // nanti ambil dr pramas project client
         },
       });
 
@@ -81,7 +80,7 @@ class ProjectController {
       res.status(200).json({ project, member });
     } catch (error) {
       // console.log(error);
-      next(error);
+      // next(error);
     }
   }
 }
