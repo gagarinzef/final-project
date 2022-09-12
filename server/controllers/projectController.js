@@ -1,4 +1,4 @@
-const { Project, UserProject, Task, User } = require("../models");
+const { Project, UserProject, Task, User, Chat } = require("../models");
 
 class ProjectController {
   static async createProject(req, res, next) {
@@ -36,6 +36,40 @@ class ProjectController {
     } catch (error) {
       // console.log(error);
       // next(error);
+    }
+  }
+
+  static async getProjectChatById(req, res, next) {
+    const { projectId } = req.params;
+    const { id } = req.user;
+
+    try {
+      const data = await UserProject.findOne({
+        where: {
+          UserId: id,
+          ProjectId: projectId,
+        },
+      });
+
+      if (!data) throw { name: "forbidden" };
+
+      const chat = await Chat.findAll({
+        where: {
+          ProjectId: projectId
+        },
+        include: {
+          model: User,
+          attributes: {
+            exclude: ["password", "token", "status"],
+          },
+        },
+      })
+
+
+      res.status(200).json({ chat });
+    } catch (error) {
+      console.log(error);
+      next(error);
     }
   }
 
@@ -77,7 +111,8 @@ class ProjectController {
         },
       });
 
-      res.status(200).json({ project, member });
+
+      res.status(200).json({ project, member});
     } catch (error) {
       // console.log(error);
       // next(error);

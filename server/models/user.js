@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       User.hasMany(models.Task);
       User.belongsToMany(models.Project, {through: models.UserProject, foreignKey: "UserId"});
+      User.hasMany(models.Chat);
     }
   }
   User.init({
