@@ -99,7 +99,7 @@ class UserController {
         id: user.id,
       };
       const token = createToken(payload);
-      res.status(200).json({ access_token: token });
+      res.status(200).json({ access_token: token, username: user.username, userId: user.id });
     } catch (error) {
       next(error);
     }
