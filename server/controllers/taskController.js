@@ -92,41 +92,45 @@ class TaskController {
       const { title, date, color, UserId, TaskId, ProjectId } = req.body;
 
       if (title) {
-        await User.update({title}, {where: {id: +TaskId}})
+        await User.update({ title }, { where: { id: +TaskId } });
         res.status(200).json({ message: "Success Update Task" });
       }
 
       if (date) {
-        await User.update({date}, {where: {id: +TaskId}});
+        await User.update({ date }, { where: { id: +TaskId } });
         res.status(200).json({ message: "Success Update Task" });
       }
 
       if (color) {
-        await User.update({color}, {where: {id: +TaskId}});
+        await User.update({ color }, { where: { id: +TaskId } });
         res.status(200).json({ message: "Success Update Task" });
       }
-
+      console.log(UserId, ProjectId, TaskId);
       if (UserId) {
         console.log(UserId, "masuk");
         const user = await User.findByPk(+UserId);
-        if (!user) throw { name: "userNotFound" }
+        if (!user) throw { name: "userNotFound" };
         const project = await Project.findByPk(+ProjectId);
-        if (!project) throw { name: "notFound" }
-        const task = await Task.findByPk(+TaskId)
-        if (!task) throw { name: "notFound" }
-  
-        await User.update({UserId}, {where: {id: +TaskId}});
+        if (!project) throw { name: "notFound" };
+        const task = await Task.findByPk(+TaskId);
+        if (!task) throw { name: "notFound" };
+
+        await Task.update({ UserId }, { where: { id: +TaskId } });
 
         const obj = {
           task: task.name,
           username: user.username,
           email: user.email,
-          project: project.name
-        }
+          project: project.name,
+        };
 
         // Send Email
         await assignEmail(obj);
-        res.status(200).json({ message: "Success Update Task; Invitation email has been sent" });
+        res
+          .status(200)
+          .json({
+            message: "Success Update Task; Invitation email has been sent",
+          });
       }
     } catch (error) {
       console.log(error);
@@ -134,19 +138,18 @@ class TaskController {
     }
   }
 
-  static async deleteTask (req, res, next) {
-    try {
-      const { TaskId } = req.body;
-      const task = await Task.findByPk(TaskId);
-      if (!task) throw { name: "notFound" }
-      await Task.destroy({where: {id: +TaskId}}) 
-      res.status(200).json({message: "Success Delete Task"})
-    } catch (error) {
-      next(error)
-    }
-  }
-
-
+  // static async deleteTask(req, res, next) {
+  //   try {
+  //     const { TaskId } = req.body;
+  //     console.log(TaskId, '<<<<<<<<<<<<< INI TASK ID YO');
+  //     const task = await Task.findByPk(+TaskId);
+  //     if (!task) throw { name: "notFound" };
+  //     await Task.destroy({ where: { id: +TaskId } });
+  //     res.status(200).json({ message: "Success Delete Task" });
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // }
 }
 
 module.exports = TaskController;
