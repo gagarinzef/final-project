@@ -6,6 +6,7 @@ import SideNav from "../components/SideNav";
 import TableData from "../components/table/TableData";
 import Kanban from "../components/Kanban";
 import CalendarPage from "../components/CalendarPage";
+import TableTest from "../components/table/TableTest";
 
 export default function TablePage() {
   const date = new Date();

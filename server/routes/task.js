@@ -9,5 +9,10 @@ router.get("/", TaskController.findAllTaskByUserId);
 router.post("/", TaskController.createTask);
 // Update task buat kanban (gw blm tau bisa sama ap ngga sama update yg biasa, krn cara update di controllernya ga kaya update biasa)
 router.put("/", TaskController.updateTaskKanban);
-
+// Update Task
+router.patch("/", TaskController.updateTask);
+// Delete Task
+router.delete("/", TaskController.deleteTask)
+// Get Task By ID
+router.get("/:taskId", TaskController.getById)
 module.exports = router;

@@ -63,6 +63,11 @@ const errorHandler = async (error, req, res, next) => {
         message: "User already enrolled in this project",
       });
       break;
+    case "userNotFound":
+      res.status(404).json({
+        message: "User Not Found",
+      });
+      break;
     default:
       res.status(500).json({
         message: "Internal Server Error"

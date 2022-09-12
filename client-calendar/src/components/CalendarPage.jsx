@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import SideNav from "./SideNav";
 import CreateModal from "./modal/CreateModal";
 import { useParams } from "react-router-dom";
+import UpdateModal from "./modal/UpdateModal";
 
 function CalendarPage() {
   const { projectId } = useParams();
@@ -17,6 +18,8 @@ function CalendarPage() {
 
   // SHOW MODAL
   const [show, setShow] = useState(false);
+  const [detail, setDetail] = useState(false);
+  const [eventID, setEventID] = useState(0);
 
   // INPUT MODAL
   const [dueDate, setDueDate] = useState("");
@@ -32,7 +35,7 @@ function CalendarPage() {
         });
         setEvent(data);
       } catch (error) {
-        if (error.response.data.statusCode == 404) {
+        if (error.response.data.statusCode === 404) {
           Swal.fire("User tidak memiliki event");
         } else {
           console.log(error);
@@ -44,7 +47,8 @@ function CalendarPage() {
 
   // TO HANDLE DELETE EVENTS
   const eventClick = (event) => {
-    console.log(event.event._def.publicId);
+    setEventID(event.event._def.publicId);
+    setDetail(true);
   };
 
   // MODAL
@@ -52,7 +56,32 @@ function CalendarPage() {
     setShow(true);
     setDueDate(selectInfo.startStr);
   };
-  const eventDrop = (info) => {};
+  const eventDrop = async (info) => {
+    try {
+      const dateInfo = info.event.start
+        .toLocaleString("id-ID", {
+          year: "numeric",
+          day: "2-digit",
+          month: "2-digit",
+        })
+        .split("/");
+
+      await axios(`http://localhost:3001/tasks`, {
+        method: "PATCH",
+        headers: {
+          access_token: localStorage.getItem("access_token"),
+        },
+        data: {
+          TaskId: info.event._def.publicId,
+          date: `${dateInfo[2]}-${dateInfo[1]}-${dateInfo[0]}`,
+        },
+      })
+        .then((data) => setDataChange(data))
+        .then(() => Swal.fire("Date has been updated"));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -64,6 +93,14 @@ function CalendarPage() {
         setShow={setShow}
         setDataChange={setDataChange}
         projectId={projectId}
+      />
+
+      {/* Update Event MODAL */}
+      <UpdateModal
+        show={detail}
+        setShow={setDetail}
+        eventID={eventID}
+        setDataChange={setDataChange}
       />
 
       <div className="container mx-auto my-10 w-1/2 text-white">

@@ -455,7 +455,7 @@ const assign = (obj) => {
                         <td class="content-cell">
                           <div class="f-fallback">
                             <h1>Hello, ${obj.username}!</h1>
-                            <h3>You have been assign to task ${obj.task} in ${obj.project} with due date at ${obj.date}</h3>
+                            <h3>You have been assign to task ${obj.task} in ${obj.project}</h3>
                             <p>click accept to redirect to project page</p>
                             <!-- Action -->
                             <table class="body-action" align="center" width="100%" cellpadding="0" cellspacing="0" role="presentation">
