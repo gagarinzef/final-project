@@ -126,7 +126,7 @@ class TaskController {
 
         // Send Email
         await assignEmail(obj);
-        res.status(200).json({ message: "Success Update Task" });
+        res.status(200).json({ message: "Success Update Task; Invitation email has been sent" });
       }
     } catch (error) {
       console.log(error);
