@@ -59,18 +59,15 @@ export default function Kanban({ task }) {
         // setLoading(false);
         let columnsFromBackend = {
           0: {
-            color: "Red",
-            name: "Unstarted",
+            name: "Urgent",
             items: [],
           },
           1: {
-            color: "Yellow",
-            name: "In Progress",
+            name: "On Progress",
             items: [],
           },
           2: {
-            color: "Green",
-            name: "Completed",
+            name: "Done",
             items: [],
           },
         };
