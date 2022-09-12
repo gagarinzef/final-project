@@ -20,7 +20,8 @@ export default function TableTest() {
     }
   };
 
-  const updateTask = async () => {
+  const updateTask = async (id) => {
+    console.log(id);
     try {
       let { data } = await axios.patch(`http://localhost:3001/tasks`, {
         headers: {
@@ -43,14 +44,14 @@ export default function TableTest() {
           },
         });
         setTask(data);
-        // console.log(data);
+        console.log(data, "TES");
       } catch (error) {
         console.log(error);
       }
     };
     fetchTask();
   }, []);
-  console.log(dataTask);
+
   return (
     <div className="bg-biru h-screen">
       {/* <SideNav /> */}
@@ -68,20 +69,20 @@ export default function TableTest() {
               </tr>
             </thead>
             <tbody>
-              {dataTask.map((el) => {
+              {dataTask ? dataTask.map((el) => {
                 return (
-                  <tr>
+                  <tr key={el.id}>
                     <td
                       name="title"
                       className="bg-white border-2 border-gray-700"
                     >
-                      <input onBlur={updateTask} />
+                      <input onBlur={() => updateTask(el.id)} value={el.title} />
                     </td>
                     <td
                       name="status"
                       className="bg-white border-2 border-gray-700"
                     >
-                      <input onBlur={updateTask} />
+                      <input onBlur={updateTask} value={el.status} />
                     </td>
                     <td
                       name="userId"
@@ -109,7 +110,7 @@ export default function TableTest() {
                     </td>
                   </tr>
                 );
-              })}
+              }) : "null"}
               <tr>
                 <td name="title" className="bg-white border-2 border-gray-700">
                   <input onBlur={createTask} />
@@ -134,7 +135,6 @@ export default function TableTest() {
                 </td>
               </tr>
               <TableInput />
-
               {/* } */}
             </tbody>
           </table>
