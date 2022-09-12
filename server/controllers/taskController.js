@@ -145,6 +145,7 @@ class TaskController {
           username: user.username,
           email: user.email,
           project: project.name,
+          ProjectId,
         };
 
         // Send Email

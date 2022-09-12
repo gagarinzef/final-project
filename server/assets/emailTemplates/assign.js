@@ -464,7 +464,7 @@ const assign = (obj) => {
                                   <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
                                     <tr>
                                       <td align="center">
-                                        <a href="http://localhost:3000/invitation?UserId=${obj.UserId}&ProjectId=${obj.ProjectId}" class="f-fallback button button--green" target="_blank">Accept</a>
+                                        <a href="http://localhost:3000/assign/${obj.ProjectId}" class="f-fallback button button--green" target="_blank">Accept</a>
                                       </td>
                                     </tr>
                                   </table>

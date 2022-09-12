@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
-import { Link, useSearchParams } from "react-router-dom"; // Search Params buat ambil query di url
+import { useNavigate, useSearchParams } from "react-router-dom"; // Search Params buat ambil query di url
+import loading from "../assets/loading.gif"
 import axios from "axios";
 
 function InvitationPage() {
+  const navigate = useNavigate();
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
@@ -11,9 +13,7 @@ function InvitationPage() {
     const acceptInvite = async () => {
       try {
         const { data } = await axios(
-          `http://localhost:3001/userprojects/accept?UserId=${searchParams.get(
-            "UserId"
-          )}&ProjectId=${searchParams.get("ProjectId")}`,
+          `http://localhost:3001/userprojects/accept?UserId=${searchParams.get("UserId")}&ProjectId=${searchParams.get("ProjectId")}`,
           {
             method: "post",
             headers: {
@@ -22,8 +22,12 @@ function InvitationPage() {
           }
         );
         setMessage(data.message);
+        setTimeout(() => navigate(`/table/${searchParams.get("ProjectId")}`), 2000);
       } catch (error) {
-        setError(error.response.data.message);
+        console.log(error);
+        setError(true);
+        setMessage(error.response.data.message);
+        setTimeout(() => navigate(`/table/${searchParams.get("ProjectId")}`), 2000);
       }
     };
 
@@ -32,23 +36,26 @@ function InvitationPage() {
 
   return (
     <div className="InvitationPage">
-      <div className="flex justify-center mt-20">
-        <a className="block p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-1000">
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
-            TODO APP
-          </h5>
-          {!error ? (
-            <p className="font-normal text-gray-700">
-              {message}
-            </p>
-          ) : null}
-          {error ? (
-            <p className="font-normal text-gray-700"> {error} </p>
-          ) : null}
-          <Link to="/" className="bg-green-500 text-white mt-5 rounded-lg"> Home Page </Link>
-        </a>
+    <div className="flex justify-center mt-20">
+      <a className="block p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-1000">
+      <img src="https://i.postimg.cc/s2rkZHpL/icon.jpg" className="w-40 h-40 m-auto mb-10"></img>
+      {error ? ( <>
+      <p className="font-normal text-gray-700"> {message} </p>
+      <img src={loading} className="w-10 h-10 mt-10 mb-10 m-auto"></img>
+        <p className="font-normal text-gray-700 text-xs">
+         Redirecting to project page..
+        </p>
+      </>) : ( <>
+    <p className="font-normal text-gray-700">
+         {message}
+        </p>
+        <img src={loading} className="w-10 h-10 mt-10 mb-10 m-auto"></img>
+        <p className="font-normal text-gray-700 text-xs">
+         Redirecting to project page..
+        </p> </>)}
+      </a>
       </div>
-    </div>
+  </div>
   );
 }
 
