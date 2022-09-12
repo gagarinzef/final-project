@@ -33,6 +33,29 @@ class TaskController {
       next(error);
     }
   }
+
+  static async updateTask(req, res, next) {
+    try {
+      const { taskId } = req.params;
+      const UserId = req.user.id;
+      const { title, status, date, color } = req.body;
+      const task = await Task.patch(
+        {
+          status,
+          title,
+          date,
+          color,
+        },
+        { where: { id: taskId } }
+      );
+      res.status(201).json({
+        id: task.id,
+        title: task.title,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = TaskController;

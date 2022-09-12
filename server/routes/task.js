@@ -7,5 +7,7 @@ router.use(authentication);
 router.get("/", TaskController.findAllTaskByUserId);
 // Create Task
 router.post("/", TaskController.createTask);
+//Update Task
+router.patch("/:taskId", TaskController.updateTask);
 
 module.exports = router;

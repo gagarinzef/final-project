@@ -1,10 +1,8 @@
 {
-  "name": "calendar-test",
+  "name": "client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@fullcalendar/daygrid": "^5.11.3",
-    "@fullcalendar/react": "^5.11.2",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -14,8 +12,9 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "react-table": "^7.8.0",
+    "redux": "^4.2.0",
+    "redux-thunk": "^2.4.1",
     "styled-components": "^5.3.5",
-    "sweetalert2": "^11.4.32",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

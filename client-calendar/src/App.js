@@ -1,13 +1,16 @@
 import CalendarPage from "./components/CalendarPage";
-import RegisterPage from "./components/RegisterPage";
+import RegisterPage from "./views/RegisterPage";
 import ProtectedRoutesLogin from "./components/ProtectedRoutesLogin";
 import ProtectedRoutesHome from "./components/ProtectedRoutesHome";
 import VerifPage from "./components/VerifPage";
 import ConfirmPage from "./components/ConfirmPage";
-import LoginPage from "./components/LoginPage";
+import LoginPage from "./views/LoginPage";
 import Navbar from "./components/Navbar";
-import InvitationPage from "./components/InvitationPage";
+import InvitationPage from "./views/InvitationPage";
+import TablePage from "./views/TablePage";
 import { Route, Routes } from "react-router-dom";
+import ProjectList from "./views/ProjectList";
+import FooterComponent from "./components/FooterComponent";
 
 function App() {
   return (
@@ -17,12 +20,20 @@ function App() {
         <Route
           path="/"
           element={
+            <ProtectedRoutesHome>
+              <LoginPage />
+            </ProtectedRoutesHome>
+          }
+        />
+
+        <Route
+          path="/calendar"
+          element={
             <ProtectedRoutesLogin>
               <CalendarPage />
             </ProtectedRoutesLogin>
           }
         />
-
         <Route
           path="/register"
           element={
@@ -33,20 +44,29 @@ function App() {
         />
 
         <Route
-          path="/login"
-          element={
-            <ProtectedRoutesHome>
-              <LoginPage />
-            </ProtectedRoutesHome>
-          }
-        />
-
-        <Route
           path="/verify/:msg"
           element={
             <ProtectedRoutesHome>
               <ConfirmPage />
             </ProtectedRoutesHome>
+          }
+        />
+
+        <Route
+          path="/projects"
+          element={
+            <ProtectedRoutesLogin>
+              <ProjectList />
+            </ProtectedRoutesLogin>
+          }
+        />
+
+        <Route
+          path="/table/:projectId"
+          element={
+            <ProtectedRoutesLogin>
+              <TablePage />
+            </ProtectedRoutesLogin>
           }
         />
 
@@ -67,8 +87,8 @@ function App() {
             </ProtectedRoutesLogin>
           }
         />
-
       </Routes>
+      <FooterComponent />
     </div>
   );
 }
