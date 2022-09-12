@@ -41,7 +41,9 @@ export default function ProjectList() {
             })}
           </ul>
         </div>
-        <div></div>
+        <div>
+            
+        </div>
       </div>
     </div>
   );

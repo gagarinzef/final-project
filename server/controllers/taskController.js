@@ -84,7 +84,7 @@ class TaskController {
         task: task.title,
         date: task.date
       };
-      
+
       await assignEmail(obj);
 
       res.status(201).json({
