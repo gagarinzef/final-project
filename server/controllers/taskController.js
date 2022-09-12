@@ -25,7 +25,6 @@ class TaskController {
     for (const key in req.body) {
       req.body[key].items.map((el) => {
         el.status = req.body[key].name;
-        el.color = req.body[key].color;
         el.updatedAt = new Date();
       });
       arr.push(req.body[key]);
