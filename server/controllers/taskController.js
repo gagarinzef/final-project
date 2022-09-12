@@ -64,7 +64,7 @@ class TaskController {
 
   static async createTask(req, res, next) {
     try {
-      const { title, ProjectId } = req.body;
+      const { title, ProjectId, date, color } = req.body;
       // const user = await User.findOne({ where: { email } });
       // const project = await Project.findByPk(ProjectId);
 
@@ -73,8 +73,8 @@ class TaskController {
         // UserId: user.id,
         status: "Unstarted",
         title,
-        // date,
-        // color,
+        date,
+        color,
       });
 
       res.status(201).json({
@@ -89,64 +89,76 @@ class TaskController {
 
   static async updateTask(req, res, next) {
     try {
+      console.log("masuk");
       const { title, date, color, UserId, TaskId, ProjectId } = req.body;
+      let response = {
+        message: "Success Update Task",
+      };
 
       if (title) {
-        await User.update({title}, {where: {id: +TaskId}})
-        res.status(200).json({ message: "Success Update Task" });
+        await Task.update({ title }, { where: { id: +TaskId } });
       }
 
       if (date) {
-        await User.update({date}, {where: {id: +TaskId}});
-        res.status(200).json({ message: "Success Update Task" });
+        await Task.update({ date }, { where: { id: +TaskId } });
       }
 
       if (color) {
-        await User.update({color}, {where: {id: +TaskId}});
-        res.status(200).json({ message: "Success Update Task" });
+        await Task.update({ color }, { where: { id: +TaskId } });
       }
 
       if (UserId) {
-        console.log(UserId, "masuk");
         const user = await User.findByPk(+UserId);
-        if (!user) throw { name: "userNotFound" }
+        if (!user) throw { name: "userNotFound" };
         const project = await Project.findByPk(+ProjectId);
-        if (!project) throw { name: "notFound" }
-        const task = await Task.findByPk(+TaskId)
-        if (!task) throw { name: "notFound" }
-  
-        await User.update({UserId}, {where: {id: +TaskId}});
+        if (!project) throw { name: "notFound" };
+        const task = await Task.findByPk(+TaskId);
+        if (!task) throw { name: "notFound" };
+
+        await Task.update({ UserId }, { where: { id: +TaskId } });
 
         const obj = {
-          task: task.name,
+          task: task.title,
           username: user.username,
           email: user.email,
-          project: project.name
-        }
+          project: project.name,
+        };
 
         // Send Email
         await assignEmail(obj);
-        res.status(200).json({ message: "Success Update Task; Invitation email has been sent" });
+
+        response.status = "Invitation has been sent";
       }
+
+      res.status(200).json(response);
     } catch (error) {
       console.log(error);
       next(error);
     }
   }
 
-  static async deleteTask (req, res, next) {
+  static async deleteTask(req, res, next) {
     try {
       const { TaskId } = req.body;
       const task = await Task.findByPk(TaskId);
-      if (!task) throw { name: "notFound" }
-      await Task.destroy({where: {id: +TaskId}}) 
-      res.status(200).json({message: "Success Delete Task"})
+      if (!task) throw { name: "notFound" };
+      await Task.destroy({ where: { id: +TaskId } });
+      res.status(200).json({ message: "Success Delete Task" });
     } catch (error) {
-      next(error)
+      next(error);
     }
   }
 
-
+  static async getById(req, res, next) {
+    try {
+      const { taskId } = req.params;
+      const task = await Task.findByPk(+taskId);
+      if (!task) throw { name: "notFound" };
+      res.status(200).json(task);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = TaskController;

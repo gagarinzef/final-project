@@ -55,7 +55,7 @@ class ProjectController {
 
       const chat = await Chat.findAll({
         where: {
-          ProjectId: projectId
+          ProjectId: projectId,
         },
         include: {
           model: User,
@@ -63,8 +63,7 @@ class ProjectController {
             exclude: ["password", "token", "status"],
           },
         },
-      })
-
+      });
 
       res.status(200).json({ chat });
     } catch (error) {
@@ -89,6 +88,7 @@ class ProjectController {
       const project = await Project.findByPk(projectId, {
         include: {
           model: Task,
+
           include: {
             model: User,
             attributes: {
@@ -96,6 +96,7 @@ class ProjectController {
             },
           },
         },
+        order: [[{ model: Task }, "id", "ASC"]],
       });
 
       const member = await UserProject.findAll({
@@ -111,8 +112,7 @@ class ProjectController {
         },
       });
 
-
-      res.status(200).json({ project, member});
+      res.status(200).json({ project, member });
     } catch (error) {
       // console.log(error);
       // next(error);
