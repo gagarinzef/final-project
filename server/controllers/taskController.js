@@ -1,6 +1,7 @@
-const { Task } = require("../models");
-const WebSocket = require("ws");
-const wss = new WebSocket.Server({ port: 3002 });
+const { Task, User, Project } = require("../models");
+const assignEmail = require("../helpers/assignEmail");
+// const WebSocket = require("ws");
+// const wss = new WebSocket.Server({ port: 3002 });
 
 class TaskController {
   static async findAllTaskByUserId(req, res, next) {
@@ -12,7 +13,7 @@ class TaskController {
       if (!task.length) throw { name: "notFound" };
       res.status(200).json(task);
     } catch (error) {
-      // next(error);
+      next(error);
     }
   }
 
@@ -57,32 +58,47 @@ class TaskController {
       wss.clients.forEach((ws) => ws.send("updated"));
       res.status(200).json({ message: "Item updated" });
     } catch (error) {
-      console.log(error);
       next(error);
     }
   }
 
   static async createTask(req, res, next) {
     try {
-      const UserId = req.user.id;
-      const { title, date, color, ProjectId } = req.body;
+      const { title, date, color, ProjectId, email } = req.body;
+      const user = await User.findOne({ where: { email } });
+      const project = await Project.findByPk(ProjectId);
+
       const task = await Task.create({
         ProjectId: 1, // sementara nanti dinamis tergantung lg di project id berapa
-        UserId,
+        UserId: user.id,
         status: "Unprogress",
         title,
         date,
         color,
       });
+
+      const obj = {
+        email: user.email,
+        username: user.username,
+        project: project.name,
+        task: task.title,
+        date: task.date
+      };
+      
+      await assignEmail(obj);
+
       res.status(201).json({
         message: "Success Create Task",
         id: task.id,
         title: task.title,
       });
     } catch (error) {
+      console.log(error);
       next(error);
     }
   }
+
+
 }
 
 module.exports = TaskController;

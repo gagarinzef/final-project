@@ -467,9 +467,9 @@ return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://w
                             </td>
                           </tr>
                         </table>
+                        <p><strong>P.S.</strong> If you have any questions or need any help, please don't hesitate to reach out. You can reply to this email.</p>
                         <p>Thanks,
                           <br>WOK IT OUT Team</p>
-                        <p><strong>P.S.</strong> If you have any questions or need any help, please don't hesitate to reach out. You can reply to this email.</p>
                       </div>
                     </td>
                   </tr>

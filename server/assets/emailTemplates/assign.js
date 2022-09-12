@@ -1,5 +1,5 @@
-const welcome = (obj) => {
-  return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+const assign = (obj) => {
+    return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
     <html xmlns="http://www.w3.org/1999/xhtml">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -455,7 +455,8 @@ const welcome = (obj) => {
                         <td class="content-cell">
                           <div class="f-fallback">
                             <h1>Hello, ${obj.username}!</h1>
-                            <p>Thanks for registering in our app. We hope you enjoy using our apps.</p>
+                            <h3>You have been assign to task ${obj.task} in ${obj.project} with due date at ${obj.date}</h3>
+                            <p>click accept to redirect to project page</p>
                             <!-- Action -->
                             <table class="body-action" align="center" width="100%" cellpadding="0" cellspacing="0" role="presentation">
                               <tr>
@@ -463,7 +464,7 @@ const welcome = (obj) => {
                                   <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
                                     <tr>
                                       <td align="center">
-                                        <a href="http://localhost:3000/login" class="f-fallback button button--green" target="_blank">Home Page</a>
+                                        <a href="http://localhost:3000/invitation?UserId=${obj.UserId}&ProjectId=${obj.ProjectId}" class="f-fallback button button--green" target="_blank">Accept</a>
                                       </td>
                                     </tr>
                                   </table>
@@ -498,7 +499,7 @@ const welcome = (obj) => {
           </tr>
         </table>
       </body>
-    </html>`;
-};
-
-module.exports = welcome;
+    </html>`
+    }
+    
+    module.exports = assign

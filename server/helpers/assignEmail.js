@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
-const verify = require("../assets/emailTemplates/verify");
+const assign = require("../assets/emailTemplates/assign");
 
-const verifyEmail = (obj) => {
+const assignEmail = (obj) => {
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -13,8 +13,8 @@ const verifyEmail = (obj) => {
     var mailOptions = {
         from: 'fp.zurichfox@gmail.com',
         to: `${obj.email}`,
-        subject: `WOK IT OUT - Verify Email`,
-        html: verify(obj)
+        subject: `WOK IT OUT - Assign Task`,
+        html: assign(obj)
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
@@ -26,4 +26,4 @@ const verifyEmail = (obj) => {
     });
 }
 
-module.exports = verifyEmail;
+module.exports = assignEmail;

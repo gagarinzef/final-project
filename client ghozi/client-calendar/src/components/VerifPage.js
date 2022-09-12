@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
-import { Link, useParams, useLocation } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import loading from "../assets/loading.gif"
 import axios from "axios";
 
 function ConfirmPage() {
   const params = useParams();
+  const navigate = useNavigate();
   const [error, setError] = useState(false);
   const [message, setMessage] = useState("");  
 
@@ -12,28 +14,28 @@ function ConfirmPage() {
         try {
             const { data } = await axios.get(`http://localhost:3001/users/verify/${params.token}`)
             setMessage(data.message);
+            setTimeout(() => navigate("/login"), 2000);
         } catch (error) {
             setError(true);
             setMessage(error.response.data.message);
         }
     }
-
     verifUser();
   }, [])
- 
-  console.log(params.token);
     
   return (
     <div className="ConfirmPage">
       <div className="flex justify-center mt-20">
         <a className="block p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-1000">
-        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">   
-            TODO APP
-          </h5>
-          <p className="font-normal text-gray-700">
-           {message}, Please Login first
+        <img src="https://i.postimg.cc/s2rkZHpL/icon.jpg" className="w-40 h-40 m-auto mb-10"></img>
+        {error ? ( <p className="font-normal text-gray-700"> {message} </p>) : ( <>
+      <p className="font-normal text-gray-700">
+           {message}
           </p>
-          {!error ? (<Link to="/login" className="bg-green-500 text-white mt-5 rounded-lg">Login Page</Link>) : null}
+          <img src={loading} className="w-10 h-10 mt-10 mb-10 m-auto"></img>
+          <p className="font-normal text-gray-700 text-xs">
+           Redirecting to login page..
+          </p> </>)}
         </a>
       </div>
     </div>

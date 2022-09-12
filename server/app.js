@@ -8,7 +8,7 @@ const errorHandler = require("./middleware/errorHandler");
 
 const app = require("express")();
 const server = require("http").Server(app);
-const io = require("socket.io")(server);
+// const io = require("socket.io")(server);
 const bodyParser = require("body-parser");
 // const WebSocket = require("ws");
 // const wss = new WebSocket.Server({ port: 3002 });

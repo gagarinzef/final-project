@@ -1,5 +1,4 @@
 const { User } = require("../models");
-const mail = require("../helpers/welcomeEmail");
 const verifyMail = require("../helpers/verifyEmail");
 const jwt = require("jsonwebtoken");
 const { comparePassword } = require("../helpers/bcryptjs");
@@ -37,10 +36,12 @@ class UserController {
       });
 
       // Send Email Verification
-      await verifyMail({
+      const sentEmail = await verifyMail({
         email: register.email,
-        token,
+        username: register.username,
+        token
       });
+      
       res.status(201).json({
         message: "Verify email has been sent",
       });
@@ -60,12 +61,6 @@ class UserController {
 
       // Update user status
       await User.update({ status: "Active" }, { where: { id: user.id } });
-
-      // Send Email Verify Success
-      await mail({
-        username: user.username,
-        email: user.email,
-      });
 
       res.status(200).json({ message: "Success Verify Email" });
     } catch (error) {
