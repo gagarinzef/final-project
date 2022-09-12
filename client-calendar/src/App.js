@@ -11,6 +11,8 @@ import TablePage from "./views/TablePage";
 import { Route, Routes } from "react-router-dom";
 import ProjectList from "./views/ProjectList";
 import FooterComponent from "./components/FooterComponent";
+import TableBaru from "./views/TableBaru";
+import TableTest from "./components/TableTest";
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
             </ProtectedRoutesHome>
           }
         />
+
+        <Route path="/test" element={<TableTest />} />
 
         <Route
           path="/calendar"

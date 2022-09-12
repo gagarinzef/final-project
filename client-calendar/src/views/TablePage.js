@@ -108,12 +108,13 @@ export default function TablePage() {
     fetchProject();
   }, []);
 
+  console.log(projects.project.name);
   return (
     <div className="flex bg-biru h-screen">
       <SideNav />
 
       <div className="container mx-auto my-20">
-        <h1>{projects.name}</h1>
+        <h1 className="text-2xl mb-6 text-white ">{projects.project.name}</h1>
         <button
           onClick={onAddRowClick}
           className="ml-10 bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded"
@@ -125,9 +126,11 @@ export default function TablePage() {
         </div>
       </div>
       <div className="w-56 ">
+        {/* CALENDAR */}
         <div className="my-20 text-white p-20 bg-abu grid-col">
           <h1>Calendar</h1> <Link to={"/calendar"}>click me</Link>
         </div>
+        {/* LIVECHAT */}
         <div className="my-20 text-white px-20 pt-20 pb-96 bg-abu">
           LIVECHAT
         </div>
