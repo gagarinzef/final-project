@@ -18,49 +18,49 @@ class TaskController {
   }
 
   // UPDATE TASK BUAT KANBAN
-  static async updateTaskKanban(req, res, next) {
-    let arr = [];
-    for (const key in req.body) {
-      req.body[key].items.map((el) => {
-        el.status = req.body[key].name;
-        el.color = req.body[key].color;
-      });
-      arr.push(req.body[key]);
-    }
-    const { id, status, title, color, date } = req.body;
-    try {
-      // const response = await Task.update(
-      //   {
-      //     id,
-      //     status,
-      //     title,
-      //     color,
-      //     date,
-      //   },
-      //   {
-      //     where: {
-      //       id,
-      //     },
-      //   }
-      // );
-      await Task.bulkCreate(arr[0].items, {
-        updateOnDuplicate: ["date", "title", "id", "status", "color"],
-      }); //unstarted
+  // static async updateTaskKanban(req, res, next) {
+  //   let arr = [];
+  //   for (const key in req.body) {
+  //     req.body[key].items.map((el) => {
+  //       el.status = req.body[key].name;
+  //       el.color = req.body[key].color;
+  //     });
+  //     arr.push(req.body[key]);
+  //   }
+  //   const { id, status, title, color, date } = req.body;
+  //   try {
+  //     // const response = await Task.update(
+  //     //   {
+  //     //     id,
+  //     //     status,
+  //     //     title,
+  //     //     color,
+  //     //     date,
+  //     //   },
+  //     //   {
+  //     //     where: {
+  //     //       id,
+  //     //     },
+  //     //   }
+  //     // );
+  //     await Task.bulkCreate(arr[0].items, {
+  //       updateOnDuplicate: ["date", "title", "id", "status", "color"],
+  //     }); //unstarted
 
-      await Task.bulkCreate(arr[1].items, {
-        updateOnDuplicate: ["date", "title", "id", "status", "color"],
-      }); //in progress
+  //     await Task.bulkCreate(arr[1].items, {
+  //       updateOnDuplicate: ["date", "title", "id", "status", "color"],
+  //     }); //in progress
 
-      await Task.bulkCreate(arr[2].items, {
-        updateOnDuplicate: ["date", "title", "id", "status", "color"],
-      }); //completed
+  //     await Task.bulkCreate(arr[2].items, {
+  //       updateOnDuplicate: ["date", "title", "id", "status", "color"],
+  //     }); //completed
 
-      wss.clients.forEach((ws) => ws.send("updated"));
-      res.status(200).json({ message: "Item updated" });
-    } catch (error) {
-      next(error);
-    }
-  }
+  //     wss.clients.forEach((ws) => ws.send("updated"));
+  //     res.status(200).json({ message: "Item updated" });
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // }
 
   static async createTask(req, res, next) {
     try {
@@ -82,9 +82,9 @@ class TaskController {
         username: user.username,
         project: project.name,
         task: task.title,
-        date: task.date
+        date: task.date,
       };
-      
+
       await assignEmail(obj);
 
       res.status(201).json({
@@ -93,12 +93,10 @@ class TaskController {
         title: task.title,
       });
     } catch (error) {
-      console.log(error);
+      console.log(error, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  ERROR NEW TASK');
       next(error);
     }
   }
-
-
 }
 
 module.exports = TaskController;

@@ -3,6 +3,7 @@ const verifyMail = require("../helpers/verifyEmail");
 const jwt = require("jsonwebtoken");
 const { comparePassword } = require("../helpers/bcryptjs");
 const { createToken } = require("../helpers/jwt");
+const { use } = require("../routes");
 
 class UserController {
   // Find User Data
@@ -13,6 +14,7 @@ class UserController {
           exclude: ["password", "createdAt", "updatedAt", "token"],
         },
       });
+      console.log(user, '<<<<<<<<<<<<<<<<<< INI ALL USER LIST');
       res.status(200).json(user);
     } catch (error) {
       // next(error)
@@ -39,9 +41,9 @@ class UserController {
       const sentEmail = await verifyMail({
         email: register.email,
         username: register.username,
-        token
+        token,
       });
-      
+
       res.status(201).json({
         message: "Verify email has been sent",
       });
@@ -68,17 +70,16 @@ class UserController {
         case "invalidToken":
           // Delete User when Status Invalid / Verify Failed
           await User.destroy({ where: { status: "Inactive" } });
-          res.status(400).json({ message: "Token invalid" });
           break;
         case "userNotFound":
           // Delete User when Status Invalid / Verify Failed
           await User.destroy({ where: { status: "Inactive" } });
-          res.status(404).json({ message: "User Not Found" });
           break;
         default:
           next(error);
           break;
       }
+      next(error)
     }
   }
 

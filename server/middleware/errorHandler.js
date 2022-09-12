@@ -17,9 +17,7 @@ const errorHandler = async (error, req, res, next) => {
   } else if (error.name == "activated") {
     res.status(400).json({ message: "User is already Active, please login!" });
   } else if (error.name == "forbidden") {
-    res.status(401).json({
-      message: "User not Authorized",
-    });
+    res.status(401).json({ message: "User not Authorized" });
   } else if (error.name == "invalidInput") {
     res.status(400).json({ message: "You must input all form before submit" });
   } else if (error.name == "userInvalid") {
@@ -28,28 +26,25 @@ const errorHandler = async (error, req, res, next) => {
     });
   } else if (error.name == "loginInvalid") {
     res.status(400).json({ message: "Email/Password Invalid" });
+  } else if (error.name == "invalidToken") {
+    res.status(400).json({ message: "Token Invalid" });
   } else if (
     error.name == "unauthorized" ||
     error.name == "JsonWebTokenError"
   ) {
-    res.status(403).json({
-      message: "Invalid Token",
-    });
+    res.status(403).json({ message: "Invalid Token" });
   } else if (error.name == "nullToken") {
-    res.status(403).json({
-      statusCode: 403,
-      message: "Please Login",
-    });
+    res.status(403).json({ message: "Please Login" });
   } else if (error.name == "userNotFound") {
     res.status(404).json({ message: "User Not Found" });
   } else if (error.name == "notFound") {
-    res.status(404).json({
-      message: "Data not Found",
-    });
+    res.status(404).json({ message: "Data not Found" });
+  } else if (error.name == "userNotFound") {
+    res.status(404).json({ message: "User Not Found" });
   } else if (error.name == "alreadyEnroll") {
-    res.status(404).json({
-      message: "User already enrolled in this project",
-    });
+    res.status(404).json({ message: "User already enrolled in this project" });
+  } else if (error.name == "notRegistered") {
+    res.status(404).json({ message: "User not registered" });
   }
 
   //   if (error.name === "invalidInput") {

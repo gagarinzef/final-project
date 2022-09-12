@@ -5,9 +5,11 @@ class UserProjectController {
   static async inviteUser(req, res, next) {
     try {
       const { email, ProjectId } = req.body;
+      // console.log(req.body, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<< INI BODY USERPROJECT');
       const UserId = req.user.id;
       if (!email) throw { name: "notFound" };
       const findInviteUser = await User.findByPk(UserId);
+      // console.log('<<<<<<<<<<>>>>>>>>>>>>>> THROW NOTFOUND UDAH LEWAT');
       const findUser = await User.findOne({ where: { email } });
       if (!findUser) throw { name: "notRegistered" };
       const findProject = await Project.findByPk(ProjectId);
@@ -25,7 +27,7 @@ class UserProjectController {
       await invitationEmail(obj);
       res.status(200).json({ message: "Invitation email has been sent" });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       next(error);
     }
   }
