@@ -25,6 +25,7 @@ class UserProjectController {
       await invitationEmail(obj);
       res.status(200).json({ message: "Invitation email has been sent" });
     } catch (error) {
+      console.log(error);
       next(error);
     }
   }

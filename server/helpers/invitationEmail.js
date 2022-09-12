@@ -17,13 +17,13 @@ const invitationEmail = (obj) => {
     html: invitation(obj),
   };
 
-  // transporter.sendMail(mailOptions, function (error, info) {
-  //   if (error) {
-  //     return console.log(error);
-  //   } else {
-  //     return console.log("Email sent: " + info.response);
-  //   }
-  // });
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      return console.log(error);
+    } else {
+      return console.log("Email sent: " + info.response);
+    }
+  });
 };
 
 module.exports = invitationEmail;

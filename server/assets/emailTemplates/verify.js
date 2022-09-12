@@ -439,7 +439,6 @@ const verify = (obj) => {
               <table class="email-content" width="100%" cellpadding="0" cellspacing="0" role="presentation">
                 <tr>
                   <td class="email-masthead">
-                    <img src="https://i.postimg.cc/s2rkZHpL/icon.jpg" alt="website logo" width="250" height="250">
                   </td>
                 </tr>
                 <!-- Email Body -->
@@ -447,6 +446,11 @@ const verify = (obj) => {
                   <td class="email-body" width="570" cellpadding="0" cellspacing="0">
                     <table class="email-body_inner" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
                       <!-- Body content -->
+                    <tr>
+                    <td class="email-masthead">
+                      <img src="https://i.postimg.cc/s2rkZHpL/icon.jpg" alt="website logo" width="250" height="250">
+                    </td>
+                    </tr>
                       <tr>
                         <td class="content-cell">
                           <div class="f-fallback">
@@ -456,8 +460,6 @@ const verify = (obj) => {
                             <table class="body-action" align="center" width="100%" cellpadding="0" cellspacing="0" role="presentation">
                               <tr>
                                 <td align="center">
-                                  <!-- Border based button
-               https://litmus.com/blog/a-guide-to-bulletproof-buttons-in-email-design -->
                                   <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
                                     <tr>
                                       <td align="center">
@@ -468,9 +470,9 @@ const verify = (obj) => {
                                 </td>
                               </tr>
                             </table>
+                            <p><strong>P.S.</strong> If you have any questions or need any help, please don't hesitate to reach out. You can reply to this email.</p>
                             <p>Thanks,
                               <br>WOK IT OUT Team</p>
-                            <p><strong>P.S.</strong> If you have any questions or need any help, please don't hesitate to reach out. You can reply to this email.</p>
                           </div>
                         </td>
                       </tr>
