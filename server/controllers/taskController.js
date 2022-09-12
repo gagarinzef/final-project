@@ -113,6 +113,7 @@ class TaskController {
 
   static async updateTask(req, res, next) {
     try {
+      console.log("masuk");
       const { title, date, color, UserId, TaskId, ProjectId } = req.body;
       let response = {
         message: "Success Update Task",

@@ -1,9 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import EditableCell from "../components/table/EditableCells";
 import SideNav from "../components/SideNav";
-import TableData from "../components/table/TableData";
 import Kanban from "../components/Kanban";
 import CalendarPage from "../components/CalendarPage";
 import TableTest from "../components/table/TableTest";
@@ -16,82 +14,12 @@ export default function TablePage() {
   const [page, setPage] = useState("Table");
   const [loading, setLoading] = useState(true);
 
-  const [rowdata, setRowData] = useState([]);
   const [projects, setProjects] = useState([]);
   const [calendar, setCalendar] = useState({
     month: date.toLocaleString(lang, { month: "long" }),
     dayName: date.toLocaleString(lang, { weekday: "long" }),
     dayNumber: date.getDate(),
   });
-  const onAddRowClick = (page) => {
-    setPage(page);
-  };
-
-  const columns = [
-    {
-      Header: "Title",
-      accessor: "title",
-      Cell: EditableCell,
-    },
-    {
-      Header: "Description",
-      accessor: "description",
-      Cell: EditableCell,
-    },
-    {
-      Header: "Status",
-      accessor: "status",
-      Cell: EditableCell,
-    },
-    {
-      Header: "Assignees",
-      accessor: "assignees",
-      Cell: EditableCell,
-    },
-    {
-      Header: "Due Date",
-      accessor: "dueDate",
-      Cell: EditableCell,
-    },
-    {
-      Header: "Priority",
-      accessor: "priority",
-      Cell: ({
-        value: initialValue,
-        row: { index },
-        column: { id },
-        updateMyData,
-      }) => {
-        const onItemClick = (value) => {
-          console.log("value", value);
-          updateMyData(index, id, value);
-        };
-        return (
-          <select
-            title={"priority"}
-            onItemClick={onItemClick}
-            selectedValue={initialValue}
-          >
-            <option className="bg-red-500 hover:bg-red-700 text-white">
-              Urgent
-            </option>
-            <option className="bg-amber-500 hover:bg-amber-700 text-white">
-              Medium
-            </option>
-            <option className="bg-green-500 hover:bg-green-700 text-white">
-              Relax
-            </option>
-          </select>
-        );
-      },
-    },
-
-    {
-      Header: "Created at",
-      accessor: "createdAt",
-      Cell: EditableCell,
-    },
-  ];
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -127,13 +55,13 @@ export default function TablePage() {
         <div className="container mx-auto my-20">
           <div className="flex justify-start mb-20">
             <button
-              onClick={() => onAddRowClick("Table")}
+              onClick={() => setPage("Table")}
               className="ml-10 bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded"
             >
               Table
             </button>
             <button
-              onClick={() => onAddRowClick("Kanban")}
+              onClick={() => setPage("Kanban")}
               className="ml-5 bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded"
             >
               Kanban
