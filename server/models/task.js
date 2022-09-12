@@ -28,64 +28,29 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       UserId: {
-        allowNull: false,
         type: DataTypes.INTEGER,
-        validate: {
-          notNull: {
-            msg: "UserId is required",
-          },
-          notEmpty: {
-            msg: "UserId is required",
-          },
-        },
       },
       status: {
-        allowNull: false,
         type: DataTypes.STRING,
-        validate: {
-          notNull: {
-            msg: "Status is required",
-          },
-          notEmpty: {
-            msg: "Status is required",
-          },
-        },
       },
       title: {
-        allowNull: false,
         type: DataTypes.STRING,
+        allowNull: false,
         validate: {
           notNull: {
-            msg: "Title name is required",
+            msg: "Title is required",
           },
           notEmpty: {
-            msg: "Title name is required",
+            msg: "Title is required",
           },
         },
+
       },
       date: {
-        allowNull: false,
         type: DataTypes.STRING,
-        validate: {
-          notNull: {
-            msg: "Date is required",
-          },
-          notEmpty: {
-            msg: "Date is required",
-          },
-        },
       },
       color: {
-        allowNull: false,
         type: DataTypes.STRING,
-        validate: {
-          notNull: {
-            msg: "Color is required",
-          },
-          notEmpty: {
-            msg: "Color is required",
-          },
-        },
       },
     },
     {

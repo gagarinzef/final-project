@@ -5,10 +5,22 @@ import EditableCell from "../components/table/EditableCells";
 import SideNav from "../components/SideNav";
 import TableData from "../components/table/TableData";
 import Kanban from "../components/Kanban";
+import CalendarPage from "../components/CalendarPage";
 
 export default function TablePage() {
+  const date = new Date();
+  const lang = navigator.language;
   const { projectId } = useParams();
+
+  const [page, setPage] = useState("Table");
+
   const [rowdata, setRowData] = useState([]);
+  const [projects, setProjects] = useState([]);
+  const [calendar, setCalendar] = useState({
+    month: date.toLocaleString(lang, { month: "long" }),
+    dayName: date.toLocaleString(lang, { weekday: "long" }),
+    dayNumber: date.getDate(),
+  });
   const onAddRowClick = () => {
     setRowData(
       rowdata.concat({
@@ -88,8 +100,6 @@ export default function TablePage() {
     },
   ];
 
-  const [projects, setProjects] = useState([]);
-  console.log(projectId);
   useEffect(() => {
     const fetchProject = async () => {
       try {
@@ -110,7 +120,7 @@ export default function TablePage() {
   }, []);
 
   return (
-    <div className="flex bg-biru h-full">
+    <div className="flex bg-biru h-fit">
       <SideNav />
 
       <div className="container mx-auto my-20">
@@ -120,16 +130,38 @@ export default function TablePage() {
         >
           Add Row
         </button>
+
+        {/* TABLE CONTAINER */}
         <div className="flex justify-center mt-8 mx-10">
           {/* <TableData columns={columns} data={rowdata} /> */}
           <Kanban />
+          {/* TABLE COMPONENT */}
+          {page === "Table" && <TableData columns={columns} data={rowdata} />}
+
+          {/* CALENDAR COMPONENT */}
+          {page === "Calendar" && <CalendarPage />}
         </div>
       </div>
-      <div className="w-56 ">
+
+      <div className="w-56">
         {/* CALENDAR */}
-        <div className="my-20 text-white p-20 bg-abu grid-col">
-          <h1>Calendar</h1> <Link to={"/calendar"}>click me</Link>
-        </div>
+        <button onClick={() => setPage("Calendar")}>
+          <div className="my-5 flex-col justify-center items-center rounded-lg overflow-hidden shadow-md w-52 transition ease-in-out delay-50 bg-white hover:-translate-y-1 hover:scale-110 hover:bg-white duration-300">
+            <div className="bg-blue-500 text-white py-4 px-8">
+              <p className="text-2xl font-semibold text-white uppercase tracking-wide text-center">
+                {calendar.month}
+              </p>
+            </div>
+            <div className="flex-col justify-center items-center">
+              <p className="text-2xl text-gray-400 text-center pt-3 px-4 leading-none">
+                {calendar.dayName}
+              </p>
+              <p className="font-bold text-black text-center pb-3 px-4 leading-none text-8xl">
+                {calendar.dayNumber}
+              </p>
+            </div>
+          </div>
+        </button>
         {/* LIVECHAT */}
         <div className="my-20 text-white px-20 pt-20 pb-96 bg-abu">
           LIVECHAT
