@@ -64,17 +64,17 @@ class TaskController {
 
   static async createTask(req, res, next) {
     try {
-      const { title, date, color, ProjectId, email } = req.body;
-      const user = await User.findOne({ where: { email } });
+      const { title, ProjectId } = req.body;
+      // const user = await User.findOne({ where: { email } });
       const project = await Project.findByPk(ProjectId);
 
       const task = await Task.create({
         ProjectId: 1, // sementara nanti dinamis tergantung lg di project id berapa
-        UserId: user.id,
-        status: "Unprogress",
+        // UserId: user.id,
+        status: "Unstarted",
         title,
-        date,
-        color,
+        // date,
+        // color,
       });
 
       const obj = {
