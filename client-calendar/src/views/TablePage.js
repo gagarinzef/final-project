@@ -1,9 +1,9 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import EditableCell from "../components/EditableCells";
+import EditableCell from "../components/table/EditableCells";
 import SideNav from "../components/SideNav";
-import TableData from "../components/TableData";
+import TableData from "../components/table/TableData";
 
 export default function TablePage() {
   const { projectId } = useParams();
