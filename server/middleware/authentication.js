@@ -1,9 +1,17 @@
 const { verifyToken } = require("../helpers/jwt");
 const { User } = require("../models");
 
+const SOCKET_SECRET_KEY = "kGFHCuUoOlRyoBgRis5y9KfDKvKWpO66"
+
 const authentication = async (req, res, next) => {
     try {
-        const { access_token } = req.headers;
+
+        const { access_token, socket_key } = req.headers;
+
+        if (socket_key === SOCKET_SECRET_KEY) {
+            console.log("socket here")
+            next()
+        } else {
         if (!access_token) throw { name: "nullToken" }
         const payload = verifyToken(access_token);
         if (!payload.id) throw { name: "unauthorized" }
@@ -13,6 +21,7 @@ const authentication = async (req, res, next) => {
             role: user.role
         }
         next();
+    }
     } catch (error) {
         next(error);
     }

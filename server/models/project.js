@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         through: models.UserProject,
         foreignKey: "ProjectId",
       });
+      Project.hasMany(models.Chat);
     }
   }
   Project.init(
