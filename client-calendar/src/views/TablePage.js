@@ -144,7 +144,7 @@ export default function TablePage() {
             {/* <TableData columns={columns} data={rowdata} /> */}
             {page === "Kanban" && <Kanban task={projects.project.Tasks} />}
             {/* TABLE COMPONENT */}
-            {page === "Table" && <TableData columns={columns} data={rowdata} />}
+            {page === "Table" && <TableTest />}
             {/* CALENDAR COMPONENT */}
             {page === "Calendar" && <CalendarPage />}
           </div>
