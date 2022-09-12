@@ -1,7 +1,7 @@
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useEffect, useState } from "react";
 
-export default function Kanban() {
+export default function Kanban({ task }) {
   const [columns, setColumns] = useState({});
   const [initColumns, setInitColumns] = useState({});
   const [loading, setLoading] = useState(true);
@@ -9,6 +9,39 @@ export default function Kanban() {
   // var HOST = window.location.origin.replace(/^http/, "ws");
   const ws = new WebSocket("ws://localhost:3002/");
   // const ws = new WebSocket(HOST);
+
+  const newColumn = (data) => {
+    let columnsFromBackend = {
+      0: {
+        color: "Red",
+        name: "Unstarted",
+        items: [],
+      },
+      1: {
+        color: "Yellow",
+        name: "In Progress",
+        items: [],
+      },
+      2: {
+        color: "Green",
+        name: "Completed",
+        items: [],
+      },
+    };
+
+    for (const key in columnsFromBackend) {
+      data.forEach((el) => {
+        if (el.User) {
+          el.username = el.User.username;
+        }
+        if (columnsFromBackend[key].name === el.status) {
+          columnsFromBackend[key].items.push(el);
+        }
+      });
+    }
+    console.log(columnsFromBackend);
+    return columnsFromBackend;
+  };
 
   const fetchTask = () => {
     return fetch("http://localhost:3001/tasks", {
@@ -20,7 +53,10 @@ export default function Kanban() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
+        // setColumns(newColumn(data));
+        // setInitColumns(newColumn(data));
+        // setLoading(false);
         let columnsFromBackend = {
           0: {
             color: "Red",
@@ -41,11 +77,15 @@ export default function Kanban() {
 
         for (const key in columnsFromBackend) {
           data.forEach((el) => {
+            if (el.User) {
+              el.username = el.User.username;
+            }
             if (columnsFromBackend[key].name === el.status) {
               columnsFromBackend[key].items.push(el);
             }
           });
         }
+        console.log(columnsFromBackend);
         setColumns(columnsFromBackend);
         setInitColumns(columnsFromBackend);
         setLoading(false);
@@ -110,11 +150,15 @@ export default function Kanban() {
 
   useEffect(() => {
     ws.onmessage = handleWsMessage;
+    // setColumns(newColumn(task));
+    // setInitColumns(newColumn(task));
+    // setLoading(false);
     fetchTask();
   }, []);
 
   useEffect(() => {
     // if (updatedData) {
+    console.log(columns);
     if (JSON.stringify(columns) !== JSON.stringify(initColumns)) {
       setInitColumns(columns);
       fetch("http://localhost:3001/tasks", {
@@ -128,7 +172,7 @@ export default function Kanban() {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
+          // console.log(data);
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -155,7 +199,7 @@ export default function Kanban() {
                 }}
                 key={columnId}
               >
-                <h2>{column.name}</h2>
+                <h2 style={{ color: "white" }}>{column.name}</h2>
                 <div
                   style={{
                     margin: 8,
@@ -168,9 +212,7 @@ export default function Kanban() {
                           {...provided.droppableProps}
                           ref={provided.innerRef}
                           style={{
-                            background: snapshot.isDraggingOver
-                              ? "lightblue"
-                              : "lightgrey",
+                            background: snapshot.isDraggingOver ? "" : "",
                             padding: 4,
                             width: 250,
                             minHeight: 500,
@@ -191,17 +233,42 @@ export default function Kanban() {
                                       {...provided.dragHandleProps}
                                       style={{
                                         userSelect: "none",
-                                        padding: 16,
+                                        padding: 0,
                                         margin: "0 0 8px 0",
-                                        minHeight: "50px",
+                                        minHeight: "20px",
+                                        height: "100px",
                                         backgroundColor: snapshot.isDragging
-                                          ? "#263B4A"
-                                          : "#456C86",
-                                        color: "white",
+                                          ? "grey"
+                                          : "white",
+                                        color: "black",
+                                        borderLeftWidth: 10,
+                                        borderLeftColor: `${item.color}`,
                                         ...provided.draggableProps.style,
                                       }}
                                     >
-                                      {item.title}
+                                      <p
+                                        style={{
+                                          textAlign: "start",
+                                          padding: 15,
+                                          fontWeight: 600,
+                                          fontSize: 20,
+                                        }}
+                                      >
+                                        {item.title}
+                                      </p>
+                                      {item.username ? (
+                                        <p
+                                          style={{
+                                            textAlign: "end",
+                                            fontWeight: 400,
+                                            marginRight: 10,
+                                          }}
+                                        >
+                                          {item.username}
+                                        </p>
+                                      ) : (
+                                        ""
+                                      )}
                                     </div>
                                   );
                                 }}

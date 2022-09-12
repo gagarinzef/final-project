@@ -8,7 +8,9 @@ class TaskController {
     try {
       // const UserId = req.user.id;
       const task = await Task.findAll({
-        where: { ProjectId: 1 }, // nanti dinamis dari req.params project di client
+        where: { ProjectId: 1 },
+        include: User, // nanti dinamis dari req.params project di client
+        order: [["ProjectId", "DESC"]],
       });
       if (!task.length) throw { name: "notFound" };
       res.status(200).json(task);
@@ -24,6 +26,7 @@ class TaskController {
       req.body[key].items.map((el) => {
         el.status = req.body[key].name;
         el.color = req.body[key].color;
+        el.updatedAt = new Date();
       });
       arr.push(req.body[key]);
     }
@@ -44,15 +47,36 @@ class TaskController {
       //   }
       // );
       await Task.bulkCreate(arr[0].items, {
-        updateOnDuplicate: ["date", "title", "id", "status", "color"],
+        updateOnDuplicate: [
+          "date",
+          "title",
+          "id",
+          "status",
+          "color",
+          "updatedAt",
+        ],
       }); //unstarted
 
       await Task.bulkCreate(arr[1].items, {
-        updateOnDuplicate: ["date", "title", "id", "status", "color"],
+        updateOnDuplicate: [
+          "date",
+          "title",
+          "id",
+          "status",
+          "color",
+          "updatedAt",
+        ],
       }); //in progress
 
       await Task.bulkCreate(arr[2].items, {
-        updateOnDuplicate: ["date", "title", "id", "status", "color"],
+        updateOnDuplicate: [
+          "date",
+          "title",
+          "id",
+          "status",
+          "color",
+          "updatedAt",
+        ],
       }); //completed
 
       wss.clients.forEach((ws) => ws.send("updated"));

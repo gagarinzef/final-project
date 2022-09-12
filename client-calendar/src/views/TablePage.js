@@ -13,6 +13,7 @@ export default function TablePage() {
   const { projectId } = useParams();
 
   const [page, setPage] = useState("Table");
+  const [loading, setLoading] = useState(true);
 
   const [rowdata, setRowData] = useState([]);
   const [projects, setProjects] = useState([]);
@@ -21,19 +22,10 @@ export default function TablePage() {
     dayName: date.toLocaleString(lang, { weekday: "long" }),
     dayNumber: date.getDate(),
   });
-  const onAddRowClick = () => {
-    setRowData(
-      rowdata.concat({
-        title: "",
-        description: "",
-        status: "",
-        assignees: "",
-        dueDate: "",
-        priority: "",
-        createdAt: "",
-      })
-    );
+  const onAddRowClick = (page) => {
+    setPage(page);
   };
+
   const columns = [
     {
       Header: "Title",
@@ -112,6 +104,7 @@ export default function TablePage() {
           }
         );
         setProjects(data);
+        setLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -119,54 +112,68 @@ export default function TablePage() {
     fetchProject();
   }, []);
 
-  return (
-    <div className="flex bg-biru h-fit">
-      <SideNav />
+  useEffect(() => {
+    console.log(projects);
+  }, [projects]);
 
-      <div className="container mx-auto my-20">
-        <button
-          onClick={onAddRowClick}
-          className="ml-10 bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Add Row
-        </button>
+  if (loading) {
+    return <h1>Loading</h1>;
+  } else {
+    return (
+      <div className="flex bg-biru h-fit">
+        <SideNav />
 
-        {/* TABLE CONTAINER */}
-        <div className="flex justify-center mt-8 mx-10">
-          {/* <TableData columns={columns} data={rowdata} /> */}
-          <Kanban />
-          {/* TABLE COMPONENT */}
-          {page === "Table" && <TableData columns={columns} data={rowdata} />}
-
-          {/* CALENDAR COMPONENT */}
-          {page === "Calendar" && <CalendarPage />}
-        </div>
-      </div>
-
-      <div className="w-56">
-        {/* CALENDAR */}
-        <button onClick={() => setPage("Calendar")}>
-          <div className="my-5 flex-col justify-center items-center rounded-lg overflow-hidden shadow-md w-52 transition ease-in-out delay-50 bg-white hover:-translate-y-1 hover:scale-110 hover:bg-white duration-300">
-            <div className="bg-blue-500 text-white py-4 px-8">
-              <p className="text-2xl font-semibold text-white uppercase tracking-wide text-center">
-                {calendar.month}
-              </p>
-            </div>
-            <div className="flex-col justify-center items-center">
-              <p className="text-2xl text-gray-400 text-center pt-3 px-4 leading-none">
-                {calendar.dayName}
-              </p>
-              <p className="font-bold text-black text-center pb-3 px-4 leading-none text-8xl">
-                {calendar.dayNumber}
-              </p>
-            </div>
+        <div className="container mx-auto my-20">
+          <div className="flex justify-start mb-20">
+            <button
+              onClick={() => onAddRowClick("Table")}
+              className="ml-10 bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Table
+            </button>
+            <button
+              onClick={() => onAddRowClick("Kanban")}
+              className="ml-5 bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Kanban
+            </button>
           </div>
-        </button>
-        {/* LIVECHAT */}
-        <div className="my-20 text-white px-20 pt-20 pb-96 bg-abu">
-          LIVECHAT
+          {/* TABLE CONTAINER */}
+          <div className="flex justify-center mt-8 mx-10">
+            {/* <TableData columns={columns} data={rowdata} /> */}
+            {page === "Kanban" && <Kanban task={projects.project.Tasks} />}
+            {/* TABLE COMPONENT */}
+            {page === "Table" && <TableData columns={columns} data={rowdata} />}
+            {/* CALENDAR COMPONENT */}
+            {page === "Calendar" && <CalendarPage />}
+          </div>
+        </div>
+
+        <div className="w-56">
+          {/* CALENDAR */}
+          <button onClick={() => setPage("Calendar")}>
+            <div className="my-5 flex-col justify-center items-center rounded-lg overflow-hidden shadow-md w-52 transition ease-in-out delay-50 bg-white hover:-translate-y-1 hover:scale-110 hover:bg-white duration-300">
+              <div className="bg-blue-500 text-white py-4 px-8">
+                <p className="text-2xl font-semibold text-white uppercase tracking-wide text-center">
+                  {calendar.month}
+                </p>
+              </div>
+              <div className="flex-col justify-center items-center">
+                <p className="text-2xl text-gray-400 text-center pt-3 px-4 leading-none">
+                  {calendar.dayName}
+                </p>
+                <p className="font-bold text-black text-center pb-3 px-4 leading-none text-8xl">
+                  {calendar.dayNumber}
+                </p>
+              </div>
+            </div>
+          </button>
+          {/* LIVECHAT */}
+          <div className="my-20 text-white px-20 pt-20 pb-96 bg-abu">
+            LIVECHAT
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
