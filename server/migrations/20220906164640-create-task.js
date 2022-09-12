@@ -19,7 +19,6 @@ module.exports = {
         onUpdate: "cascade",
       },
       UserId: {
-        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: "Users",
@@ -29,7 +28,6 @@ module.exports = {
         onUpdate: "cascade",
       },
       status: {
-        allowNull: false,
         type: Sequelize.STRING,
       },
       title: {
@@ -37,19 +35,15 @@ module.exports = {
         type: Sequelize.STRING,
       },
       date: {
-        allowNull: false,
         type: Sequelize.STRING,
       },
       color: {
-        allowNull: false,
         type: Sequelize.STRING,
       },
       createdAt: {
-        allowNull: false,
         type: Sequelize.DATE,
       },
       updatedAt: {
-        allowNull: false,
         type: Sequelize.DATE,
       },
     });
