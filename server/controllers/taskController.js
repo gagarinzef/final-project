@@ -1,14 +1,16 @@
 const { Task, User, Project } = require("../models");
 const assignEmail = require("../helpers/assignEmail");
-// const WebSocket = require("ws");
-// const wss = new WebSocket.Server({ port: 3002 });
+const WebSocket = require("ws");
+const wss = new WebSocket.Server({ port: 3002 });
 
 class TaskController {
   static async findAllTaskByUserId(req, res, next) {
     try {
       // const UserId = req.user.id;
       const task = await Task.findAll({
-        where: { ProjectId: 1 }, // nanti dinamis dari req.params project di client
+        where: { ProjectId: 1 },
+        include: User, // nanti dinamis dari req.params project di client
+        order: [["ProjectId", "DESC"]],
       });
       if (!task.length) throw { name: "notFound" };
       res.status(200).json(task);
@@ -24,6 +26,7 @@ class TaskController {
       req.body[key].items.map((el) => {
         el.status = req.body[key].name;
         el.color = req.body[key].color;
+        el.updatedAt = new Date();
       });
       arr.push(req.body[key]);
     }
@@ -44,20 +47,42 @@ class TaskController {
       //   }
       // );
       await Task.bulkCreate(arr[0].items, {
-        updateOnDuplicate: ["date", "title", "id", "status", "color"],
+        updateOnDuplicate: [
+          "date",
+          "title",
+          "id",
+          "status",
+          "color",
+          "updatedAt",
+        ],
       }); //unstarted
 
       await Task.bulkCreate(arr[1].items, {
-        updateOnDuplicate: ["date", "title", "id", "status", "color"],
+        updateOnDuplicate: [
+          "date",
+          "title",
+          "id",
+          "status",
+          "color",
+          "updatedAt",
+        ],
       }); //in progress
 
       await Task.bulkCreate(arr[2].items, {
-        updateOnDuplicate: ["date", "title", "id", "status", "color"],
+        updateOnDuplicate: [
+          "date",
+          "title",
+          "id",
+          "status",
+          "color",
+          "updatedAt",
+        ],
       }); //completed
 
       wss.clients.forEach((ws) => ws.send("updated"));
       res.status(200).json({ message: "Item updated" });
     } catch (error) {
+      console.log(error);
       next(error);
     }
   }
@@ -91,11 +116,11 @@ class TaskController {
     try {
       const { title, date, color, UserId, TaskId, ProjectId } = req.body;
       let response = {
-        message: "Success Update Task"
-      }
+        message: "Success Update Task",
+      };
 
       if (title) {
-        await Task.update({ title }, { where: { id: +TaskId } })
+        await Task.update({ title }, { where: { id: +TaskId } });
       }
 
       if (date) {
@@ -108,11 +133,11 @@ class TaskController {
 
       if (UserId) {
         const user = await User.findByPk(+UserId);
-        if (!user) throw { name: "userNotFound" }
+        if (!user) throw { name: "userNotFound" };
         const project = await Project.findByPk(+ProjectId);
-        if (!project) throw { name: "notFound" }
-        const task = await Task.findByPk(+TaskId)
-        if (!task) throw { name: "notFound" }
+        if (!project) throw { name: "notFound" };
+        const task = await Task.findByPk(+TaskId);
+        if (!task) throw { name: "notFound" };
 
         await Task.update({ UserId }, { where: { id: +TaskId } });
 
@@ -120,18 +145,17 @@ class TaskController {
           task: task.title,
           username: user.username,
           email: user.email,
-          project: project.name
-        }
+          project: project.name,
+        };
 
         // Send Email
         await assignEmail(obj);
 
-        response.status = "Invitation has been sent"
+        response.status = "Invitation has been sent";
       }
 
       res.status(200).json(response);
     } catch (error) {
-      console.log(error);
       next(error);
     }
   }
@@ -140,22 +164,22 @@ class TaskController {
     try {
       const { TaskId } = req.body;
       const task = await Task.findByPk(TaskId);
-      if (!task) throw { name: "notFound" }
-      await Task.destroy({ where: { id: +TaskId } })
-      res.status(200).json({ message: "Success Delete Task" })
+      if (!task) throw { name: "notFound" };
+      await Task.destroy({ where: { id: +TaskId } });
+      res.status(200).json({ message: "Success Delete Task" });
     } catch (error) {
-      next(error)
+      next(error);
     }
   }
 
   static async getById(req, res, next) {
     try {
-      const { taskId } = req.params
-      const task = await Task.findByPk(+taskId)
-      if (!task) throw { name: "notFound" }
-      res.status(200).json(task)
+      const { taskId } = req.params;
+      const task = await Task.findByPk(+taskId);
+      if (!task) throw { name: "notFound" };
+      res.status(200).json(task);
     } catch (error) {
-      next(error)
+      next(error);
     }
   }
 }
