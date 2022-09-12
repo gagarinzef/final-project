@@ -5,6 +5,7 @@ import EditableCell from "../components/table/EditableCells";
 import SideNav from "../components/SideNav";
 import TableData from "../components/table/TableData";
 import CalendarPage from "../components/CalendarPage";
+import TableTest from "../components/table/TableTest";
 
 export default function TablePage() {
   const date = new Date()
@@ -135,7 +136,8 @@ export default function TablePage() {
         {/* TABLE CONTAINER */}
         <div className="flex justify-center mt-8 mx-10">
           {/* TABLE COMPONENT */}
-          {page === "Table" && <TableData columns={columns} data={rowdata} />}
+          {/* {page === "Table" && <TableData columns={columns} data={rowdata} />} */}
+          {page === "Table" && <TableTest />}
 
           {/* CALENDAR COMPONENT */}
           {page === "Calendar" && <CalendarPage />}

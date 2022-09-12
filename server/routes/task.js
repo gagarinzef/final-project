@@ -11,5 +11,8 @@ router.post("/", TaskController.createTask);
 router.put("/", TaskController.updateTaskKanban);
 // Update Task
 router.patch("/", TaskController.updateTask);
-
+// Delete Task
+router.delete("/", TaskController.deleteTask)
+// Get Task By ID
+router.get("/:taskId", TaskController.getById)
 module.exports = router;
