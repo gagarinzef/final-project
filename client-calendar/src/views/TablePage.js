@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import EditableCell from "../components/table/EditableCells";
 import SideNav from "../components/SideNav";
 import TableData from "../components/table/TableData";
+import Kanban from "../components/Kanban";
 
 export default function TablePage() {
   const { projectId } = useParams();
@@ -109,7 +110,7 @@ export default function TablePage() {
   }, []);
 
   return (
-    <div className="flex bg-biru h-screen">
+    <div className="flex bg-biru h-full">
       <SideNav />
 
       <div className="container mx-auto my-20">
@@ -120,7 +121,8 @@ export default function TablePage() {
           Add Row
         </button>
         <div className="flex justify-center mt-8 mx-10">
-          <TableData columns={columns} data={rowdata} />
+          {/* <TableData columns={columns} data={rowdata} /> */}
+          <Kanban />
         </div>
       </div>
       <div className="w-56 ">

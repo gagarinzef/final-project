@@ -1,7 +1,7 @@
 const { Task, User, Project } = require("../models");
 const assignEmail = require("../helpers/assignEmail");
-// const WebSocket = require("ws");
-// const wss = new WebSocket.Server({ port: 3002 });
+const WebSocket = require("ws");
+const wss = new WebSocket.Server({ port: 3002 });
 
 class TaskController {
   static async findAllTaskByUserId(req, res, next) {
@@ -58,6 +58,7 @@ class TaskController {
       wss.clients.forEach((ws) => ws.send("updated"));
       res.status(200).json({ message: "Item updated" });
     } catch (error) {
+      console.log(error);
       next(error);
     }
   }
@@ -82,9 +83,9 @@ class TaskController {
         username: user.username,
         project: project.name,
         task: task.title,
-        date: task.date
+        date: task.date,
       };
-      
+
       await assignEmail(obj);
 
       res.status(201).json({
@@ -97,8 +98,6 @@ class TaskController {
       next(error);
     }
   }
-
-
 }
 
 module.exports = TaskController;
