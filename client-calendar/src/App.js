@@ -3,11 +3,11 @@ import RegisterPage from "./views/RegisterPage";
 import ProtectedRoutesLogin from "./components/ProtectedRoutesLogin";
 import ProtectedRoutesHome from "./components/ProtectedRoutesHome";
 import VerifPage from "./components/VerifPage";
-import ConfirmPage from "./components/ConfirmPage";
 import LoginPage from "./views/LoginPage";
 import Navbar from "./components/Navbar";
-import InvitationPage from "./views/InvitationPage";
+import InvitationPage from "./components/InvitationPage";
 import TablePage from "./views/TablePage";
+import AssignPage from "./components/AssignPage";
 import { Route, Routes } from "react-router-dom";
 import ProjectList from "./views/ProjectList";
 import FooterComponent from "./components/FooterComponent";
@@ -48,15 +48,6 @@ function App() {
         />
 
         <Route
-          path="/verify/:msg"
-          element={
-            <ProtectedRoutesHome>
-              <ConfirmPage />
-            </ProtectedRoutesHome>
-          }
-        />
-
-        <Route
           path="/projects"
           element={
             <ProtectedRoutesLogin>
@@ -70,6 +61,15 @@ function App() {
           element={
             <ProtectedRoutesLogin>
               <TablePage />
+            </ProtectedRoutesLogin>
+          }
+        />
+
+        <Route
+          path="/assign/:projectId"
+          element={
+            <ProtectedRoutesLogin>
+              <AssignPage />
             </ProtectedRoutesLogin>
           }
         />

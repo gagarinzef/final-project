@@ -120,7 +120,8 @@ class TaskController {
           task: task.title,
           username: user.username,
           email: user.email,
-          project: project.name
+          project: project.name,
+          ProjectId
         }
 
         // Send Email
