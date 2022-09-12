@@ -36,7 +36,7 @@ class UserController {
       });
 
       // Send Email Verification
-      const sentEmail = await verifyMail({
+      await verifyMail({
         email: register.email,
         username: register.username,
         token
@@ -88,7 +88,7 @@ class UserController {
       const { email, password } = req.body;
       const user = await User.findOne({ where: { email } });
       if (!user) {
-        throw { name: "userNotFound" };
+        throw { name: "loginInvalid" };
       }
       if (user.status === "Inactive") {
         throw { name: "userInvalid" };
