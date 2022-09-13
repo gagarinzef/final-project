@@ -190,13 +190,31 @@ export default function TableTest() {
                             onChange={(e) => handleChangeEdit(e, el.id)}
                             onBlur={updateTask}
                           >
-                            <option value="#E8697D" className="bg-red-200">
-                              Urgent
-                            </option>
-                            <option value="#D7A463" className="bg-amber-200">
+                            <option
+                              value="#D7A463"
+                              className="bg-[#D7A463]"
+                              selected={
+                                el.color === "##D7A463" ? "selected" : ""
+                              }
+                            >
                               On Progress
                             </option>
-                            <option value="#29A488" className="bg-green-200">
+                            <option
+                              value="#E8697D"
+                              className="bg-[#E8697D]"
+                              selected={
+                                el.color === "#E8697D" ? "selected" : ""
+                              }
+                            >
+                              Urgent
+                            </option>
+                            <option
+                              value="#29A488"
+                              className="bg-[#29A488]"
+                              selected={
+                                el.color === "#29A488" ? "selected" : ""
+                              }
+                            >
                               Done
                             </option>
                           </select>

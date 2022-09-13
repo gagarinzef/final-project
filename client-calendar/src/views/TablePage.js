@@ -41,10 +41,6 @@ export default function TablePage() {
     fetchProject();
   }, []);
 
-  useEffect(() => {
-    console.log(projects);
-  }, [projects]);
-
   if (loading) {
     return <h1>Loading</h1>;
   } else {
