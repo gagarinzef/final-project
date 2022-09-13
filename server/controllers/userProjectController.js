@@ -11,6 +11,7 @@ class UserProjectController {
       const findInviteUser = await User.findByPk(UserId);
       // console.log('<<<<<<<<<<>>>>>>>>>>>>>> THROW NOTFOUND UDAH LEWAT');
       const findUser = await User.findOne({ where: { email } });
+      // console.log(findUser, '<<<<<<<<<<<<<< INI FINDUSER ');
       if (!findUser) throw { name: "notRegistered" };
       const findProject = await Project.findByPk(ProjectId);
       if (!findProject) throw { name: "notFound" };
@@ -45,6 +46,7 @@ class UserProjectController {
       });
       res.status(201).json({ message: "Success join to project" });
     } catch (error) {
+      // console.log(error, '<<<<<<<<<<<<<<<<<< ERROR USERPROJECT ACCEPT');
       next(error);
     }
   }

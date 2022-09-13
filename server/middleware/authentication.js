@@ -9,7 +9,7 @@ const authentication = async (req, res, next) => {
         const { access_token, socket_key } = req.headers;
 
         if (socket_key === SOCKET_SECRET_KEY) {
-            console.log("socket here")
+            // console.log("socket here")
             next()
         } else {
         if (!access_token) throw { name: "nullToken" }

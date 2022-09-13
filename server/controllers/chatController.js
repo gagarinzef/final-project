@@ -12,7 +12,7 @@ class ChatController {
       });
       res.status(200).json(chats);
     } catch (error) {
-      console.log(error);
+    //   console.log(error);
       next(error);
     }
   }

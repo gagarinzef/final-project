@@ -4,18 +4,18 @@ const errorHandler = async (error, req, res, next) => {
     case "SequelizeValidationError":
       errMsg = error.errors[0].message;
       res.status(400).json({
-        message: errMsg
+        message: errMsg,
       });
       break;
     case "SequelizeUniqueConstraintError":
       errMsg = error.errors[0].message;
       res.status(400).json({
-        message: errMsg
+        message: errMsg,
       });
       break;
     case "activated":
       res.status(400).json({
-        message: "User is already Active, please login"
+        message: "User is already Active, please login",
       });
       break;
     case "forbidden":
@@ -25,7 +25,7 @@ const errorHandler = async (error, req, res, next) => {
       break;
     case "invalidInput":
       res.status(400).json({
-        message: "You must input all form before submit"
+        message: "You must input all form before submit",
       });
       break;
     case "userInvalid":
@@ -35,7 +35,7 @@ const errorHandler = async (error, req, res, next) => {
       break;
     case "loginInvalid":
       res.status(400).json({
-        message: "Email/Password Invalid"
+        message: "Email/Password Invalid",
       });
       break;
     case "unauthorized":
@@ -58,6 +58,11 @@ const errorHandler = async (error, req, res, next) => {
         message: "Data not Found",
       });
       break;
+    case "notRegistered":
+      res.status(404).json({
+        message: "User not Registered",
+      });
+      break;
     case "alreadyEnroll":
       res.status(400).json({
         message: "User already enrolled in this project",
@@ -70,11 +75,11 @@ const errorHandler = async (error, req, res, next) => {
       break;
     default:
       res.status(500).json({
-        message: "Internal Server Error"
+        message: "Internal Server Error",
       });
       break;
   }
-}
+};
 
 // if (
 //   error.name == "SequelizeValidationError" ||

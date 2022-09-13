@@ -7,7 +7,7 @@ const { queryInterface } = sequelize;
 let access_token =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjYyNzk0NDg5fQ.k_mdh2gX9DT8ycWPtIujHmNMjbi4ETwiS5aA_QY4O9c";
 
-jest.setTimeout(500);
+// jest.setTimeout(500);
 
 beforeAll(async () => {
   try {
@@ -272,6 +272,16 @@ describe("WOK-IT-OUT TESTING", () => {
         expect(response.status).toBe(403);
         expect(response.body.message).toBe("Please Login");
       });
+      // it("Should return ", async () => {
+      //   const response = await request(app)
+      //     .get("/projects")
+      //     .set({
+      //       access_token:
+      //         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNjYzMDQ4NjA3fQ.9oGhHeB29tA6biCk_Pn1Pss7MVt4E8FyJ_7cuBCxc0Q",
+      //     });
+      //   expect(response.status).toBe(404);
+      //   expect(response.body.message).toBe("Invalid Token");
+      // });
       it("Should return Invalid Token", async () => {
         const response = await request(app)
           .get("/projects")
@@ -319,12 +329,78 @@ describe("WOK-IT-OUT TESTING", () => {
         expect(response.status).toBe(403);
         expect(response.body.message).toBe("Please Login");
       });
-      it("Should return User not Authorized", async () => {
+      it("Should return Invalid Token", async () => {
         const response = await request(app)
-          .get("/projects/100")
-          .set({ access_token });
-        expect(response.status).toBe(401);
+          .get("/projects/1")
+          .set({ access_token: "bukantokenasli" });
+        expect(response.status).toBe(403);
+        expect(response.body.message).toBe("Invalid Token");
+      });
+      it("Should return User not Authorized", async () => {
+        await queryInterface.bulkInsert(
+          "Users",
+          [
+            {
+              username: "costumer11",
+              email: "nina@gmail.com",
+              password: hashPassword("qwerty123"),
+              token:
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFwaXNpc2xhbWlAZ21haWwuY29tIiwicGFzc3dvcmQiOiJxd2VydHkxMjMiLCJpYXQiOjE2NjI4MDA2NzUsImV4cCI6MTY2Mjg4NzA3NX0.miTloujDJmyxFw6tmPY7zrdeynjOobhVqksdjIv6dXs",
+              status: "Active",
+              createdAt: new Date(),
+              updatedAt: new Date(),
+            },
+          ],
+          {}
+        );
+        const response = await request(app).get("/projects/1").set({
+          access_token:
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiaWF0IjoxNjYzMDQ0MzIyfQ.DEAUNRnJZQPMxVAmi-ETW4l-qiOuiLc7omEtDXKZdKI",
+        });
+        expect(response.status).toBe(403);
         expect(response.body.message).toBe("User not Authorized");
+      });
+    });
+  });
+
+  // Get Project by id
+  describe("GET /projects/:projectId/chat", () => {
+    describe("GET /projects/:projectId/chat - Success", () => {
+      it("Should return Project and Member List", async () => {
+        const chatData = {
+          chat: "hallooo",
+          project_id: "1",
+          user_id: "1",
+        };
+        const chatResponse = await request(app)
+          .post("/chat")
+          .send(chatData)
+          .set({ access_token });
+        const response = await request(app)
+          .get("/projects/1/chat")
+          .set({ access_token });
+        expect(response.status).toBe(200);
+        expect(response.body.chat).toEqual(expect.any(Array));
+        expect(response.body.chat[0]).toHaveProperty(
+          "ProjectId",
+          expect.any(Number)
+        );
+        expect(response.body.chat[0]).toHaveProperty(
+          "UserId",
+          expect.any(Number)
+        );
+        expect(response.body.chat[0]).toHaveProperty(
+          "chat",
+          expect.any(String)
+        );
+      });
+    });
+
+    describe("GET /projects/:projectId/chat - Error", () => {
+      it("Should return Please Login", async () => {
+        const response = await request(app).get("/projects/1/chat");
+        expect(response.status).toBe(403);
+        expect(response.body.message).toBe("Please Login");
       });
       it("Should return Invalid Token", async () => {
         const response = await request(app)
@@ -332,6 +408,30 @@ describe("WOK-IT-OUT TESTING", () => {
           .set({ access_token: "bukantokenasli" });
         expect(response.status).toBe(403);
         expect(response.body.message).toBe("Invalid Token");
+      });
+      it("Should return User not Authorized", async () => {
+        await queryInterface.bulkInsert(
+          "Users",
+          [
+            {
+              username: "costumer11",
+              email: "nina@gmail.com",
+              password: hashPassword("qwerty123"),
+              token:
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFwaXNpc2xhbWlAZ21haWwuY29tIiwicGFzc3dvcmQiOiJxd2VydHkxMjMiLCJpYXQiOjE2NjI4MDA2NzUsImV4cCI6MTY2Mjg4NzA3NX0.miTloujDJmyxFw6tmPY7zrdeynjOobhVqksdjIv6dXs",
+              status: "Active",
+              createdAt: new Date(),
+              updatedAt: new Date(),
+            },
+          ],
+          {}
+        );
+        const response = await request(app).get("/projects/1/chat").set({
+          access_token:
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiaWF0IjoxNjYzMDQ0MzIyfQ.DEAUNRnJZQPMxVAmi-ETW4l-qiOuiLc7omEtDXKZdKI",
+        });
+        expect(response.status).toBe(403);
+        expect(response.body.message).toBe("User not Authorized");
       });
     });
   });
@@ -625,7 +725,7 @@ describe("WOK-IT-OUT TESTING", () => {
           .send({ ProjectId: 5, email: "hanuin@gil.com" })
           .set({ access_token });
         expect(response.status).toBe(404);
-        expect(response.body.message).toBe("User not registered");
+        expect(response.body.message).toBe("User not Registered");
       });
       it("Should return Invalid Token", async () => {
         const response = await request(app)
@@ -668,7 +768,7 @@ describe("WOK-IT-OUT TESTING", () => {
           .post("/userprojects/accept?UserId=2&ProjectId=1")
           .send({ email: "hanuna@gmail.com" })
           .set({ access_token });
-        expect(response.status).toBe(404);
+        expect(response.status).toBe(400);
         expect(response.body.message).toBe(
           "User already enrolled in this project"
         );
@@ -677,6 +777,95 @@ describe("WOK-IT-OUT TESTING", () => {
         const response = await request(app)
           .post("/userprojects/accept?UserId=2&ProjectId=1")
           .set({ access_token: "bukantokenasli" });
+        expect(response.status).toBe(403);
+        expect(response.body.message).toBe("Invalid Token");
+      });
+    });
+  });
+
+  // Post chat
+  describe("POST /chat", () => {
+    describe("POST /chat - Success", () => {
+      it("Should return message Invitation email has been sent", async () => {
+        const chatData = {
+          chat: "hallooo",
+          project_id: "1",
+          user_id: "1",
+        };
+        const response = await request(app)
+          .post("/chat")
+          .send(chatData)
+          .set({ access_token });
+        expect(response.status).toBe(201);
+        expect(response.body).toEqual(expect.any(Object));
+      });
+    });
+
+    describe("POST /chat - Error", () => {
+      it("Should return Please Login", async () => {
+        const response = await request(app).post("/chat");
+        expect(response.status).toBe(403);
+        expect(response.body.message).toBe("Please Login");
+      });
+      // it("Should return User already enrolled in this project", async () => {
+      //   const response = await request(app)
+      //     .post("/chat")
+      //     .send({ email: "hanuna@gmail.com" })
+      //     .set({ access_token });
+      //   expect(response.status).toBe(404);
+      //   expect(response.body.message).toBe(
+      //     "User already enrolled in this project"
+      //   );
+      // });
+      it("Should return Invalid Token", async () => {
+        const response = await request(app)
+          .post("/chat")
+          .set({ access_token: "bukantokenasli" });
+        expect(response.status).toBe(403);
+        expect(response.body.message).toBe("Invalid Token");
+      });
+    });
+  });
+
+  // Get Chat
+  describe("GET /chat", () => {
+    describe("GET /chat - Success", () => {
+      it("Should return Chat List", async () => {
+        const response = await request(app).get("/chat").set({ access_token });
+        expect(response.status).toBe(200);
+        expect(response.body).toEqual(expect.any(Object));
+        expect(response.body[0]).toHaveProperty(
+          "ProjectId",
+          expect.any(Number)
+        );
+        expect(response.body[0]).toHaveProperty("chat", expect.any(String));
+        expect(response.body[0]).toHaveProperty("UserId", expect.any(Number));
+        expect(response.body[0]).toHaveProperty(
+          "ProjectId",
+          expect.any(Number)
+        );
+        // expect(response.body[0]).toHaveProperty("color", expect.any(String));
+      });
+    });
+
+    describe("GET /chat - Error", () => {
+      it("Should return Please Login", async () => {
+        const response = await request(app).get("/chat");
+        expect(response.status).toBe(403);
+        expect(response.body.message).toBe("Please Login");
+      });
+      // it("Should return Data not Found", async () => {
+      //   const response = await request(app).get("/chat").set({
+      //     access_token:
+      //       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjYyODM4Mjk0fQ.fiI3lUUblRZdUNLPZS9_GjvXxgaCnss9Jy0DljnIIgA",
+      //   });
+      //   expect(response.status).toBe(200);
+      //   expect(response.body).toBe("Data not Found");
+      // });
+      it("Should return Invalid Token", async () => {
+        const response = await request(app).get("/chat").set({
+          access_token: "sembarangtoken",
+        });
         expect(response.status).toBe(403);
         expect(response.body.message).toBe("Invalid Token");
       });

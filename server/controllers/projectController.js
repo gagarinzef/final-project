@@ -24,38 +24,37 @@ class ProjectController {
   }
 
   static async getProject(req, res, next) {
-    const { id } = req.user;
     try {
+      const { id } = req.user;
       const data = await UserProject.findAll({
         where: {
           UserId: id,
         },
         include: [Project],
       });
+      console.log(id, data, "<<<<<<<<<<<<< GET /PROJECTS");
       res.status(200).json(data);
     } catch (error) {
-      // console.log(error);
+      // console.log(error, "<<<<<<<<< ERROR GET /PROJECTS");
       // next(error);
     }
   }
 
   static async getProjectChatById(req, res, next) {
-    const { projectId } = req.params;
-    const { id } = req.user;
-
     try {
+      const { projectId } = req.params;
+      const { id } = req.user;
       const data = await UserProject.findOne({
         where: {
           UserId: id,
           ProjectId: projectId,
         },
       });
-
       if (!data) throw { name: "forbidden" };
 
       const chat = await Chat.findAll({
         where: {
-          ProjectId: projectId
+          ProjectId: projectId,
         },
         include: {
           model: User,
@@ -63,12 +62,11 @@ class ProjectController {
             exclude: ["password", "token", "status"],
           },
         },
-      })
-
-
+      });
+      console.log(chat, "<<<<<<<<< INI chat BY PROJECTID");
       res.status(200).json({ chat });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       next(error);
     }
   }
@@ -111,11 +109,10 @@ class ProjectController {
         },
       });
 
-
-      res.status(200).json({ project, member});
+      res.status(200).json({ project, member });
     } catch (error) {
       // console.log(error);
-      // next(error);
+      next(error);
     }
   }
 }
