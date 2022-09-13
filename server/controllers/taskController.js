@@ -6,11 +6,10 @@ const wss = new WebSocket.Server({ port: 3002 });
 class TaskController {
   static async findAllTaskByProjectId(req, res, next) {
     const { projectId } = req.params;
-    console.log(projectId);
     try {
       const task = await Task.findAll({
         where: { ProjectId: projectId },
-        include: User, // nanti dinamis dari req.params project di client
+        include: User,
       });
       if (!task.length) throw { name: "notFound" };
       res.status(200).json(task);
@@ -75,21 +74,14 @@ class TaskController {
 
   static async createTask(req, res, next) {
     try {
-      const { title, ProjectId, date, color } = req.body;
-      // const user = await User.findOne({ where: { email } });
-      // const project = await Project.findByPk(ProjectId);
       console.log(req.body);
       const task = await Task.create({
-        ProjectId: 1, // sementara nanti dinamis tergantung lg di project id berapa
-        // UserId: user.id,
+        ...req.body,
         status: "On Progress",
-        title,
-        date,
-        color,
       });
 
       res.status(201).json({
-        message: "Success Create Task",
+        message: "Task created",
         id: task.id,
         title: task.title,
       });
@@ -100,62 +92,53 @@ class TaskController {
 
   static async updateTask(req, res, next) {
     try {
-      console.log("masuk");
-      const { title, date, color, UserId, TaskId, ProjectId } = req.body;
+      const { UserId, ProjectId } = req.body;
+      console.log(req.body);
+      const { taskId } = req.params;
       let response = {
-        message: "Success Update Task",
+        message: "Task updated",
       };
+      const task = await Task.findByPk(+taskId);
+      if (!task) throw { name: "notFound" };
 
-      if (title) {
-        await Task.update({ title }, { where: { id: +TaskId } });
-      }
-
-      if (date) {
-        await Task.update({ date }, { where: { id: +TaskId } });
-      }
-
-      if (color) {
-        await Task.update({ color }, { where: { id: +TaskId } });
-      }
+      await Task.update(req.body, { where: { id: +taskId } });
 
       if (UserId) {
         const user = await User.findByPk(+UserId);
         if (!user) throw { name: "userNotFound" };
-        const project = await Project.findByPk(+ProjectId);
-        if (!project) throw { name: "notFound" };
-        const task = await Task.findByPk(+TaskId);
-        if (!task) throw { name: "notFound" };
+        console.log(+UserId, task.UserId);
+        if (+UserId !== task.UserId) {
+          const project = await Project.findByPk(+ProjectId);
+          if (!project) throw { name: "notFound" };
+          await Task.update({ UserId }, { where: { id: +taskId } });
 
-        await Task.update({ UserId }, { where: { id: +TaskId } });
+          const obj = {
+            task: task.title,
+            username: user.username,
+            email: user.email,
+            project: project.name,
+            ProjectId,
+          };
 
-        const obj = {
-          task: task.title,
-          username: user.username,
-          email: user.email,
-          project: project.name,
-          ProjectId,
-        };
-
-        // Send Email
-        await assignEmail(obj);
-
-        response.status = "Invitation has been sent";
+          // Send Email
+          assignEmail(obj);
+          response.status = "Invitation has been sent";
+        }
       }
-
       res.status(200).json(response);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       next(error);
     }
   }
 
   static async deleteTask(req, res, next) {
     try {
-      const { TaskId } = req.body;
-      const task = await Task.findByPk(TaskId);
+      const { taskId } = req.params;
+      const task = await Task.findByPk(taskId);
       if (!task) throw { name: "notFound" };
-      await Task.destroy({ where: { id: +TaskId } });
-      res.status(200).json({ message: "Success Delete Task" });
+      await Task.destroy({ where: { id: +taskId } });
+      res.status(200).json({ message: "Task deleted" });
     } catch (error) {
       next(error);
     }

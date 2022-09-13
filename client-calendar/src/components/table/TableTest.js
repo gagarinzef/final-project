@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { fetchData } from "../../store/actions";
+import { errorHandler } from "../../helpers/toast";
 
 export default function TableTest({ data, trigger }) {
   const dispatch = useDispatch();
@@ -16,18 +17,9 @@ export default function TableTest({ data, trigger }) {
     TaskId: "",
     ProjectId: projectId,
   });
-  const [inputEdit, setInputEdit] = useState({
-    title: "",
-    email: "",
-    date: "",
-    color: "",
-    TaskId: "",
-    UserId: "",
-    ProjectId: projectId,
-  });
+  const [inputEdit, setInputEdit] = useState({});
 
   useEffect(() => {
-    // console.log(data, "liat yg ini");
     setTask(data.project.Tasks);
     setMember(data.member);
   }, [data]);
@@ -37,10 +29,15 @@ export default function TableTest({ data, trigger }) {
     setInput({ ...input, [name]: value });
   };
 
-  const handleChangeEdit = (event, TaskId) => {
+  const handleChangeEdit = (event, el) => {
     const { name, value } = event.target;
-    setInputEdit({ ...inputEdit, [name]: value, TaskId });
+    console.log(name, value);
+    setInputEdit({ ...el, [name]: value });
   };
+
+  // useEffect(() => {
+  //   console.log(inputEdit);
+  // }, [inputEdit]);
 
   const createTask = () => {
     dispatch(fetchData(`http://localhost:3001/tasks`, "POST", input))
@@ -49,34 +46,37 @@ export default function TableTest({ data, trigger }) {
         setInput({ title: "", email: "", date: "", color: "", ProjectId: 1 });
       })
       .catch((err) => {
+        errorHandler(err);
         console.log(err);
       });
   };
 
   const updateTask = () => {
-    dispatch(fetchData(`http://localhost:3001/tasks`, "PATCH", inputEdit))
-      .then(() => {
+    dispatch(
+      fetchData(
+        `http://localhost:3001/tasks/${inputEdit.id}`,
+        "PATCH",
+        inputEdit
+      )
+    )
+      .then((data) => {
         trigger(inputEdit);
+        console.log(data);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  // const deleteTask = async (id) => {
-  //   try {
-  //     await axios("http://localhost:3001/tasks", {
-  //       method: "delete",
-  //       headers: {
-  //         access_token: localStorage.getItem("access_token"),
-  //       },
-  //       data: id,
-  //     });
-  //     fetchTask();
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const deleteTask = (id) => {
+    dispatch(fetchData(`http://localhost:3001/tasks/${id}`, "DELETE"))
+      .then(() => {
+        trigger(id);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div className="bg-white rounded-md p-0.5">
@@ -85,7 +85,7 @@ export default function TableTest({ data, trigger }) {
           <thead className="text-white">
             <tr className="divide-x-2 divide-slate-300">
               <th className="bg-blue-700 bg-opacity-75 rounded-sm border-b-2 border-slate-300">
-                Id
+                No.
               </th>
               <th className="bg-blue-700 bg-opacity-75 ">Title</th>
               <th className="bg-blue-700 bg-opacity-75 ">Assignees</th>
@@ -99,9 +99,7 @@ export default function TableTest({ data, trigger }) {
           </thead>
           <tbody className="overflow-scroll h-fit">
             {task.length
-              ? task.map((el) => {
-                  console.log(el);
-
+              ? task.map((el, idx) => {
                   return (
                     <tr
                       key={el.id}
@@ -111,21 +109,23 @@ export default function TableTest({ data, trigger }) {
                         name="TaskId"
                         className="bg-white border-b-2 border-slate-300 "
                       >
-                        {el.id}
+                        {idx + 1}
                       </td>
                       <td name="title" className="bg-white  ">
                         <input
                           type="text"
                           name="title"
+                          className="focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
                           defaultValue={el.title}
-                          onChange={(e) => handleChangeEdit(e, el.id)}
+                          onChange={(e) => handleChangeEdit(e, el)}
                           onBlur={updateTask}
                         />
                       </td>
                       <td name="userId" className="bg-white  ">
                         <select
                           name="UserId"
-                          onChange={(e) => handleChangeEdit(e, el.id)}
+                          className="focus:outline-none"
+                          onChange={(e) => handleChangeEdit(e, el)}
                           onBlur={updateTask}
                         >
                           <option disabled selected></option>
@@ -148,8 +148,9 @@ export default function TableTest({ data, trigger }) {
                         <input
                           type="date"
                           name="date"
+                          className="focus:outline-none"
                           value={el.date}
-                          onChange={(e) => handleChangeEdit(e, el.id)}
+                          onChange={(e) => handleChangeEdit(e, el)}
                           onBlur={updateTask}
                         />
                       </td>
@@ -159,14 +160,14 @@ export default function TableTest({ data, trigger }) {
                           value={el.color}
                           className={
                             el.color === "#E8697D"
-                              ? "bg-[#E8697D] rounded-lg p-1"
+                              ? "bg-[#E8697D] rounded-lg p-1 focus:outline-none"
                               : el.color === "#D7A463"
-                              ? "bg-[#D7A463] rounded-lg p-1"
+                              ? "bg-[#D7A463] rounded-lg p-1 focus:outline-none"
                               : el.color === "#29A488"
-                              ? "bg-[#29A488] rounded-lg p-1"
+                              ? "bg-[#29A488] rounded-lg p-1 focus:outline-none"
                               : ""
                           }
-                          onChange={(e) => handleChangeEdit(e, el.id)}
+                          onChange={(e) => handleChangeEdit(e, el)}
                           onBlur={updateTask}
                         >
                           <option value="#E8697D" className="bg-[#E8697D]">
@@ -179,18 +180,13 @@ export default function TableTest({ data, trigger }) {
                             Done
                           </option>
                         </select>
-                        {/* <input
-                            value={el.color}
-                            onChange={handleChangeEdit}
-                            onBlur={updateTask}
-                          /> */}
                       </td>
                       <td name="createdAt" className="bg-white  ">
                         {new Date(el.createdAt).toLocaleDateString("id-ID")}
                       </td>
                       <td>
                         <button
-                          // onClick={() => deleteTask(el.id)}
+                          onClick={() => deleteTask(el.id)}
                           className="text-red-800 pt-2"
                         >
                           <svg
@@ -229,7 +225,6 @@ export default function TableTest({ data, trigger }) {
               <td name="createdAt" className="bg-white   px-20"></td>
               <td className="divide-x-2 divide-y-2 divide-slate-300"></td>
             </tr>
-            {/* } */}
           </tbody>
         </table>
       </div>

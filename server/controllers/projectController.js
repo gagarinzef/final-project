@@ -78,7 +78,7 @@ class ProjectController {
       const data = await UserProject.findOne({
         where: {
           UserId: id,
-          ProjectId: projectId, // nanti ambil dr pramas project client
+          ProjectId: projectId,
         },
       });
 
@@ -87,7 +87,6 @@ class ProjectController {
       const project = await Project.findByPk(projectId, {
         include: {
           model: Task,
-
           include: {
             model: User,
             attributes: {
