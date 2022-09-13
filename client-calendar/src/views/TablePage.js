@@ -45,7 +45,7 @@ export default function TablePage() {
     return <h1>Loading</h1>;
   } else {
     return (
-      <div className="flex bg-biru h-fit">
+      <div className="flex bg-biru h-fit overflow-hidden">
         <SideNav />
 
         <div className="container mx-auto my-20">
