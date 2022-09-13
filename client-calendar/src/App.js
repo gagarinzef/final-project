@@ -11,7 +11,6 @@ import AssignPage from "./components/AssignPage";
 import { Route, Routes } from "react-router-dom";
 import ProjectList from "./views/ProjectList";
 import FooterComponent from "./components/FooterComponent";
-import TableBaru from "./views/TableBaru";
 import TableTest from "./components/table/TableTest";
 
 function App() {
@@ -92,7 +91,9 @@ function App() {
           }
         />
       </Routes>
-      <FooterComponent />
+      <div>
+        <FooterComponent />
+      </div>
     </div>
   );
 }

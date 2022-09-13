@@ -4,7 +4,7 @@ const app = express()
 const axios = require('axios')
 
 const http = require('http')
-const {Server} = require('socket.io')
+const { Server } = require('socket.io')
 const cors = require("cors")
 
 app.use(cors())
@@ -19,19 +19,19 @@ const io = new Server(server, {
 
 const saveChat = result => {
     const SOCKET_SECRET_KEY = "kGFHCuUoOlRyoBgRis5y9KfDKvKWpO66"
-    const {data} = result
-    
+    const { data } = result
+
     axios(
         `http://localhost:3001/chat`,
         {
-        method: "post",
-        headers: {
-            socket_key: SOCKET_SECRET_KEY,
-        },
-        data: data
+            method: "post",
+            headers: {
+                socket_key: SOCKET_SECRET_KEY,
+            },
+            data: data
         }
     ).then(result => console.log(result))
-    .catch(err => console.log(err))
+        .catch(err => console.log(err))
 }
 
 io.on('connection', (socket) => {

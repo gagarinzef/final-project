@@ -83,7 +83,7 @@ function LoginPage() {
               </h2>
               <form onSubmit={handleSubmit} className="w-full">
                 <div id="input" className="flex flex-col w-full my-5">
-                  <label for="username" className="text-gray-500 mb-2">
+                  <label htmlFor="username" className="text-gray-500 mb-2">
                     E-mail
                   </label>
                   <input
@@ -96,7 +96,7 @@ function LoginPage() {
                   />
                 </div>
                 <div id="input" className="flex flex-col w-full my-5">
-                  <label for="password" className="text-gray-500 mb-2">
+                  <label htmlFor="password" className="text-gray-500 mb-2">
                     Password
                   </label>
                   <input

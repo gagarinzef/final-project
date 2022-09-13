@@ -3,7 +3,6 @@ import React, { useEffect, useState, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import io from 'socket.io-client'
 import ChatItem from './ChatItem'
-import ScrollToBottom from 'react-scroll-to-bottom';
 
 const socket = io.connect("http://localhost:3003")
 
@@ -22,7 +21,7 @@ const ChatRoom = props => {
     const chatRoomRef = useRef()
 
     useEffect(() => {
-        if (currentProjectId === null || currentProjectId != projectId) {
+        if (currentProjectId === null || currentProjectId !== projectId) {
             socket.emit('leave_project_chat', currentProjectId)
 
             socket.emit('join_project_chat', projectId)
@@ -30,7 +29,6 @@ const ChatRoom = props => {
             socket.off('receive_message')
 
             socket.on('receive_message', data => {
-                console.log('receive_message', data)
                 setMessageList(prev => [...prev, {
                     data: {
                         username: data.data.username,
@@ -48,13 +46,12 @@ const ChatRoom = props => {
             axios(
                 `http://localhost:3001/projects/${projectId}/chat`,
                 {
-                method: "get",
-                headers: {
-                    access_token: localStorage.getItem("access_token"),
-                },
+                    method: "get",
+                    headers: {
+                        access_token: localStorage.getItem("access_token"),
+                    },
                 }
             ).then(response => {
-                console.log(response)
                 const newMessageList = []
                 response.data.chat.forEach(chat => {
                     const newChat = {
@@ -65,13 +62,12 @@ const ChatRoom = props => {
                         }
                     }
                     newMessageList.push(newChat)
-                    console.log(newChat, 'test newchat')
                 })
                 setMessageList(newMessageList)
             }).catch(err => console.log(err));
         }
 
-    },[projectId])
+    }, [projectId])
 
     useEffect(() => {
         chatRoomRef.current?.scrollTo(0, chatRoomRef.current?.scrollHeight)
@@ -85,8 +81,7 @@ const ChatRoom = props => {
             chat: message,
             createdAt: new Date()
         }
-        console.log(data, 'ini data sendmessage')
-        socket.emit("send_message", {data})
+        socket.emit("send_message", { data })
 
         setMessage('')
     }
@@ -95,31 +90,28 @@ const ChatRoom = props => {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-end',
-        gap: '10px',
-        margin: '10px',
-        // padding: '5px' ,
         width: '100%',
         height: '43vh',
         backgroundColor: 'lightgray',
         borderRadius: 8,
     }}>
         <div id="chat-room" style={{
-             flexOverflow: 'wrap',
-             overflow: 'auto',
-             position: 'relative',
-             width: '100%',
-             height: '45',
+            flexOverflow: 'wrap',
+            overflow: 'auto',
+            position: 'relative',
+            width: '100%',
+            height: '45',
         }} ref={chatRoomRef}>
-        {/* <h1>ProjectId: {projectId}</h1> */}
+            {/* <h1>ProjectId: {projectId}</h1> */}
 
-        {messageList.map((message, index) => {
-            return <ChatItem
-                key={`chat-item-${index}`}
-                user={message.data.username}
-                message={message.data.chat}
-                createdAt={message.data.createdAt}
-            />
-        })}
+            {messageList.map((message, index) => {
+                return <ChatItem
+                    key={`chat-item-${index}`}
+                    user={message.data.username}
+                    message={message.data.chat}
+                    createdAt={message.data.createdAt}
+                />
+            })}
 
         </div>
         <div style={{
@@ -135,22 +127,24 @@ const ChatRoom = props => {
                 color: 'black',
                 borderRadius: 8
             }} placeholder='message...' value={message} onChange={event => setMessage(event.target.value)}
-            onKeyPress={event => {
-                if(event.key === 'Enter') {
-                    sendMessage()
-                }
-            }}
+                onKeyPress={event => {
+                    if (event.key === 'Enter') {
+                        sendMessage()
+                    }
+                }}
             />
-            {/* <button style={{
+            <button style={{
                 width: '30px',
-                backgroundColor: 'lime',
+                backgroundColor: 'black',
                 cursor: 'pointer',
+                borderRadius: '5px',
                 fontSize: '12px',
             }} type='button'
                 onClick={sendMessage}
-            >Send</button> */}
+            >
+                <i className="far fa-paper-plane"></i>
+            </button>
         </div>
-        
     </div>
 
 }
