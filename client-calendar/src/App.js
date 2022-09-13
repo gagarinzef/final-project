@@ -1,3 +1,5 @@
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import CalendarPage from "./components/CalendarPage";
 import RegisterPage from "./views/RegisterPage";
 import ProtectedRoutesLogin from "./components/ProtectedRoutesLogin";
@@ -17,6 +19,7 @@ function App() {
   return (
     <div className="App">
       {/* <Navbar /> */}
+      <ToastContainer />
       <Routes>
         <Route
           path="/"

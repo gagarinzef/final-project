@@ -1,17 +1,16 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
-import axios from "axios";
-import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchData } from "../../store/actions";
+import { errorHandler, success } from "../../helpers/toast";
 
 export default function UpdateModal({
   show,
   setShow,
   eventID,
-  setDataChange,
   member,
+  trigger,
 }) {
   const dispatch = useDispatch();
   const { task } = useSelector((state) => state.task);
@@ -26,27 +25,35 @@ export default function UpdateModal({
     user: 0,
   });
 
-  const onClose = () => {
-    setShow(false);
-  };
-
   // INPUT DATA TO SERVER
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setInput({ ...input, [name]: value });
+    let status = task.status;
+    if (name === "color") {
+      if (value === "#29A488") {
+        status = "Done";
+      } else if (value === "#E8697D") {
+        status = "Urgent";
+      } else if (value === "#D7A463") {
+        status = "On Progress";
+      }
+    }
+    setInput({ ...input, [name]: value, status });
   };
 
-  const fetchDetail = () => {
-    dispatch(
-      fetchData(`http://localhost:3001/tasks/${eventID}`, "GET", null, "task")
-    )
-      .then(() => {
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  useEffect(() => {
+    if (eventID) {
+      dispatch(
+        fetchData(`http://localhost:3001/tasks/${eventID}`, "GET", null, "task")
+      )
+        .then(() => {
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log(err, "useeffect");
+        });
+    }
+  }, [eventID]);
 
   useEffect(() => {
     if (task.id) {
@@ -60,101 +67,47 @@ export default function UpdateModal({
     setUser(member);
   }, [task]);
 
-  // const fetchDetail = async () => {
-  //   try {
-  //     const { data } = await axios(`http://localhost:3001/tasks/${eventID}`, {
-  //       method: "GET",
-  //       headers: {
-  //         access_token: localStorage.getItem("access_token"),
-  //       },
-  //     });
-  //     setInput({
-  //       title: data.title,
-  //       color: data.color,
-  //       date: data.date,
-  //       user: data.UserId,
-  //     });
-
-  //     console.log(data, "jordan");
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  // const fetchUser = async () => {
-  //   try {
-  //     const { data } = await axios(
-  //       `http://localhost:3001/userprojects/${projectId}`,
-  //       {
-  //         method: "GET",
-  //         headers: {
-  //           access_token: localStorage.getItem("access_token"),
-  //         },
-  //       }
-  //     );
-  //     // setUsers(data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  useEffect(() => {
-    if (eventID) {
-      // fetchUser();
-      // fetchDetail();
-      fetchDetail();
-    }
-  }, [eventID]);
-
-  const handleUpdate = async (event) => {
+  const handleUpdate = (event) => {
     event.preventDefault();
-    try {
-      const { title, date, color, user } = input;
-      await axios(`http://localhost:3001/tasks`, {
-        method: "PATCH",
-        headers: {
-          access_token: localStorage.getItem("access_token"),
-        },
-        data: {
-          title: title,
-          date: date,
-          color: color,
-          UserId: user,
-          TaskId: eventID,
-          ProjectId: projectId,
-        },
+    dispatch(
+      fetchData(`http://localhost:3001/tasks/${eventID}`, "PATCH", {
+        ...input,
+        ProjectId: projectId,
+        UserId: input.user,
       })
-        .then((data) => setDataChange(data))
-        .then(() => Swal.fire("Update Success"))
-        .finally(() => setShow(false));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const handleDelete = async () => {
-    try {
-      await axios(`http://localhost:3001/tasks`, {
-        method: "DELETE",
-        headers: {
-          access_token: localStorage.getItem("access_token"),
-        },
-        data: {
-          TaskId: eventID,
-        },
+    )
+      .then((data) => {
+        success(data);
+        trigger(input);
+        setShow(false);
       })
-        .then((data) => setDataChange(data))
-        .then(() => Swal.fire("Delete Success"))
-        .finally(() => setShow(false));
-    } catch (error) {
-      console.log(error);
-    }
+      .catch((err) => {
+        errorHandler(err);
+        console.log(err, "update");
+      });
   };
 
+  const handleDelete = () => {
+    dispatch(fetchData(`http://localhost:3001/tasks/${eventID}`, "DELETE"))
+      .then(() => {
+        trigger(eventID);
+        setShow(false);
+      })
+      .catch((err) => {
+        console.log(err, "delete");
+      });
+  };
   if (loading) {
-    return <h1>Loading</h1>;
+    return <p>gggg</p>;
   } else {
     return (
       <>
         <Transition appear show={show} as={Fragment}>
-          <Dialog as="div" className="relative z-10" onClose={onClose}>
+          <Dialog
+            as="div"
+            className="relative z-10"
+            onClose={() => setShow(false)}
+          >
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -182,7 +135,7 @@ export default function UpdateModal({
                     <div className="flex justify-between">
                       <h3 className="text-lg font-medium leading-6 text-gray-900"></h3>
                       <div className="font-bold">
-                        <button onClick={onClose} className="">
+                        <button onClick={() => setShow(false)} className="">
                           X
                         </button>
                       </div>

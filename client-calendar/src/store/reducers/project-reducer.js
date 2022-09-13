@@ -1,7 +1,11 @@
-import { PROJECT_FETCH_SUCCESS } from "../actions/actionType";
+import {
+  PROJECT_FETCH_SUCCESS,
+  PROJECTS_FETCH_SUCCESS,
+} from "../actions/actionType";
 
 const initState = {
   project: [],
+  projects: [],
 };
 
 export default function projectReducer(state = initState, action) {
@@ -10,6 +14,11 @@ export default function projectReducer(state = initState, action) {
       return {
         ...state,
         project: action.payload,
+      };
+    case PROJECTS_FETCH_SUCCESS:
+      return {
+        ...state,
+        projects: action.payload,
       };
     // case PRODUCT_BY_ID_FETCH_SUCCESS:
     //   return {

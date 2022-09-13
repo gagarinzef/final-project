@@ -121,6 +121,7 @@ export default function Kanban() {
   };
 
   useEffect(() => {
+    console.log("masuk");
     ws.onmessage = handleWsMessage;
     fetchTask();
   }, []);

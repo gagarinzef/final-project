@@ -3,7 +3,6 @@ import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import interactionPlugin from "@fullcalendar/interaction";
 import "../App.css";
 import { useEffect, useState } from "react";
-import Swal from "sweetalert2";
 import CreateModal from "./modal/CreateModal";
 import { useParams } from "react-router-dom";
 import UpdateModal from "./modal/UpdateModal";
@@ -15,7 +14,6 @@ function CalendarPage({ data, trigger }) {
   const dispatch = useDispatch();
 
   const [event, setEvent] = useState([]);
-  const [dataChange, setDataChange] = useState([]);
 
   // SHOW MODAL
   const [show, setShow] = useState(false);
@@ -25,34 +23,8 @@ function CalendarPage({ data, trigger }) {
   // INPUT MODAL
   const [dueDate, setDueDate] = useState("");
 
-  // FETCH DATA
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const { data } = await axios.get(
-  //         `http://localhost:3001/tasks/project/${projectId}`,
-  //         {
-  //           headers: {
-  //             access_token: localStorage.getItem("access_token"),
-  //           },
-  //         }
-  //       );
-  //       console.log(data, "jordan");
-  //       setEvent(data);
-  //     } catch (error) {
-  //       if (error.response.data.statusCode === 404) {
-  //         Swal.fire("User tidak memiliki event");
-  //       } else {
-  //         console.log(error);
-  //       }
-  //     }
-  //   };
-  //   fetchData();
-  // }, [dataChange]);
-
   useEffect(() => {
     setEvent(data.project.Tasks);
-    console.log(data.project.Tasks, "gaga");
   }, [data]);
 
   // TO HANDLE DELETE EVENTS
@@ -76,31 +48,22 @@ function CalendarPage({ data, trigger }) {
       .split("/");
 
     const input = {
-      TaskId: info.event._def.publicId,
       date: `${dateInfo[2]}-${dateInfo[1]}-${dateInfo[0]}`,
     };
 
-    dispatch(fetchData(`http://localhost:3001/tasks`, "PATCH", input))
+    dispatch(
+      fetchData(
+        `http://localhost:3001/tasks/${info.event._def.publicId}`,
+        "PATCH",
+        input
+      )
+    )
       .then(() => {
         trigger(input);
       })
       .catch((err) => {
         console.log(err);
       });
-    // try {
-
-    //   await axios(`http://localhost:3001/tasks`, {
-    //     method: "PATCH",
-    //     headers: {
-    //       access_token: localStorage.getItem("access_token"),
-    //     },
-    //     data: ,
-    //   })
-    //     .then((data) => setDataChange(data))
-    //     .then(() => Swal.fire("Date has been updated"));
-    // } catch (error) {
-    //   console.log(error);
-    // }
   };
 
   return (
@@ -111,8 +74,8 @@ function CalendarPage({ data, trigger }) {
         dueDate={dueDate}
         setEvent={setEvent}
         setShow={setShow}
-        setDataChange={setDataChange}
         projectId={projectId}
+        trigger={trigger}
       />
 
       {/* Update Event MODAL */}
@@ -120,8 +83,8 @@ function CalendarPage({ data, trigger }) {
         show={detail}
         setShow={setDetail}
         eventID={eventID}
-        setDataChange={setDataChange}
         member={data.member}
+        trigger={trigger}
       />
 
       <div className="mx-auto w-2/3 bg-white rounded-xl">

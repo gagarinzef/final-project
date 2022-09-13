@@ -1,7 +1,15 @@
-import { PROJECT_FETCH_SUCCESS, TASK_FETCH_SUCCESS } from "./actionType";
+import {
+  PROJECT_FETCH_SUCCESS,
+  TASK_FETCH_SUCCESS,
+  PROJECTS_FETCH_SUCCESS,
+} from "./actionType";
 
 export const projectFetchSuccess = (payload) => {
   return { type: PROJECT_FETCH_SUCCESS, payload };
+};
+
+export const projectsFetchSuccess = (payload) => {
+  return { type: PROJECTS_FETCH_SUCCESS, payload };
 };
 
 export const taskFetchSuccess = (payload) => {
@@ -50,6 +58,9 @@ export const fetchData = (url, method, data, domain) => {
           switch (domain) {
             case "project":
               dispatch(projectFetchSuccess(data));
+              break;
+            case "projects":
+              dispatch(projectsFetchSuccess(data));
               break;
             case "task":
               dispatch(taskFetchSuccess(data));

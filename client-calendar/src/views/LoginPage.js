@@ -11,11 +11,6 @@ function LoginPage() {
     password: "",
   });
 
-  // TO HANDLE DELETE EVENTS
-  const eventClick = (event) => {
-    console.log(event.event._def.publicId);
-  };
-
   const handleChange = (event) => {
     const { name, value } = event.target;
     setInput({ ...input, [name]: value });
