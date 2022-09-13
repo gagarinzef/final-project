@@ -53,14 +53,21 @@ class UserProjectController {
   static async getUserByProjectId(req, res, next) {
     try {
       const { ProjectId } = req.params;
-      const userProject = await UserProject.findAll({
-        include: {
-          model: User,
-          attributes: ["id", "username", "email"]
-        }
-      },
-        { where: { ProjectId } });
-      if (!userProject) throw { name: "notFound" }
+      const userProject = await UserProject.findAll(
+        {
+          include: {
+            model: User,
+            attributes: ["id", "username", "email"],
+          },
+        },
+        { where: { ProjectId } }
+      );
+      console.log(
+        ProjectId,
+        userProject[0].User,
+        "<<<<<<<<<<<<< GET USERPROJECT BY ID"
+      );
+      // if (!userProject) throw { name: "notFound" };
       res.status(200).json(userProject);
     } catch (error) {
       next(error);

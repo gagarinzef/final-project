@@ -20,72 +20,72 @@ class TaskController {
   }
 
   // UPDATE TASK BUAT KANBAN
-  static async updateTaskKanban(req, res, next) {
-    let arr = [];
-    for (const key in req.body) {
-      req.body[key].items.map((el) => {
-        el.status = req.body[key].name;
-        el.color = req.body[key].color;
-        el.updatedAt = new Date();
-      });
-      arr.push(req.body[key]);
-    }
-    const { id, status, title, color, date } = req.body;
-    try {
-      // const response = await Task.update(
-      //   {
-      //     id,
-      //     status,
-      //     title,
-      //     color,
-      //     date,
-      //   },
-      //   {
-      //     where: {
-      //       id,
-      //     },
-      //   }
-      // );
-      await Task.bulkCreate(arr[0].items, {
-        updateOnDuplicate: [
-          "date",
-          "title",
-          "id",
-          "status",
-          "color",
-          "updatedAt",
-        ],
-      }); //unstarted
+  // static async updateTaskKanban(req, res, next) {
+  //   let arr = [];
+  //   for (const key in req.body) {
+  //     req.body[key].items.map((el) => {
+  //       el.status = req.body[key].name;
+  //       el.color = req.body[key].color;
+  //       el.updatedAt = new Date();
+  //     });
+  //     arr.push(req.body[key]);
+  //   }
+  //   const { id, status, title, color, date } = req.body;
+  //   try {
+  //     // const response = await Task.update(
+  //     //   {
+  //     //     id,
+  //     //     status,
+  //     //     title,
+  //     //     color,
+  //     //     date,
+  //     //   },
+  //     //   {
+  //     //     where: {
+  //     //       id,
+  //     //     },
+  //     //   }
+  //     // );
+  //     await Task.bulkCreate(arr[0].items, {
+  //       updateOnDuplicate: [
+  //         "date",
+  //         "title",
+  //         "id",
+  //         "status",
+  //         "color",
+  //         "updatedAt",
+  //       ],
+  //     }); //unstarted
 
-      await Task.bulkCreate(arr[1].items, {
-        updateOnDuplicate: [
-          "date",
-          "title",
-          "id",
-          "status",
-          "color",
-          "updatedAt",
-        ],
-      }); //in progress
+  //     await Task.bulkCreate(arr[1].items, {
+  //       updateOnDuplicate: [
+  //         "date",
+  //         "title",
+  //         "id",
+  //         "status",
+  //         "color",
+  //         "updatedAt",
+  //       ],
+  //     }); //in progress
 
-      await Task.bulkCreate(arr[2].items, {
-        updateOnDuplicate: [
-          "date",
-          "title",
-          "id",
-          "status",
-          "color",
-          "updatedAt",
-        ],
-      }); //completed
+  //     await Task.bulkCreate(arr[2].items, {
+  //       updateOnDuplicate: [
+  //         "date",
+  //         "title",
+  //         "id",
+  //         "status",
+  //         "color",
+  //         "updatedAt",
+  //       ],
+  //     }); //completed
 
-      wss.clients.forEach((ws) => ws.send("updated"));
-      res.status(200).json({ message: "Item updated" });
-    } catch (error) {
-      console.log(error);
-      next(error);
-    }
-  }
+  //     wss.clients.forEach((ws) => ws.send("updated"));
+  //     res.status(200).json({ message: "Item updated" });
+  //   } catch (error) {
+  //     console.log(error);
+  //     next(error);
+  //   }
+  // }
 
   static async createTask(req, res, next) {
     try {
@@ -122,14 +122,17 @@ class TaskController {
 
       if (title) {
         await Task.update({ title }, { where: { id: +TaskId } });
+        res.status(200).json(response);
       }
 
       if (date) {
         await Task.update({ date }, { where: { id: +TaskId } });
+        res.status(200).json(response);
       }
 
       if (color) {
         await Task.update({ color }, { where: { id: +TaskId } });
+        res.status(200).json(response);
       }
 
       if (UserId) {
@@ -152,10 +155,10 @@ class TaskController {
 
         // Send Email
         await assignEmail(obj);
-        res.status(200).json({ message: "Success Update Task; Invitation email has been sent" });
+        res.status(200).json({
+          message: "Success Update Task; Invitation email has been sent",
+        });
       }
-
-      res.status(200).json(response);
     } catch (error) {
       next(error);
     }
@@ -178,6 +181,7 @@ class TaskController {
       const { taskId } = req.params;
       const task = await Task.findByPk(+taskId);
       if (!task) throw { name: "notFound" };
+      // console.log(task, '<<<<<<<<<<< GET TASK BY ID');
       res.status(200).json(task);
     } catch (error) {
       next(error);

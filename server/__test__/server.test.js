@@ -1,4 +1,3 @@
-const { verify } = require("jsonwebtoken");
 const request = require("supertest");
 const app = require("../app");
 const { hashPassword } = require("../helpers/bcryptjs");
@@ -7,7 +6,7 @@ const { queryInterface } = sequelize;
 let access_token =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjYyNzk0NDg5fQ.k_mdh2gX9DT8ycWPtIujHmNMjbi4ETwiS5aA_QY4O9c";
 
-// jest.setTimeout(500);
+jest.setTimeout(500);
 
 beforeAll(async () => {
   try {
@@ -410,22 +409,6 @@ describe("WOK-IT-OUT TESTING", () => {
         expect(response.body.message).toBe("Invalid Token");
       });
       it("Should return User not Authorized", async () => {
-        await queryInterface.bulkInsert(
-          "Users",
-          [
-            {
-              username: "costumer11",
-              email: "nina@gmail.com",
-              password: hashPassword("qwerty123"),
-              token:
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFwaXNpc2xhbWlAZ21haWwuY29tIiwicGFzc3dvcmQiOiJxd2VydHkxMjMiLCJpYXQiOjE2NjI4MDA2NzUsImV4cCI6MTY2Mjg4NzA3NX0.miTloujDJmyxFw6tmPY7zrdeynjOobhVqksdjIv6dXs",
-              status: "Active",
-              createdAt: new Date(),
-              updatedAt: new Date(),
-            },
-          ],
-          {}
-        );
         const response = await request(app).get("/projects/1/chat").set({
           access_token:
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiaWF0IjoxNjYzMDQ0MzIyfQ.DEAUNRnJZQPMxVAmi-ETW4l-qiOuiLc7omEtDXKZdKI",
@@ -444,7 +427,6 @@ describe("WOK-IT-OUT TESTING", () => {
           title: "Create server testing",
           date: new Date(),
           color: "red",
-          // email:
         };
         const response = await request(app)
           .post("/tasks")
@@ -471,14 +453,6 @@ describe("WOK-IT-OUT TESTING", () => {
         expect(response.status).toBe(400);
         expect(response.body.message).toBe("Title is required");
       });
-      it("Should return Date is required", async () => {
-        const response = await request(app)
-          .post("/tasks")
-          // .send({ title: "title" })
-          .set({ access_token });
-        expect(response.status).toBe(400);
-        // expect(response.body.message).toBe("Date is required");
-      });
       it("Should return Invalid Token", async () => {
         const taskData = {
           title: "Create server testing",
@@ -501,7 +475,7 @@ describe("WOK-IT-OUT TESTING", () => {
       it("Should return Success Update Task", async () => {
         const response = await request(app)
           .patch("/tasks")
-          .send({ title: "title" })
+          .send({ title: "title", TaskId: 1 })
           .set({ access_token });
         expect(response.status).toBe(200);
         expect(response.body.message).toBe("Success Update Task");
@@ -509,7 +483,7 @@ describe("WOK-IT-OUT TESTING", () => {
       it("Should return Success Update Task", async () => {
         const response = await request(app)
           .patch("/tasks")
-          .send({ date: "date" })
+          .send({ date: "date", TaskId: 1 })
           .set({ access_token });
         expect(response.status).toBe(200);
         expect(response.body.message).toBe("Success Update Task");
@@ -517,7 +491,7 @@ describe("WOK-IT-OUT TESTING", () => {
       it("Should return Success Update Task", async () => {
         const response = await request(app)
           .patch("/tasks")
-          .send({ color: "color" })
+          .send({ color: "color", TaskId: 1 })
           .set({ access_token });
         expect(response.status).toBe(200);
         expect(response.body.message).toBe("Success Update Task");
@@ -622,62 +596,103 @@ describe("WOK-IT-OUT TESTING", () => {
     });
   });
 
-  // Delete Task
-  // describe("DELETE /tasks", () => {
-  //   describe("DELETE /tasks - Success", () => {
-  //     it("Should return Success Delete Task", async () => {
-  //       const taskData = {
-  //         title: "Create server testing",
-  //         date: new Date(),
-  //         color: "red",
-  //         // email:
-  //       };
-  //       const postResponse = await request(app)
-  //         .post("/tasks")
-  //         .send(taskData)
-  //         .set({ access_token });
-  //         // console.log(postResponse, '<<<<<<<<<<<<<< INI DELETE SUCCESS');
-  //       const response = await request(app)
-  //         .delete("/tasks")
-  //         .set({ access_token }).send({TaskId: '2'});
-  //       expect(response.status).toBe(200);
-  //       expect(response.body.message).toBe("Success Delete Task");
-  //     });
-  //   });
+  // Get Tasks by id
+  describe("GET /tasks/:taskId", () => {
+    describe("GET /tasks/:taskId - Success", () => {
+      it("Should return Task by id", async () => {
+        const response = await request(app)
+          .get("/tasks/1")
+          .set({ access_token });
+        expect(response.status).toBe(200);
+        expect(response.body).toEqual(expect.any(Object));
+        expect(response.body).toHaveProperty("ProjectId", expect.any(Number));
+        expect(response.body).toHaveProperty("status", expect.any(String));
+        expect(response.body).toHaveProperty("title", expect.any(String));
+        // expect(response.body[0]).toHaveProperty("date", expect.any(String));
+        // expect(response.body[0]).toHaveProperty("color", expect.any(String));
+      });
+    });
 
-  //   describe("DELETE /tasks - Error", () => {
-  //     it("Should return Please Login", async () => {
-  //       const response = await request(app).get("/tasks");
-  //       expect(response.status).toBe(403);
-  //       expect(response.body.message).toBe("Please Login");
-  //     });
-  //     it("Should return Data not Found", async () => {
-  //       const taskData = {
-  //         title: "Create server testing",
-  //         date: new Date(),
-  //         color: "red",
-  //         // email:
-  //       };
-  //       const postResponse = await request(app)
-  //         .post("/tasks")
-  //         .send(taskData)
-  //         .set({ access_token });
-  //       const response = await request(app)
-  //         .delete("/tasks")
-  //         .set(access_token)
-  //         .send({ TaskId: "5" });
-  //       expect(response.status).toBe(404);
-  //       expect(response.body.message).toBe("Data not Found");
-  //     });
-  //     it("Should return Invalid Token", async () => {
-  //       const response = await request(app).get("/tasks").set({
-  //         access_token: "sembarangtoken",
-  //       });
-  //       expect(response.status).toBe(403);
-  //       expect(response.body.message).toBe("Invalid Token");
-  //     });
-  //   });
-  // });
+    describe("GET /tasks/:taskId - Error", () => {
+      it("Should return Please Login", async () => {
+        const response = await request(app).get("/tasks/1");
+        expect(response.status).toBe(403);
+        expect(response.body.message).toBe("Please Login");
+      });
+      it("Should return Data not Found", async () => {
+        const response = await request(app)
+          .get("/tasks/6")
+          .set({ access_token });
+        expect(response.status).toBe(404);
+        expect(response.body.message).toBe("Data not Found");
+      });
+      it("Should return Invalid Token", async () => {
+        const response = await request(app).get("/tasks/1").set({
+          access_token: "sembarangtoken",
+        });
+        expect(response.status).toBe(403);
+        expect(response.body.message).toBe("Invalid Token");
+      });
+    });
+  });
+
+  // Delete Task
+  describe("DELETE /tasks", () => {
+    describe("DELETE /tasks - Success", () => {
+      it("Should return Success Delete Task", async () => {
+        const taskData = {
+          title: "Create server testing",
+          date: new Date(),
+          color: "red",
+          // email:
+        };
+        const postResponse = await request(app)
+          .post("/tasks")
+          .send(taskData)
+          .set({ access_token });
+        // console.log(postResponse, '<<<<<<<<<<<<<< INI DELETE SUCCESS');
+        const response = await request(app)
+          .delete("/tasks")
+          .set({ access_token })
+          .send({ TaskId: "2" });
+        expect(response.status).toBe(200);
+        expect(response.body.message).toBe("Success Delete Task");
+      });
+    });
+
+    describe("DELETE /tasks - Error", () => {
+      it("Should return Please Login", async () => {
+        const response = await request(app).delete("/tasks");
+        expect(response.status).toBe(403);
+        expect(response.body.message).toBe("Please Login");
+      });
+      it("Should return Data not Found", async () => {
+        const taskData = {
+          title: "Create server testing",
+          date: new Date(),
+          color: "red",
+          // email:
+        };
+        const postResponse = await request(app)
+          .post("/tasks")
+          .send(taskData)
+          .set({ access_token });
+        const response = await request(app)
+          .delete("/tasks")
+          .set({ access_token })
+          .send({ TaskId: "5" });
+        expect(response.status).toBe(404);
+        expect(response.body.message).toBe("Data not Found");
+      });
+      it("Should return Invalid Token", async () => {
+        const response = await request(app).delete("/tasks").set({
+          access_token: "sembarangtoken",
+        });
+        expect(response.status).toBe(403);
+        expect(response.body.message).toBe("Invalid Token");
+      });
+    });
+  });
 
   // Post User Projects
   describe("POST /userprojects", () => {
@@ -780,6 +795,64 @@ describe("WOK-IT-OUT TESTING", () => {
         expect(response.status).toBe(403);
         expect(response.body.message).toBe("Invalid Token");
       });
+    });
+  });
+
+  // Get UserProject by id
+  describe("GET /userprojects/:projectId", () => {
+    describe("GET /userprojects/:projectId - Success", () => {
+      it("Should return Project and Member List", async () => {
+        const response = await request(app)
+          .get("/userprojects/1")
+          .set({ access_token });
+        expect(response.status).toBe(200);
+        expect(response.body).toEqual(expect.any(Object));
+        expect(response.body[0]).toHaveProperty(
+          "ProjectId",
+          expect.any(Number)
+        );
+        expect(response.body[0]).toHaveProperty("User", expect.any(Object));
+        expect(response.body[0]).toHaveProperty("UserId", expect.any(Number));
+        expect(response.body[0]).toHaveProperty("role", expect.any(String));
+      });
+    });
+
+    describe("GET /userprojects/:projectId - Error", () => {
+      it("Should return Please Login", async () => {
+        const response = await request(app).get("/userprojects/1");
+        expect(response.status).toBe(403);
+        expect(response.body.message).toBe("Please Login");
+      });
+      it("Should return Invalid Token", async () => {
+        const response = await request(app)
+          .get("/userprojects/1")
+          .set({ access_token: "bukantokenasli" });
+        expect(response.status).toBe(403);
+        expect(response.body.message).toBe("Invalid Token");
+      });
+      // it("Should return User not Authorized", async () => {
+      //   // await queryInterface.bulkInsert(
+      //   //   "Users",
+      //   //   [
+      //   //     {
+      //   //       username: "costumer11",
+      //   //       email: "nina@gmail.com",
+      //   //       password: hashPassword("qwerty123"),
+      //   //       token:
+      //   //         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFwaXNpc2xhbWlAZ21haWwuY29tIiwicGFzc3dvcmQiOiJxd2VydHkxMjMiLCJpYXQiOjE2NjI4MDA2NzUsImV4cCI6MTY2Mjg4NzA3NX0.miTloujDJmyxFw6tmPY7zrdeynjOobhVqksdjIv6dXs",
+      //   //       status: "Active",
+      //   //       createdAt: new Date(),
+      //   //       updatedAt: new Date(),
+      //   //     },
+      //   //   ],
+      //   //   {}
+      //   // );
+      //   const response = await request(app)
+      //     .get("/userprojects/50")
+      //     .set({ access_token });
+      //   expect(response.status).toBe(403);
+      //   expect(response.body.message).toBe("User not Authorized");
+      // });
     });
   });
 

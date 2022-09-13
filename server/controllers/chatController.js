@@ -19,9 +19,9 @@ class ChatController {
 
   static async createChat(req, res, next) {
     try {
-      console.log("create chat here");
+      // console.log("create chat here");
       const { project_id, user_id, chat } = req.body;
-      console.log(req.body);
+      // console.log(req.body);
       const response = await Chat.create({
         ProjectId: project_id,
         UserId: user_id,
@@ -30,7 +30,7 @@ class ChatController {
 
       res.status(201).json(response);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       next(error);
     }
   }
