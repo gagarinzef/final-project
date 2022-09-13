@@ -26,7 +26,7 @@ export default function TableTest() {
     ProjectId: projectId,
   });
 
-  const createTask = async () => {
+  const fetchTask = async () => {
     try {
       let { data } = await axios.get(
         `http://localhost:3001/projects/${projectId}`,
@@ -44,6 +44,7 @@ export default function TableTest() {
       console.log(error);
     }
   };
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setInput({ ...input, [name]: value });
