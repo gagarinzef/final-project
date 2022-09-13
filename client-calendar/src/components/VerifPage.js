@@ -17,28 +17,35 @@ function VerifPage() {
             setTimeout(() => navigate("/"), 2000);
         } catch (error) {
             setError(true);
-            setMessage(error.response.data.message);  
+            setMessage(error.response.data.message);
+            setTimeout(() => navigate("/"), 2000);  
         }
     }
     verifUser();
   }, [])
     
   return (
-    <div className="VerifPage">
       <div className="flex justify-center mt-20">
         <a className="block p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-1000">
         <img src="https://i.postimg.cc/s2rkZHpL/icon.jpg" className="w-40 h-40 m-auto mb-10"></img>
-        {error ? ( <p className="font-normal text-gray-700"> {message} </p>) : ( <>
+        {error ? ( 
+        <>
+        <p className="text-gray-700 font-bold"> {message} </p>
+        <img src={loading} className="w-10 h-10 mt-10 mb-10 m-auto"></img>
+          <p className="font-normal text-gray-700 text-xs">
+           Redirecting...
+          </p>
+        </>
+        ) : ( <>
       <p className="font-normal text-gray-700">
            {message}
           </p>
           <img src={loading} className="w-10 h-10 mt-10 mb-10 m-auto"></img>
           <p className="font-normal text-gray-700 text-xs">
-           Redirecting to login page..
+           Redirecting...
           </p> </>)}
         </a>
       </div>
-    </div>
   );
 }
 

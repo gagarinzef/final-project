@@ -15,6 +15,7 @@ class TaskController {
       if (!task.length) throw { name: "notFound" };
       res.status(200).json(task);
     } catch (error) {
+      console.log(error);
       next(error);
     }
   }
@@ -157,6 +158,7 @@ class TaskController {
 
       res.status(200).json(response);
     } catch (error) {
+      console.log(error)
       next(error);
     }
   }

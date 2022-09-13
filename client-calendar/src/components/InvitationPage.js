@@ -43,7 +43,7 @@ function InvitationPage() {
       <p className="font-normal text-gray-700"> {message} </p>
       <img src={loading} className="w-10 h-10 mt-10 mb-10 m-auto"></img>
         <p className="font-normal text-gray-700 text-xs">
-         Redirecting to project page..
+         Redirecting...
         </p>
       </>) : ( <>
     <p className="font-normal text-gray-700">
@@ -51,7 +51,7 @@ function InvitationPage() {
         </p>
         <img src={loading} className="w-10 h-10 mt-10 mb-10 m-auto"></img>
         <p className="font-normal text-gray-700 text-xs">
-         Redirecting to project page..
+         Redirecting...
         </p> </>)}
       </a>
       </div>

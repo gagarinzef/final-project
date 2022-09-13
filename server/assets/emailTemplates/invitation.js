@@ -451,7 +451,7 @@ return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://w
                     <td class="content-cell">
                       <div class="f-fallback">
                         <h1>Hello, ${obj.username}!</h1>
-                        <h3>You have invitation from ${obj.name} to join ${obj.projectName}</h3>
+                        <h2>You have invitation from ${obj.name} to join ${obj.projectName}</h2>
                         <p>click accept to approve invitation.</p>
                         <!-- Action -->
                         <table class="body-action" align="center" width="100%" cellpadding="0" cellspacing="0" role="presentation">
@@ -460,7 +460,7 @@ return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://w
                               <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
                                 <tr>
                                   <td align="center">
-                                    <a href="http://localhost:3000/invitation?UserId=${obj.UserId}&ProjectId=${obj.ProjectId}" class="f-fallback button button--green" target="_blank">Accept</a>
+                                    <a href="http://localhost:3000/invitation?UserId=${obj.UserId}&ProjectId=${obj.ProjectId}" class="f-fallback button button--green" target="_blank"><span style="color: white">Accept</span></a>
                                   </td>
                                 </tr>
                               </table>
