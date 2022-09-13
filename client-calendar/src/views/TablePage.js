@@ -51,10 +51,10 @@ export default function TablePage() {
     return <h1>Loading</h1>;
   } else {
     return (
-      <div className="flex bg-biru h-fit overflow-hidden">
+      <div className="flex bg-biru h-full overflow-hidden">
         <SideNav />
 
-        <div className="container mx-auto my-5 h-full">
+        <div className="container mx-auto my-5">
           <div className="flex justify-start mb-15">
             <button
               onClick={() => setPage("Table")}
@@ -70,7 +70,7 @@ export default function TablePage() {
             </button>
           </div>
           {/* TABLE CONTAINER */}
-          <div className="flex justify-center mt-8 mx-10 h-fit">
+          <div className="flex justify-center mt-8 mx-10">
             {/* <TableData columns={columns} data={rowdata} /> */}
             {page === "Kanban" && <Kanban />}
             {/* TABLE COMPONENT */}
