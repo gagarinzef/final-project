@@ -50,7 +50,7 @@ export default function UpdateModal({
           setLoading(false);
         })
         .catch((err) => {
-          console.log(err, "useeffect");
+          errorHandler(err)
         });
     }
   }, [eventID]);
@@ -83,7 +83,6 @@ export default function UpdateModal({
       })
       .catch((err) => {
         errorHandler(err);
-        console.log(err, "update");
       });
   };
 
@@ -94,11 +93,11 @@ export default function UpdateModal({
         setShow(false);
       })
       .catch((err) => {
-        console.log(err, "delete");
+        errorHandler(err)
       });
   };
   if (loading) {
-    return <p>gggg</p>;
+    return <p>LOADING</p>;
   } else {
     return (
       <>

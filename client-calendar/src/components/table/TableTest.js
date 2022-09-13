@@ -31,13 +31,8 @@ export default function TableTest({ data, trigger }) {
 
   const handleChangeEdit = (event, el) => {
     const { name, value } = event.target;
-    console.log(name, value);
     setInputEdit({ ...el, [name]: value });
   };
-
-  // useEffect(() => {
-  //   console.log(inputEdit);
-  // }, [inputEdit]);
 
   const createTask = () => {
     dispatch(fetchData(`http://localhost:3001/tasks`, "POST", input))
@@ -47,7 +42,6 @@ export default function TableTest({ data, trigger }) {
       })
       .catch((err) => {
         errorHandler(err);
-        console.log(err);
       });
   };
 
@@ -61,7 +55,6 @@ export default function TableTest({ data, trigger }) {
     )
       .then((data) => {
         trigger(inputEdit);
-        console.log(data);
       })
       .catch((err) => {
         console.log(err);
@@ -84,128 +77,121 @@ export default function TableTest({ data, trigger }) {
         <table className="table-auto w-full border-spacing:20%">
           <thead className="text-white">
             <tr className="divide-x-2 divide-slate-300">
-              <th className="bg-blue-700 bg-opacity-75 rounded-sm border-b-2 border-slate-300">
+              <th className="bg-blue-600 rounded-sm border-b-2 border-slate-300 ">
                 No.
               </th>
-              <th className="bg-blue-700 bg-opacity-75 ">Title</th>
-              <th className="bg-blue-700 bg-opacity-75 ">Assignees</th>
-              <th className="bg-blue-700 bg-opacity-75 ">Due Date</th>
-              <th className="bg-blue-700 bg-opacity-75 ">Priority</th>
-              <th className="bg-blue-700 bg-opacity-75 ">Created At</th>
-              <th className="bg-blue-700 bg-opacity-75 px-2 rounded-sm">
+              <th className="bg-blue-600">Title</th>
+              <th className="bg-blue-600">Assignees</th>
+              <th className="bg-blue-600">Due Date</th>
+              <th className="bg-blue-600">Priority</th>
+              <th className="bg-blue-600">Created At</th>
+              <th className="bg-blue-600 px-2 rounded-sm">
                 Action
               </th>
             </tr>
           </thead>
-          <tbody className="overflow-scroll h-fit">
+          <tbody className="h-fit">
             {task.length
               ? task.map((el, idx) => {
-                  return (
-                    <tr
-                      key={el.id}
-                      className="divide-x-2 divide-y-2 divide-slate-300"
+                return (
+                  <tr
+                    className=" divide-x-2 divide-y-2 divide-slate-300 transition duration-300 ease-in-out hover:bg-gray-400"
+                    key={el.id}
+                  >
+                    <td
+                      name="TaskId"
+                      className="bg-white border-b-2 border-slate-300"
                     >
-                      <td
-                        name="TaskId"
-                        className="bg-white border-b-2 border-slate-300 "
+                      {idx + 1}
+                    </td>
+                    <td name="title" className="bg-white">
+                      <input
+                        type="text"
+                        name="title"
+                        className="focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                        defaultValue={el.title}
+                        onChange={(e) => handleChangeEdit(e, el)}
+                        onBlur={updateTask}
+                      />
+                    </td>
+                    <td name="userId" className="bg-white  ">
+                      <select
+                        name="UserId"
+                        className="focus:outline-none"
+                        onChange={(e) => handleChangeEdit(e, el)}
+                        onBlur={updateTask}
                       >
-                        {idx + 1}
-                      </td>
-                      <td name="title" className="bg-white  ">
-                        <input
-                          type="text"
-                          name="title"
-                          className="focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
-                          defaultValue={el.title}
-                          onChange={(e) => handleChangeEdit(e, el)}
-                          onBlur={updateTask}
-                        />
-                      </td>
-                      <td name="userId" className="bg-white  ">
-                        <select
-                          name="UserId"
-                          className="focus:outline-none"
-                          onChange={(e) => handleChangeEdit(e, el)}
-                          onBlur={updateTask}
+                        <option disabled selected></option>
+                        {member.map((e) => {
+                          return (
+                            <option
+                              selected={
+                                el.UserId === e.User.id ? "selected" : ""
+                              }
+                              key={e.User.id}
+                              value={e.User.id}
+                            >
+                              {e.User.email}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    </td>
+                    <td name="date" className="bg-white  ">
+                      <input
+                        type="date"
+                        name="date"
+                        className="focus:outline-none"
+                        value={el.date}
+                        onChange={(e) => handleChangeEdit(e, el)}
+                        onBlur={updateTask}
+                      />
+                    </td>
+                    <td className={`bg-[${el.color}] p-1 cursor-pointer focus:outline-none`}>
+                      <select
+                        name="color"
+                        value={el.color}
+                        className={`bg-[${el.color}] p-1 cursor-pointer focus:outline-none`}
+                        onChange={(e) => handleChangeEdit(e, el)}
+                        onBlur={updateTask}
+                      >
+                        <option>---Select---</option>
+                        <option value="#E8697D" className="bg-[#E8697D]">
+                          Urgent
+                        </option>
+                        <option value="#D7A463" className="bg-[#D7A463]">
+                          On Progress
+                        </option>
+                        <option value="#29A488" className="bg-[#29A488]">
+                          Done
+                        </option>
+                      </select>
+                    </td>
+                    <td name="createdAt" className="bg-white  ">
+                      {new Date(el.createdAt).toLocaleDateString("id-ID")}
+                    </td>
+                    <td>
+                      <button
+                        onClick={() => deleteTask(el.id)}
+                        className="text-red-800 pt-2"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                          className="w-6 h-6"
                         >
-                          <option disabled selected></option>
-                          {member.map((e) => {
-                            return (
-                              <option
-                                selected={
-                                  el.UserId === e.User.id ? "selected" : ""
-                                }
-                                key={e.User.id}
-                                value={e.User.id}
-                              >
-                                {e.User.email}
-                              </option>
-                            );
-                          })}
-                        </select>
-                      </td>
-                      <td name="date" className="bg-white  ">
-                        <input
-                          type="date"
-                          name="date"
-                          className="focus:outline-none"
-                          value={el.date}
-                          onChange={(e) => handleChangeEdit(e, el)}
-                          onBlur={updateTask}
-                        />
-                      </td>
-                      <td className="bg-white  ">
-                        <select
-                          name="color"
-                          value={el.color}
-                          className={
-                            el.color === "#E8697D"
-                              ? "bg-[#E8697D] rounded-lg p-1 focus:outline-none"
-                              : el.color === "#D7A463"
-                              ? "bg-[#D7A463] rounded-lg p-1 focus:outline-none"
-                              : el.color === "#29A488"
-                              ? "bg-[#29A488] rounded-lg p-1 focus:outline-none"
-                              : ""
-                          }
-                          onChange={(e) => handleChangeEdit(e, el)}
-                          onBlur={updateTask}
-                        >
-                          <option value="#E8697D" className="bg-[#E8697D]">
-                            Urgent
-                          </option>
-                          <option value="#D7A463" className="bg-[#D7A463]">
-                            On Progress
-                          </option>
-                          <option value="#29A488" className="bg-[#29A488]">
-                            Done
-                          </option>
-                        </select>
-                      </td>
-                      <td name="createdAt" className="bg-white  ">
-                        {new Date(el.createdAt).toLocaleDateString("id-ID")}
-                      </td>
-                      <td>
-                        <button
-                          onClick={() => deleteTask(el.id)}
-                          className="text-red-800 pt-2"
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                            class="w-6 h-6"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
-                              clip-rule="evenodd"
-                            />
-                          </svg>
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })
+                          <path
+                            fillRule="evenodd"
+                            d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })
               : null}
             <tr className="divide-x-2 divide-y-2 divide-slate-300">
               <td className="bg-white px-20 rounded-md"></td>

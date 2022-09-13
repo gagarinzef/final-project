@@ -10,6 +10,9 @@ module.exports = {
         biru: "#011F32",
         abu: "#25262B",
       },
+      fontFamily: {
+        Poppins: ["Poppins", "sans-serif"]
+      },
     },
   },
   plugins: [],

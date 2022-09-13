@@ -43,8 +43,8 @@ export default function TablePage() {
   }, [trigger]);
 
   useEffect(() => {
-    // console.log(project, "liat yg ini");
-  }, [project]);
+
+  }, [project, dispatch, projectId]);
 
   if (loading) {
     return <h1>Loading</h1>;
@@ -58,13 +58,13 @@ export default function TablePage() {
               <div className="flex justify-start mb-15">
                 <button
                   onClick={() => setPage("Table")}
-                  className="ml-10 bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded"
+                  className="ml-10 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 >
                   Table
                 </button>
                 <button
                   onClick={() => setPage("Kanban")}
-                  className="ml-5 bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded"
+                  className="ml-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 >
                   Kanban
                 </button>
@@ -86,7 +86,7 @@ export default function TablePage() {
               {/* CALENDAR */}
               <button onClick={() => setPage("Calendar")}>
                 <div className="my-5 flex-col justify-center items-center rounded-lg overflow-hidden shadow-md w-52 transition ease-in-out delay-50 bg-white hover:-translate-y-1 hover:scale-110 hover:bg-white duration-300">
-                  <div className="bg-blue-500 text-white py-4 px-8">
+                  <div className="bg-gradient-to-r from-blue-500 via-blue-400 to-blue-200 text-white py-4 px-8">
                     <p className="text-2xl font-semibold text-white uppercase tracking-wide text-center">
                       {calendar.month}
                     </p>

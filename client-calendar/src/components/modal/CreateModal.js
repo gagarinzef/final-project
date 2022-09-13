@@ -2,6 +2,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { useDispatch } from "react-redux";
 import { fetchData } from "../../store/actions";
+import { errorHandler, success } from "../../helpers/toast";
 
 export default function CreateModal({
   show,
@@ -31,12 +32,13 @@ export default function CreateModal({
         date: dueDate,
       })
     )
-      .then(() => {
+      .then((data) => {
+        success(data)
         trigger(input);
         setShow(false);
       })
       .catch((err) => {
-        console.log(err);
+        errorHandler(err)
       });
   };
 

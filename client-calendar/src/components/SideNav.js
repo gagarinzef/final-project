@@ -48,7 +48,8 @@ export default function SideNav({ proId }) {
             <button
               type="button"
               onClick={() => setShowModal(true)}
-              className="flex items-center p-2 text-base font-bold text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+              className="flex items-center p-2 text-base font-bold hover:text-gray-900 w-full rounded-lg text-white hover:bg-gray-100
+"
             >
               <i className="fas fa-plus"></i>
               <span className="ml-3 whitespace-nowrap">New</span>
@@ -57,17 +58,22 @@ export default function SideNav({ proId }) {
           <li>
             <Link
               to={`/projects`}
-              className="flex items-center p-2 text-base font-bold text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-            >
+              className="flex items-center p-2 text-base font-bold hover:text-gray-900 w-full rounded-lg text-white hover:bg-gray-100">
               <i className="fas fa-tasks"></i>
               <span className="ml-3 whitespace-nowrap">Projects</span>
             </Link>
           </li>
-          <hr className="bg-white" />
-          <li>
+          <li className="cursor-pointer">
             <div
-              className="flex items-center p-2 text-base font-bold text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-            >
+              className="flex items-center p-2 text-base font-bold hover:text-gray-900 w-full rounded-lg text-white hover:bg-gray-100">
+              <i className="fas fa-user-plus"></i>
+              <span className="ml-3 whitespace-nowrap">Invite</span>
+            </div>
+          </li>
+          <hr className="bg-white" />
+          <li className="cursor-pointer">
+            <div
+              className="flex items-center p-2 text-base font-bold hover:text-gray-900 w-full rounded-lg text-white hover:bg-gray-100">
               <i className="fas fa-sign-out-alt"></i>
               <button
                 onClick={handleLogout}

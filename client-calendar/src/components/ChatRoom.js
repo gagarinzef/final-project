@@ -125,7 +125,7 @@ const ChatRoom = props => {
                 padding: '5px',
                 fontSize: '12px',
                 color: 'black',
-                borderRadius: 8
+                borderRadius: 8,
             }} placeholder='message...' value={message} onChange={event => setMessage(event.target.value)}
                 onKeyPress={event => {
                     if (event.key === 'Enter') {
