@@ -6,42 +6,46 @@ import Kanban from "../components/Kanban";
 import CalendarPage from "../components/CalendarPage";
 import TableTest from "../components/table/TableTest";
 import ChatRoom from "../components/ChatRoom";
-
+import { useSelector, useDispatch } from "react-redux";
+import { fetchData } from "../store/actions";
 
 export default function TablePage() {
+  const dispatch = useDispatch();
+  const { project } = useSelector((state) => state.project);
   const date = new Date();
   const lang = navigator.language;
   const { projectId } = useParams();
-
   const [page, setPage] = useState("Table");
   const [loading, setLoading] = useState(true);
-
-  const [projects, setProjects] = useState([]);
   const [calendar, setCalendar] = useState({
     month: date.toLocaleString(lang, { month: "long" }),
     dayName: date.toLocaleString(lang, { weekday: "long" }),
     dayNumber: date.getDate(),
   });
+  const [trigger, setTrigger] = useState("");
+
+  const value = (data) => {
+    setTrigger(data);
+  };
 
   useEffect(() => {
-    const fetchProject = async () => {
-      try {
-        const { data } = await axios.get(
-          `http://localhost:3001/projects/${projectId}`,
-          {
-            headers: {
-              access_token: localStorage.getItem("access_token"),
-            },
-          }
-        );
-        setProjects(data);
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchProject();
-  }, []);
+    dispatch(
+      fetchData(
+        `http://localhost:3001/projects/${projectId}`,
+        "GET",
+        null,
+        "project"
+      )
+    )
+      .then(() => setLoading(false))
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [trigger]);
+
+  useEffect(() => {
+    // console.log(project, "liat yg ini");
+  }, [project]);
 
   if (loading) {
     return <h1>Loading</h1>;
@@ -68,11 +72,13 @@ export default function TablePage() {
           {/* TABLE CONTAINER */}
           <div className="flex justify-center mt-8 mx-10">
             {/* <TableData columns={columns} data={rowdata} /> */}
-            {page === "Kanban" && <Kanban task={projects.project.Tasks} />}
+            {page === "Kanban" && <Kanban />}
             {/* TABLE COMPONENT */}
-            {page === "Table" && <TableTest />}
+            {page === "Table" && <TableTest data={project} trigger={value} />}
             {/* CALENDAR COMPONENT */}
-            {page === "Calendar" && <CalendarPage />}
+            {page === "Calendar" && (
+              <CalendarPage data={project} trigger={value} />
+            )}
           </div>
         </div>
 
@@ -97,8 +103,8 @@ export default function TablePage() {
           </button>
           {/* LIVECHAT */}
           <div className="my-5 text-white py-5 bg-abu h-fit rounded-lg sticky">
-          <ChatRoom/>
-        </div>
+            {/* <ChatRoom/> */}
+          </div>
         </div>
       </div>
     );

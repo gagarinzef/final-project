@@ -1,99 +1,74 @@
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
-export default function Kanban({ task }) {
+export default function Kanban() {
+  const { projectId } = useParams();
   const [columns, setColumns] = useState({});
   const [initColumns, setInitColumns] = useState({});
   const [loading, setLoading] = useState(true);
-  const [updatedData, setUpdatedData] = useState("");
   // var HOST = window.location.origin.replace(/^http/, "ws");
   const ws = new WebSocket("ws://localhost:3002/");
   // const ws = new WebSocket(HOST);
 
-  const newColumn = (data) => {
+  const fetchTask = async () => {
     let columnsFromBackend = {
       0: {
-        color: "Red",
-        name: "Unstarted",
+        color: "#E8697D",
+        name: "Urgent",
         items: [],
       },
       1: {
-        color: "Yellow",
-        name: "In Progress",
+        color: "#D7A463",
+        name: "On Progress",
         items: [],
       },
-      2: {
-        color: "Green",
-        name: "Completed",
-        items: [],
-      },
+      2: { color: "#29A488", name: "Done", items: [] },
     };
-
-    for (const key in columnsFromBackend) {
-      data.forEach((el) => {
-        if (el.User) {
-          el.username = el.User.username;
-        }
-        if (columnsFromBackend[key].name === el.status) {
-          columnsFromBackend[key].items.push(el);
-        }
+    try {
+      const { data } = await axios({
+        method: "GET",
+        url: `http://localhost:3001/tasks/project/${projectId}`,
+        headers: {
+          access_token: localStorage.getItem("access_token"),
+        },
       });
+      for (const key in columnsFromBackend) {
+        data.forEach((el) => {
+          if (el.User) {
+            el.username = el.User.username;
+          }
+          if (columnsFromBackend[key].name === el.status) {
+            columnsFromBackend[key].items.push(el);
+          }
+        });
+      }
+      setColumns(columnsFromBackend);
+      setInitColumns(columnsFromBackend);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
     }
-    console.log(columnsFromBackend);
-    return columnsFromBackend;
   };
 
-  const fetchTask = () => {
-    return fetch("http://localhost:3001/tasks", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        access_token: localStorage.getItem("access_token"),
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // console.log(data);
-        // setColumns(newColumn(data));
-        // setInitColumns(newColumn(data));
-        // setLoading(false);
-        console.log(data);
-        let columnsFromBackend = {
-          0: {
-            color: "#E8697D",
-            name: "Urgent",
-            items: [],
-          },
-          1: {
-            color: "#D7A463",
-            name: "On Progress",
-            items: [],
-          },
-          2: { color: "#29A488", name: "Done", items: [] },
-        };
-
-        for (const key in columnsFromBackend) {
-          data.forEach((el) => {
-            if (el.User) {
-              el.username = el.User.username;
-            }
-            if (columnsFromBackend[key].name === el.status) {
-              columnsFromBackend[key].items.push(el);
-            }
-          });
-        }
-        // console.log(columnsFromBackend);
-        setColumns(columnsFromBackend);
-        setInitColumns(columnsFromBackend);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
+  const updateTask = async () => {
+    try {
+      const { data } = await axios({
+        method: "PUT",
+        url: `http://localhost:3001/tasks`,
+        headers: {
+          access_token: localStorage.getItem("access_token"),
+        },
+        data: columns,
       });
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleWsMessage = async (message) => {
-    console.log("socket mashyukkk");
     if (message.data === "updated") {
       await fetchTask();
     }
@@ -147,38 +122,19 @@ export default function Kanban({ task }) {
 
   useEffect(() => {
     ws.onmessage = handleWsMessage;
-    // setColumns(newColumn(task));
-    // setInitColumns(newColumn(task));
-    // setLoading(false);
     fetchTask();
   }, []);
 
   useEffect(() => {
-    // if (updatedData) {
-    // console.log(columns);
     if (JSON.stringify(columns) !== JSON.stringify(initColumns)) {
       setInitColumns(columns);
-      fetch("http://localhost:3001/tasks", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          access_token: localStorage.getItem("access_token"),
-        },
-        // nanti tambahin headers access_token
-        body: JSON.stringify(columns),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          // console.log(data);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
+      updateTask();
     }
-    // }
   }, [columns]);
 
-  if (!loading) {
+  if (loading) {
+    return <h1>Loading</h1>;
+  } else {
     return (
       <div
         style={{ display: "flex", justifyContent: "center", height: "100%" }}

@@ -4,13 +4,13 @@ const WebSocket = require("ws");
 const wss = new WebSocket.Server({ port: 3002 });
 
 class TaskController {
-  static async findAllTaskByUserId(req, res, next) {
+  static async findAllTaskByProjectId(req, res, next) {
+    const { projectId } = req.params;
+    console.log(projectId);
     try {
-      // const UserId = req.user.id;
       const task = await Task.findAll({
-        where: { ProjectId: 1 },
+        where: { ProjectId: projectId },
         include: User, // nanti dinamis dari req.params project di client
-        order: [["ProjectId", "DESC"]],
       });
       if (!task.length) throw { name: "notFound" };
       res.status(200).json(task);
@@ -30,22 +30,7 @@ class TaskController {
       });
       arr.push(req.body[key]);
     }
-    const { id, status, title, color, date } = req.body;
     try {
-      // const response = await Task.update(
-      //   {
-      //     id,
-      //     status,
-      //     title,
-      //     color,
-      //     date,
-      //   },
-      //   {
-      //     where: {
-      //       id,
-      //     },
-      //   }
-      // );
       await Task.bulkCreate(arr[0].items, {
         updateOnDuplicate: [
           "date",
@@ -177,7 +162,12 @@ class TaskController {
   static async getById(req, res, next) {
     try {
       const { taskId } = req.params;
-      const task = await Task.findByPk(+taskId);
+      const task = await Task.findByPk(+taskId, {
+        include: {
+          model: User,
+          attributes: ["id", "username", "email"],
+        },
+      });
       if (!task) throw { name: "notFound" };
       res.status(200).json(task);
     } catch (error) {
