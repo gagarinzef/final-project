@@ -1,56 +1,107 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import SideNav from "../SideNav";
+import { useParams } from "react-router-dom";
+
 import TableInput from "./TableInput";
 
 export default function TableTest() {
-  const [dataTask, setTask] = useState();
+  const { projectId } = useParams();
+  const [dataTask, setTask] = useState([]);
+  const [member, setMember] = useState([]);
+  const [input, setInput] = useState({
+    title: "",
+    email: "",
+    date: "",
+    color: "",
+    TaskId: "",
+    ProjectId: projectId,
+  });
+  const [inputEdit, setInputEdit] = useState({
+    title: "",
+    email: "",
+    date: "",
+    color: "",
+    TaskId: "",
+    UserId: "",
+    ProjectId: projectId,
+  });
 
-  const createTask = async () => {
+  const fetchTask = async () => {
     try {
-      let { data } = await axios.post(`http://localhost:3001/tasks`, {
-        headers: {
-          access_token: localStorage.getItem("access_token"),
-        },
-        data: data,
-      });
-      setTask(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const updateTask = async () => {
-    try {
-      let { data } = await axios.patch(`http://localhost:3001/tasks`, {
-        headers: {
-          access_token: localStorage.getItem("access_token"),
-        },
-        data: data,
-      });
-      setTask(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    const fetchTask = async () => {
-      try {
-        let { data } = await axios.get(`http://localhost:3001/tasks`, {
+      let { data } = await axios.get(
+        `http://localhost:3001/projects/${projectId}`,
+        {
           headers: {
             access_token: localStorage.getItem("access_token"),
           },
-        });
-        setTask(data);
-        // console.log(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchTask();
+        }
+      );
+      setTask(data.project.Tasks);
+      setMember(data.member);
+      console.log(member);
+      // setInput({ title: "", email: "", date: "", color: "", ProjectId: 1 });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setInput({ ...input, [name]: value });
+    // console.log(input);
+  };
+
+  const handleChangeEdit = (event, TaskId) => {
+    const { name, value } = event.target;
+    setInputEdit({ ...inputEdit, [name]: value, TaskId });
+    // console.log(input);
+  };
+
+  // console.log(localStorage.getItem("access_token"));
+
+  const createTask = async () => {
+    try {
+      // console.log(input);
+
+      let { data } = await axios(`http://localhost:3001/tasks`, {
+        method: "post",
+        headers: {
+          access_token: localStorage.getItem("access_token"),
+        },
+        data: input,
+      });
+      // console.log(data);
+      fetchTask();
+      setInput({ title: "", email: "", date: "", color: "", ProjectId: 1 });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // console.log(input);
+
+  const updateTask = async () => {
+    try {
+      console.log(inputEdit);
+      let { data } = await axios(`http://localhost:3001/tasks`, {
+        method: "patch",
+        headers: {
+          access_token: localStorage.getItem("access_token"),
+        },
+        data: inputEdit,
+      });
+      setTask(data);
+      fetchTask();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    if (dataTask) {
+      fetchTask();
+    }
   }, []);
-  console.log(dataTask);
+
   return (
     <div className="bg-biru h-screen">
       {/* <SideNav /> */}
@@ -59,8 +110,9 @@ export default function TableTest() {
           <table>
             <thead className="text-white">
               <tr>
+                <th>Id</th>
                 <th>Title</th>
-                <th>Status</th>
+
                 <th>Assignees</th>
                 <th>Due Date</th>
                 <th>Priority</th>
@@ -68,73 +120,150 @@ export default function TableTest() {
               </tr>
             </thead>
             <tbody>
-              {dataTask.map((el) => {
-                return (
-                  <tr>
-                    <td
-                      name="title"
-                      className="bg-white border-2 border-gray-700"
-                    >
-                      <input onBlur={updateTask} />
-                    </td>
-                    <td
-                      name="status"
-                      className="bg-white border-2 border-gray-700"
-                    >
-                      <input onBlur={updateTask} />
-                    </td>
-                    <td
-                      name="userId"
-                      className="bg-white border-2 border-gray-700"
-                    >
-                      <input onBlur={updateTask} />
-                    </td>
-                    <td
-                      name="date"
-                      className="bg-white border-2 border-gray-700"
-                    >
-                      <input onBlur={updateTask} />
-                    </td>
-                    <td
-                      name="color"
-                      className="bg-white border-2 border-gray-700"
-                    >
-                      <input onBlur={updateTask} />
-                    </td>
-                    <td
-                      name="createdAt"
-                      className="bg-white border-2 border-gray-700"
-                    >
-                      <input onBlur={updateTask} />
-                    </td>
-                  </tr>
-                );
-              })}
+              {dataTask.length
+                ? dataTask.map((el) => {
+                    console.log(el);
+
+                    return (
+                      <tr key={el.id}>
+                        <td
+                          name="TaskId"
+                          className="bg-white border-2 border-gray-700"
+                        >
+                          {el.id}
+                        </td>
+                        <td
+                          name="title"
+                          className="bg-white border-2 border-gray-700"
+                        >
+                          <input
+                            type="text"
+                            name="title"
+                            defaultValue={el.title}
+                            onChange={(e) => handleChangeEdit(e, el.id)}
+                            onBlur={updateTask}
+                          />
+                        </td>
+
+                        <td
+                          name="userId"
+                          className="bg-white border-2 border-gray-700"
+                        >
+                          <select
+                            name="UserId"
+                            onChange={(e) => handleChangeEdit(e, el.id)}
+                            onBlur={updateTask}
+                          >
+                            <option disabled selected></option>
+                            {member.map((e) => {
+                              return (
+                                <option
+                                  selected={
+                                    el.UserId === e.User.id ? "selected" : ""
+                                  }
+                                  key={e.User.id}
+                                  value={e.User.id}
+                                >
+                                  {e.User.email}
+                                </option>
+                              );
+                            })}
+                          </select>
+                        </td>
+                        <td
+                          name="date"
+                          className="bg-white border-2 border-gray-700"
+                        >
+                          <input
+                            type="date"
+                            name="date"
+                            value={el.date}
+                            onChange={(e) => handleChangeEdit(e, el.id)}
+                            onBlur={updateTask}
+                          />
+                        </td>
+                        <td className="bg-white border-2 border-gray-700">
+                          <select
+                            name="color"
+                            value={el.color}
+                            className=""
+                            onChange={(e) => handleChangeEdit(e, el.id)}
+                            onBlur={updateTask}
+                          >
+                            <option
+                              value="#D7A463"
+                              className="bg-[#D7A463]"
+                              selected={
+                                el.color === "##D7A463" ? "selected" : ""
+                              }
+                            >
+                              On Progress
+                            </option>
+                            <option
+                              value="#E8697D"
+                              className="bg-[#E8697D]"
+                              selected={
+                                el.color === "#E8697D" ? "selected" : ""
+                              }
+                            >
+                              Urgent
+                            </option>
+                            <option
+                              value="#29A488"
+                              className="bg-[#29A488]"
+                              selected={
+                                el.color === "#29A488" ? "selected" : ""
+                              }
+                            >
+                              Done
+                            </option>
+                          </select>
+                          {/* <input
+                            value={el.color}
+                            onChange={handleChangeEdit}
+                            onBlur={updateTask}
+                          /> */}
+                        </td>
+                        <td
+                          name="createdAt"
+                          className="bg-white border-2 border-gray-700"
+                        >
+                          {new Date(el.createdAt).toLocaleDateString("id-ID")}
+                        </td>
+                      </tr>
+                    );
+                  })
+                : null}
               <tr>
+                <td className="bg-white border-2 border-gray-700 px-20"></td>
                 <td name="title" className="bg-white border-2 border-gray-700">
-                  <input onBlur={createTask} />
+                  <input
+                    value={input.title}
+                    type="text"
+                    name="title"
+                    onChange={handleChange}
+                    onBlur={createTask}
+                  />
                 </td>
-                <td name="status" className="bg-white border-2 border-gray-700">
-                  <input onBlur={createTask} />
-                </td>
-                <td name="userId" className="bg-white border-2 border-gray-700">
-                  <input onBlur={createTask} />
-                </td>
-                <td name="date" className="bg-white border-2 border-gray-700">
-                  <input onBlur={createTask} />
-                </td>
-                <td name="color" className="bg-white border-2 border-gray-700">
-                  <input onBlur={createTask} />
-                </td>
+
+                <td
+                  name="userId"
+                  className="bg-white border-2 border-gray-700 px-20"
+                ></td>
+                <td
+                  name="date"
+                  className="bg-white border-2 border-gray-700 px-20"
+                ></td>
+                <td
+                  name="color"
+                  className="bg-white border-2 border-gray-700 px-20"
+                ></td>
                 <td
                   name="createdAt"
-                  className="bg-white border-2 border-gray-700"
-                >
-                  <input onBlur={createTask} />
-                </td>
+                  className="bg-white border-2 border-gray-700 px-20"
+                ></td>
               </tr>
               <TableInput />
-
               {/* } */}
             </tbody>
           </table>

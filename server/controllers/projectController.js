@@ -87,6 +87,7 @@ class ProjectController {
       const project = await Project.findByPk(projectId, {
         include: {
           model: Task,
+
           include: {
             model: User,
             attributes: {
@@ -94,6 +95,7 @@ class ProjectController {
             },
           },
         },
+        order: [[{ model: Task }, "id", "ASC"]],
       });
 
       const member = await UserProject.findAll({

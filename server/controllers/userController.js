@@ -85,6 +85,7 @@ class UserController {
 
   // Login User
   static async loginUser(req, res, next) {
+    console.log(req.body);
     try {
       const { email, password } = req.body;
       const user = await User.findOne({ where: { email } });
@@ -100,7 +101,11 @@ class UserController {
         id: user.id,
       };
       const token = createToken(payload);
-      res.status(200).json({ access_token: token, username: user.username, userId: user.id });
+      res.status(200).json({
+        access_token: token,
+        username: user.username,
+        userId: user.id,
+      });
     } catch (error) {
       next(error);
     }

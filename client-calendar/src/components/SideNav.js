@@ -41,8 +41,8 @@ export default function SideNav({ proId }) {
     Swal.fire("Logout Success");
   };
   return (
-    <aside className="w-56 mt-4 mb-60" aria-label="Sidebar">
-      <div className=" h-screen overflow-y-auto py-4 px-3 bg-abu dark:bg-abu">
+    <aside className="w-56 mt-4" aria-label="Sidebar">
+      <div className=" h-full overflow-y-auto py-4 px-3 bg-abu dark:bg-abu">
         <ul className="space-y-2">
           <li>
             <button

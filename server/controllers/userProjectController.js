@@ -50,6 +50,22 @@ class UserProjectController {
       next(error);
     }
   }
+  static async getUserByProjectId(req, res, next) {
+    try {
+      const { ProjectId } = req.params;
+      const userProject = await UserProject.findAll({
+        include: {
+          model: User,
+          attributes: ["id", "username", "email"]
+        }
+      },
+        { where: { ProjectId } });
+      if (!userProject) throw { name: "notFound" }
+      res.status(200).json(userProject);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = UserProjectController;

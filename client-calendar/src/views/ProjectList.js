@@ -32,7 +32,7 @@ export default function ProjectList() {
           <ul>
             {projects.map((e) => {
               return (
-                <Link to={`/table/${e?.Project?.id}`}>
+                <Link to={`/table/${e?.Project?.id}`} key={e.id}>
                   <li className="text-white my-6 ml-32 hover:text-gray-500">
                     {e?.Project?.name}
                   </li>
@@ -41,9 +41,7 @@ export default function ProjectList() {
             })}
           </ul>
         </div>
-        <div>
-            
-        </div>
+        <div></div>
       </div>
     </div>
   );
