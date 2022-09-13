@@ -103,8 +103,6 @@ function CalendarPage({ data, trigger }) {
     // }
   };
 
-  const patch = () => {};
-
   return (
     <>
       {/* Create Event MODAL */}
@@ -126,19 +124,21 @@ function CalendarPage({ data, trigger }) {
         member={data.member}
       />
 
-      <div className="container mx-auto my-10 w-1/2 text-white">
-        <FullCalendar
-          plugins={[dayGridPlugin, interactionPlugin]}
-          editable={true}
-          selectable={true}
-          selectMirror={true}
-          droppable={true}
-          initialView="dayGridMonth"
-          events={event}
-          eventClick={eventClick}
-          select={selectDate}
-          eventDrop={eventDrop}
-        />
+      <div className="mx-auto w-2/3 bg-white rounded-xl">
+        <div className="p-10">
+          <FullCalendar
+            plugins={[dayGridPlugin, interactionPlugin]}
+            editable={true}
+            selectable={true}
+            selectMirror={true}
+            droppable={true}
+            initialView="dayGridMonth"
+            events={event}
+            eventClick={eventClick}
+            select={selectDate}
+            eventDrop={eventDrop}
+          />
+        </div>
       </div>
     </>
   );

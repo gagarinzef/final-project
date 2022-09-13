@@ -30,8 +30,8 @@ function LoginPage() {
         method: "post",
         data: { email, password },
       });
-      localStorage.setItem("userId", data.userId)
-      localStorage.setItem("username", data.username)
+      localStorage.setItem("userId", data.userId);
+      localStorage.setItem("username", data.username);
       localStorage.setItem("access_token", data.access_token);
       navigate(`/projects`);
       Swal.fire("Login Success");
@@ -42,7 +42,7 @@ function LoginPage() {
 
   return (
     <div className="antialiased bg-biru">
-      <div className="container px-6 mx-auto"> 
+      <div className="container px-6 mx-auto">
         <div className="flex flex-col text-center md:text-left md:flex-row h-screen justify-evenly md:items-center">
           <div className="flex flex-col w-full">
             <img
@@ -58,7 +58,7 @@ function LoginPage() {
               </h2>
               <form onSubmit={handleSubmit} className="w-full">
                 <div id="input" className="flex flex-col w-full my-5">
-                  <label for="username" className="text-gray-700 mb-2 font-bold">
+                  <label htmlFor="username" className="text-gray-500 mb-2">
                     E-mail
                   </label>
                   <input
@@ -71,7 +71,7 @@ function LoginPage() {
                   />
                 </div>
                 <div id="input" className="flex flex-col w-full my-5">
-                  <label for="password" className="text-gray-700 mb-2 font-bold">
+                  <label htmlFor="password" className="text-gray-500 mb-2">
                     Password
                   </label>
                   <input
@@ -114,7 +114,12 @@ function LoginPage() {
                       className="w-full text-center font-medium text-gray-500"
                     >
                       Don't have an account?{" "}
-                      <Link to={"/register"} className="underline text-gray-500 hover:text-gray-900">Register here</Link>
+                      <Link
+                        to={"/register"}
+                        className="underline text-gray-500 hover:text-gray-900"
+                      >
+                        Register here
+                      </Link>
                     </span>
                   </div>
                 </div>

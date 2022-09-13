@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import SideNav from "../components/SideNav";
 import Kanban from "../components/Kanban";
 import CalendarPage from "../components/CalendarPage";
@@ -54,8 +54,8 @@ export default function TablePage() {
       <div className="flex bg-biru h-fit overflow-hidden">
         <SideNav />
 
-        <div className="container mx-auto my-20 h-full">
-          <div className="flex justify-start mb-20">
+        <div className="container mx-auto my-5 h-full">
+          <div className="flex justify-start mb-15">
             <button
               onClick={() => setPage("Table")}
               className="ml-10 bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded"
@@ -70,7 +70,7 @@ export default function TablePage() {
             </button>
           </div>
           {/* TABLE CONTAINER */}
-          <div className="flex justify-center mt-8 mx-10">
+          <div className="flex justify-center mt-8 mx-10 h-fit">
             {/* <TableData columns={columns} data={rowdata} /> */}
             {page === "Kanban" && <Kanban />}
             {/* TABLE COMPONENT */}
@@ -82,7 +82,7 @@ export default function TablePage() {
           </div>
         </div>
 
-        <div className="w-56">
+        <div className="w-96 mr-16">
           {/* CALENDAR */}
           <button onClick={() => setPage("Calendar")}>
             <div className="my-5 flex-col justify-center items-center rounded-lg overflow-hidden shadow-md w-52 transition ease-in-out delay-50 bg-white hover:-translate-y-1 hover:scale-110 hover:bg-white duration-300">
@@ -102,8 +102,10 @@ export default function TablePage() {
             </div>
           </button>
           {/* LIVECHAT */}
-          <div className="my-5 text-white py-5 bg-abu h-fit rounded-lg sticky">
-            {/* <ChatRoom/> */}
+          <div className="container m-auto text-white rounded-lg bg-white">
+            <div className="p-3">
+              <ChatRoom />
+            </div>
           </div>
         </div>
       </div>

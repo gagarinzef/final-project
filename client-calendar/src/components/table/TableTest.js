@@ -153,7 +153,7 @@ export default function TableTest({ data, trigger }) {
                               value="#D7A463"
                               className="bg-[#D7A463]"
                               selected={
-                                el.color === "##D7A463" ? "selected" : ""
+                                el.color === "#D7A463" ? "selected" : ""
                               }
                             >
                               On Progress
