@@ -25,6 +25,7 @@ class TaskController {
     for (const key in req.body) {
       req.body[key].items.map((el) => {
         el.status = req.body[key].name;
+        el.color = req.body[key].color;
         el.updatedAt = new Date();
       });
       arr.push(req.body[key]);
@@ -91,11 +92,11 @@ class TaskController {
       const { title, ProjectId, date, color } = req.body;
       // const user = await User.findOne({ where: { email } });
       // const project = await Project.findByPk(ProjectId);
-
+      console.log(req.body);
       const task = await Task.create({
         ProjectId: 1, // sementara nanti dinamis tergantung lg di project id berapa
         // UserId: user.id,
-        status: "Unstarted",
+        status: "On Progress",
         title,
         date,
         color,

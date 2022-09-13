@@ -57,19 +57,19 @@ export default function Kanban({ task }) {
         // setColumns(newColumn(data));
         // setInitColumns(newColumn(data));
         // setLoading(false);
+        console.log(data);
         let columnsFromBackend = {
           0: {
+            color: "#E8697D",
             name: "Urgent",
             items: [],
           },
           1: {
+            color: "#D7A463",
             name: "On Progress",
             items: [],
           },
-          2: {
-            name: "Done",
-            items: [],
-          },
+          2: { color: "#29A488", name: "Done", items: [] },
         };
 
         for (const key in columnsFromBackend) {
@@ -82,7 +82,7 @@ export default function Kanban({ task }) {
             }
           });
         }
-        console.log(columnsFromBackend);
+        // console.log(columnsFromBackend);
         setColumns(columnsFromBackend);
         setInitColumns(columnsFromBackend);
         setLoading(false);
@@ -155,7 +155,7 @@ export default function Kanban({ task }) {
 
   useEffect(() => {
     // if (updatedData) {
-    console.log(columns);
+    // console.log(columns);
     if (JSON.stringify(columns) !== JSON.stringify(initColumns)) {
       setInitColumns(columns);
       fetch("http://localhost:3001/tasks", {
