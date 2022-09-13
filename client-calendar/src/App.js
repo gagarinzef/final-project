@@ -6,7 +6,6 @@ import ProtectedRoutesLogin from "./components/ProtectedRoutesLogin";
 import ProtectedRoutesHome from "./components/ProtectedRoutesHome";
 import VerifPage from "./components/VerifPage";
 import LoginPage from "./views/LoginPage";
-import Navbar from "./components/Navbar";
 import InvitationPage from "./components/InvitationPage";
 import TablePage from "./views/TablePage";
 import AssignPage from "./components/AssignPage";
@@ -18,7 +17,6 @@ import TableTest from "./components/table/TableTest";
 function App() {
   return (
     <div className="App">
-      {/* <Navbar /> */}
       <ToastContainer />
       <Routes>
         <Route
