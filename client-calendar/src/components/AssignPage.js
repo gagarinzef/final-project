@@ -17,7 +17,7 @@ function AssignPage() {
         <img src="https://i.postimg.cc/s2rkZHpL/icon.jpg" className="w-40 h-40 m-auto mb-10"></img>
         <img src={loading} className="w-10 h-10 mt-10 mb-10 m-auto"></img>
         <p className="font-normal text-gray-700 text-xs">
-         Redirecting to project page.. </p> 
+         Redirecting... </p> 
       </a>
       </div>
   </div>

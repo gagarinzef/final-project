@@ -33,73 +33,108 @@ function RegisterPage() {
       });
       navigate(`/verify/${data.message}`);
     } catch (error) {
-      console.log(error);
+        Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: `${error.response.data.message}`,
+      })
     }
   };
 
   return (
-    <div class="flex justify-between justify bg-slate-700">
-      <div class="w-96 bg-biru">
-        <img
-          class="ml-20 mt-40 scale-125"
-          src="https://i.imgur.com/j5gSXf9.png"
-        />
-      </div>
-      {/* card-start */}
-      <form className="flex w-1/2 mr-1" onSubmit={handleSubmit}>
-        <div class="flex mb-4 h-screen lg:w-5/12 mt-80 mr-40">
-          <div>
-            <label class="block text-white text-sm font-bold mb-2" for="email">
-              E-mail
-            </label>
-            <input
-              onChange={handleChange}
-              class="appearance-none border rounded w-full py-2 px-3 text-grey-darker"
-              name="email"
-              type="email"
-              placeholder="Your e-mail"
-            />
-            <label
-              class="block text-white text-sm font-bold mb-2"
-              for="username"
-            >
-              Username
-            </label>
-            <input
-              onChange={handleChange}
-              class="appearance-none border rounded w-full py-2 px-3 text-grey-darker"
-              name="username"
-              type="username"
-              placeholder="Your username"
-            />
-
-            <label
-              class="block text-white text-sm font-bold mb-2"
-              for="password"
-            >
-              Password
-            </label>
-            <input
-              onChange={handleChange}
-              class="appearance-none border rounded w-full py-2 px-3 text-grey-darker"
-              name="password"
-              type="password"
-              placeholder="Your password"
-            />
-            <button
-              type="submit"
-              className="mt-6 p-2 rounded bg-cyan-500 hover:bg-cyan-700"
-            >
-              Submit
-            </button>
-            <p className="mt-6">
-              Already have an account? <Link to={"/"}>Login</Link> here
-            </p>
+    <div className="antialiased bg-biru">
+    <div className="container px-6 mx-auto">
+      <div className="flex flex-col text-center md:text-left h-screen md:items-center justify-center">
+        <div className="w-full md:w-full lg:w-9/12 mx-auto md:mx-0">
+          <div className="bg-white p-10 flex flex-col w-full shadow-xl rounded-xl m-auto">
+          <div className="flex flex-col w-full md:items-center mb-10">
+          <img
+            src="https://i.imgur.com/j5gSXf9.png"
+            alt="Wok-it-Out"
+            className="w-40 rounded-lg"
+          />
+        </div>
+            <form onSubmit={handleSubmit} className="w-full">
+            <div id="input" className="flex flex-col w-full my-5">
+                <label for="username" className="text-gray-700 mb-2 font-bold">
+                  Username
+                </label>
+                <input
+                  name="username"
+                  onChange={handleChange}
+                  type="username"
+                  id="username"
+                  placeholder="Please insert your username"
+                  className="appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:shadow-lg"
+                />
+              </div>
+              <div id="input" className="flex flex-col w-full my-5">
+                <label for="username" className="text-gray-700 mb-2 font-bold">
+                  E-mail
+                </label>
+                <input
+                  name="email"
+                  onChange={handleChange}
+                  type="email"
+                  id="email"
+                  placeholder="Please insert your email"
+                  className="appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:shadow-lg"
+                />
+              </div>
+              <div id="input" className="flex flex-col w-full my-5">
+                <label for="password" className="text-gray-700 mb-2 font-bold">
+                  Password
+                </label>
+                <input
+                  name="password"
+                  onChange={handleChange}
+                  type="password"
+                  id="password"
+                  placeholder="Please insert your password"
+                  className="appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:shadow-lg"
+                />
+              </div>
+              <div id="button" className="flex flex-col w-full my-5">
+                <button
+                  type="submit"
+                  className="w-full py-4 bg-abu rounded-lg text-white"
+                >
+                  <div className="flex flex-row items-center justify-center">
+                    <div className="mr-2">
+                      <svg
+                        className="w-6 h-6"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+                        ></path>
+                      </svg>
+                    </div>
+                    <div className="font-bold">Register</div>
+                  </div>
+                </button>
+                <div className="flex justify-evenly mt-5">
+                  <span
+                    href="#"
+                    className="w-full text-center font-medium text-gray-500"
+                  >
+                    Already have an account?{" "}
+                    <Link to={"/"} className="underline text-gray-500 hover:text-gray-900">Login here</Link>
+                  </span>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
-      </form>
-      {/* card-end */}
+      </div>
     </div>
+  </div>
   );
 }
 

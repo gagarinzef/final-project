@@ -455,7 +455,7 @@ const verify = (obj) => {
                         <td class="content-cell">
                           <div class="f-fallback">
                             <h1>Hello, ${obj.username}!</h1>
-                            <p>Thanks for registering in our app. Please verify your email first.</p>
+                            <h2>Thanks for registering in our app. Please verify your email first.</h2>
                             <!-- Action -->
                             <table class="body-action" align="center" width="100%" cellpadding="0" cellspacing="0" role="presentation">
                               <tr>
@@ -463,7 +463,7 @@ const verify = (obj) => {
                                   <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
                                     <tr>
                                       <td align="center">
-                                        <a href="http://localhost:3000/verified/${obj.token}" class="f-fallback button button--green" target="_blank">Verify Account</a>
+                                        <a href="http://localhost:3000/verified/${obj.token}" class="f-fallback button button--green" target="_blank"><span style="color: white">Verify Account</span></a>
                                       </td>
                                     </tr>
                                   </table>

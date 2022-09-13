@@ -29,6 +29,7 @@ class UserProjectController {
       next(error);
     }
   }
+  
   static async acceptInvite(req, res, next) {
     try {
       const { UserId, ProjectId } = req.query;
