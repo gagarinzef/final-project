@@ -1,12 +1,14 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { fetchData } from "../../store/actions";
 
 import TableInput from "./TableInput";
 
-export default function TableTest() {
+export default function TableTest({ data, trigger }) {
+  const dispatch = useDispatch();
   const { projectId } = useParams();
-  const [dataTask, setTask] = useState([]);
+  const [task, setTask] = useState([]);
   const [member, setMember] = useState([]);
   const [input, setInput] = useState({
     title: "",
@@ -26,85 +28,45 @@ export default function TableTest() {
     ProjectId: projectId,
   });
 
-  const fetchTask = async () => {
-    try {
-      let { data } = await axios.get(
-        `http://localhost:3001/projects/${projectId}`,
-        {
-          headers: {
-            access_token: localStorage.getItem("access_token"),
-          },
-        }
-      );
-      setTask(data.project.Tasks);
-      setMember(data.member);
-      console.log(member);
-      // setInput({ title: "", email: "", date: "", color: "", ProjectId: 1 });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  useEffect(() => {
+    // console.log(data, "liat yg ini");
+    setTask(data.project.Tasks);
+    setMember(data.member);
+  }, [data]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setInput({ ...input, [name]: value });
-    // console.log(input);
   };
 
   const handleChangeEdit = (event, TaskId) => {
     const { name, value } = event.target;
     setInputEdit({ ...inputEdit, [name]: value, TaskId });
-    // console.log(input);
   };
 
-  // console.log(localStorage.getItem("access_token"));
-
-  const createTask = async () => {
-    try {
-      // console.log(input);
-
-      let { data } = await axios(`http://localhost:3001/tasks`, {
-        method: "post",
-        headers: {
-          access_token: localStorage.getItem("access_token"),
-        },
-        data: input,
+  const createTask = () => {
+    dispatch(fetchData(`http://localhost:3001/tasks`, "POST", input))
+      .then(() => {
+        trigger(input);
+        setInput({ title: "", email: "", date: "", color: "", ProjectId: 1 });
+      })
+      .catch((err) => {
+        console.log(err);
       });
-      // console.log(data);
-      fetchTask();
-      setInput({ title: "", email: "", date: "", color: "", ProjectId: 1 });
-    } catch (error) {
-      console.log(error);
-    }
   };
 
-  // console.log(input);
-
-  const updateTask = async () => {
-    try {
-      console.log(inputEdit);
-      let { data } = await axios(`http://localhost:3001/tasks`, {
-        method: "patch",
-        headers: {
-          access_token: localStorage.getItem("access_token"),
-        },
-        data: inputEdit,
+  const updateTask = () => {
+    dispatch(fetchData(`http://localhost:3001/tasks`, "PATCH", inputEdit))
+      .then(() => {
+        trigger(inputEdit);
+      })
+      .catch((err) => {
+        console.log(err);
       });
-      setTask(data);
-      fetchTask();
-    } catch (error) {
-      console.log(error);
-    }
   };
-  useEffect(() => {
-    if (dataTask) {
-      fetchTask();
-    }
-  }, []);
 
   return (
     <div className="bg-biru h-screen">
-      {/* <SideNav /> */}
       <div className="">
         <div>
           <table>
@@ -112,7 +74,6 @@ export default function TableTest() {
               <tr>
                 <th>Id</th>
                 <th>Title</th>
-
                 <th>Assignees</th>
                 <th>Due Date</th>
                 <th>Priority</th>
@@ -120,10 +81,8 @@ export default function TableTest() {
               </tr>
             </thead>
             <tbody>
-              {dataTask.length
-                ? dataTask.map((el) => {
-                    console.log(el);
-
+              {task.length
+                ? task.map((el) => {
                     return (
                       <tr key={el.id}>
                         <td
