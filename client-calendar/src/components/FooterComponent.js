@@ -1,6 +1,6 @@
 export default function FooterComponent() {
   return (
-    <footer className="p-4 bg-white shadow md:flex md:items-center md:justify-between md:p-6 dark:bg-abu w-full absolute bottom-0">
+    <footer className="p-4 shadow md:flex md:items-center md:justify-between md:p-6 bg-abu w-full absolute bottom-0">
       <span className="text-sm text-white sm:text-center">
         © 2022{" "}
         <a href="https://flowbite.com/" className="hover:underline">
