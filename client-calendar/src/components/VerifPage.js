@@ -37,7 +37,7 @@ function VerifPage() {
           </p>
         </>
         ) : ( <>
-      <p className="font-normal text-gray-700">
+      <p className="text-gray-700 font-bold">
            {message}
           </p>
           <img src={loading} className="w-10 h-10 mt-10 mb-10 m-auto"></img>

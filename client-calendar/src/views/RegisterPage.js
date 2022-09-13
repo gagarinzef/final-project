@@ -25,7 +25,14 @@ function RegisterPage() {
         method: "post",
         data: { username, email, password },
       });
-      navigate(`/verify/${data.message}`);
+      Swal.fire({
+        position: 'top',
+        icon: 'success',
+        title: `Thank you for registering! ${data.message}`,
+        showConfirmButton: false,
+        timer: 1500
+      })
+      setTimeout(() => navigate("/"), 1700);
     } catch (error) {
       Swal.fire({
         icon: "error",
