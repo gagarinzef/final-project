@@ -79,8 +79,8 @@ export default function TableTest({ data, trigger }) {
   };
 
   return (
-    <div className="bg-white rounded-md p-0.5">
-      <div>
+    <div className="container overflow-visible">
+      <div className="bg-white rounded-md p-0.5">
         <table className="table-auto w-full border-spacing:20%">
           <thead className="text-white">
             <tr className="divide-x-2 divide-slate-300">
