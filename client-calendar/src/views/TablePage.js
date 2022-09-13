@@ -5,6 +5,8 @@ import SideNav from "../components/SideNav";
 import Kanban from "../components/Kanban";
 import CalendarPage from "../components/CalendarPage";
 import TableTest from "../components/table/TableTest";
+import ChatRoom from "../components/ChatRoom";
+
 
 export default function TablePage() {
   const date = new Date();
@@ -45,10 +47,10 @@ export default function TablePage() {
     return <h1>Loading</h1>;
   } else {
     return (
-      <div className="flex bg-biru h-fit">
+      <div className="flex bg-biru h-fit overflow-hidden">
         <SideNav />
 
-        <div className="container mx-auto my-20">
+        <div className="container mx-auto my-20 h-full">
           <div className="flex justify-start mb-20">
             <button
               onClick={() => setPage("Table")}
@@ -94,9 +96,9 @@ export default function TablePage() {
             </div>
           </button>
           {/* LIVECHAT */}
-          <div className="my-20 text-white px-20 pt-20 pb-96 bg-abu">
-            LIVECHAT
-          </div>
+          <div className="my-5 text-white py-5 bg-abu h-fit rounded-lg sticky">
+          <ChatRoom/>
+        </div>
         </div>
       </div>
     );

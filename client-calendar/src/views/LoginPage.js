@@ -31,6 +31,8 @@ function LoginPage() {
         method: "post",
         data: { email, password },
       });
+      localStorage.setItem("userId", data.userId)
+      localStorage.setItem("username", data.username)
       localStorage.setItem("access_token", data.access_token);
       navigate(`/projects`);
       Swal.fire("Login Success");
