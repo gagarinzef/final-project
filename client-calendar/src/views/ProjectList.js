@@ -9,14 +9,14 @@ export default function ProjectList() {
   const dispatch = useDispatch();
   const { projects } = useSelector((state) => state.project);
   const [loading, setLoading] = useState(true);
-  const [change, setChange] = useState([])
+  const [change, setChange] = useState([]);
   const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
   const [input, setInput] = useState({
     name: "",
   });
-
+  const [value, setValue] = useState("");
   useEffect(() => {
     dispatch(
       fetchData(`http://localhost:3001/projects`, "GET", null, "projects")
@@ -34,24 +34,17 @@ export default function ProjectList() {
     setInput({ ...input, [name]: value });
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    try {
-      const { name } = input;
-      const { data } = await axios(`http://localhost:3001/projects`, {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-          access_token: localStorage.getItem("access_token"),
-        },
-        data: { name },
+
+    dispatch(fetchData(`http://localhost:3001/projects`, "POST", input))
+      .then(() => {
+        setValue(input);
+        setShowModal(false);
+      })
+      .catch((err) => {
+        console.log(err);
       });
-      setChange(data)
-      setShowModal(false);
-    } catch (error) {
-      // TERMINAL ERROR
-      console.log(error);
-    }
   };
 
   const openProject = (id) => {
@@ -65,7 +58,7 @@ export default function ProjectList() {
         <div className="bg-slate-600 h-[85vh] p-6 rounded-lg">
           <h1 className="text-2xl text-white mx-6">
             <i class="fas fa-gavel"> </i>
-            <span className="font-extrabold">{" "}Recent projects</span>
+            <span className="font-extrabold"> Recent projects</span>
           </h1>
 
           {/* STARTING CARD HERE */}
@@ -100,7 +93,10 @@ export default function ProjectList() {
                         {e?.Project?.name}
                       </h1>
                       <div className="pl-6">
-                        <img src="https://img.icons8.com/fluency/48/000000/open-book.png" alt="modal-card" />
+                        <img
+                          src="https://img.icons8.com/fluency/48/000000/open-book.png"
+                          alt="modal-card"
+                        />
                       </div>
                     </div>
                   </div>

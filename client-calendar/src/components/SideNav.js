@@ -58,22 +58,21 @@ export default function SideNav({ proId }) {
           <li>
             <Link
               to={`/projects`}
-              className="flex items-center p-2 text-base font-bold hover:text-gray-900 w-full rounded-lg text-white hover:bg-gray-100">
+              className="flex items-center p-2 text-base font-bold hover:text-gray-900 w-full rounded-lg text-white hover:bg-gray-100"
+            >
               <i className="fas fa-tasks"></i>
               <span className="ml-3 whitespace-nowrap">Projects</span>
             </Link>
           </li>
           <li className="cursor-pointer">
-            <div
-              className="flex items-center p-2 text-base font-bold hover:text-gray-900 w-full rounded-lg text-white hover:bg-gray-100">
+            <div className="flex items-center p-2 text-base font-bold hover:text-gray-900 w-full rounded-lg text-white hover:bg-gray-100">
               <i className="fas fa-user-plus"></i>
               <span className="ml-3 whitespace-nowrap">Invite</span>
             </div>
           </li>
           <hr className="bg-white" />
           <li className="cursor-pointer">
-            <div
-              className="flex items-center p-2 text-base font-bold hover:text-gray-900 w-full rounded-lg text-white hover:bg-gray-100">
+            <div className="flex items-center p-2 text-base font-bold hover:text-gray-900 w-full rounded-lg text-white hover:bg-gray-100">
               <i className="fas fa-sign-out-alt"></i>
               <button
                 onClick={handleLogout}
@@ -91,9 +90,7 @@ export default function SideNav({ proId }) {
             <div className="relative w-auto my-6 mx-auto max-w-3xl">
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-abu outline-none focus:outline-none">
                 <div className="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t ">
-                  <h3 className="text-xl text-white font-bold">
-                    NEW PROJECT
-                  </h3>
+                  <h3 className="text-xl text-white font-bold">NEW PROJECT</h3>
                   <button
                     className="bg-transparent border-0 text-black float-right"
                     onClick={() => setShowModal(false)}

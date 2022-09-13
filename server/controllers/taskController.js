@@ -78,6 +78,7 @@ class TaskController {
       const task = await Task.create({
         ...req.body,
         status: "On Progress",
+        color: "#D7A463",
       });
 
       res.status(201).json({

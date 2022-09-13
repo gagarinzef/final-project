@@ -5,6 +5,7 @@ class ProjectController {
     const { name } = req.body;
     const { id } = req.user;
 
+    console.log(req.body);
     try {
       const data = await Project.create({
         name,
