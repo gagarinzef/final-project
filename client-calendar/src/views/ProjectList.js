@@ -6,9 +6,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchData } from "../store/actions";
 
 export default function ProjectList() {
+  const dispatch = useDispatch();
+  const { projects } = useSelector((state) => state.project);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const [projects, setProjects] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [input, setInput] = useState({
     name: "",
