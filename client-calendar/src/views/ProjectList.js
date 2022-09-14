@@ -55,10 +55,10 @@ export default function ProjectList() {
     <div className="h-screen bg-biru flex ">
       <SideNav />
       <div className="items-center mx-16 my-4 w-screen text-start">
-        <div className="bg-slate-600 h-[85vh] p-6 rounded-lg">
-          <h1 className="text-2xl text-white mx-6">
-            <i class="fas fa-gavel"> </i>
-            <span className="font-extrabold"> Recent projects</span>
+        <div className="bg-[#EFEFEF] h-[85vh] p-6 rounded-lg">
+          <h1 className="text-2xl text-black mx-6">
+            <i class="fas fa-gavel "> </i>
+            <span className="font-extrabold "> Recent projects</span>
           </h1>
 
           {/* STARTING CARD HERE */}
@@ -67,7 +67,7 @@ export default function ProjectList() {
               className="m-5 rounded-xl shadow-xl items-center w-1/6 duration-200 hover:scale-110"
               onClick={() => setShowModal(true)}
             >
-              <div className="bg-white shadow-xl hover:shadow-xl rounded-lg overflow-hidden h-64 justify-between cursor-pointer">
+              <div className="bg-white shadow-2xl hover:shadow-2xl rounded-lg overflow-hidden h-64 justify-between cursor-pointer">
                 <div className="relative overflow-hidden items-center">
                   <i className="fas fa-plus fa-4x flex px-24 pt-16 scale-50 hover:scale-75 hover:drop-shadow-lg"></i>
                   <h1 className="px-4 mt-3 mb-2 font-bold text-[16px] text-center">
@@ -86,7 +86,7 @@ export default function ProjectList() {
                 >
                   <div
                     onClick={() => openProject(e?.Project?.id)}
-                    className="cursor-pointer bg-white shadow-xl hover:shadow-xl rounded-lg overflow-hidden h-64 justify-between duration-200 hover:scale-110"
+                    className="cursor-pointer bg-white shadow-2xl hover:shadow-2xl rounded-lg overflow-hidden h-64 justify-between duration-200 hover:scale-110"
                   >
                     <div className="relative overflow-hidden">
                       <h1 className="break-all px-7 mt-4 pt-4 mb-2 font-bold text-[24px] text-start">

@@ -154,7 +154,7 @@ export default function Kanban({ trigger }) {
                 }}
                 key={columnId}
               >
-                <h2 style={{ color: "white" }}>{column.name}</h2>
+                <h2 style={{ color: "black" }}>{column.name}</h2>
                 <div
                   style={{
                     margin: 8,
@@ -199,6 +199,7 @@ export default function Kanban({ trigger }) {
                                         borderLeftWidth: 10,
                                         borderLeftColor: `${item.color}`,
                                         ...provided.draggableProps.style,
+                                        boxShadow: "1px 2px 2px 1px gray"
                                       }}
                                     >
                                       <p
@@ -210,6 +211,7 @@ export default function Kanban({ trigger }) {
                                           textOverflow: "ellipsis",
                                           overflow: "hidden",
                                           whiteSpace: "nowrap",
+                                          color: "black",
                                         }}
                                       >
                                         {item.title}

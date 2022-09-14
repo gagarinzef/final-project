@@ -69,7 +69,7 @@ export default function TablePage() {
     setInput({ ...input, [name]: value });
   };
 
-  useEffect(() => {}, [project, dispatch, projectId]);
+  useEffect(() => { }, [project, dispatch, projectId]);
 
   if (loading) {
     return <h1>Loading</h1>;
@@ -77,19 +77,19 @@ export default function TablePage() {
     return (
       <>
         <div>
-          <div className="flex min-h-screen bg-biru">
+          <div className="flex min-h-screen bg-[#EFEFEF]">
             <SideNav />
             <div className="container mx-auto my-5">
               <div className="flex justify-start mb-15">
                 <button
                   onClick={() => setPage("Table")}
-                  className="ml-10 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  className="ml-10 shadow-md shadow-black bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 >
                   Table
                 </button>
                 <button
                   onClick={() => setPage("Kanban")}
-                  className="ml-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  className="ml-2 shadow-md shadow-black bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 >
                   Kanban
                 </button>
@@ -97,22 +97,22 @@ export default function TablePage() {
               {/* TABLE CONTAINER */}
               <div>
                 <form onSubmit={handleSubmit}>
-                  <label>start</label>
+                  <label className="text-black">start</label>
                   <input
                     name="start"
                     type="date"
                     onChange={handleChange}
                     value={input.start}
                   />
-                  <label>end</label>
+                  <label className="text-black">end</label>
                   <input
                     name="end"
                     type="date"
                     onChange={handleChange}
                     value={input.end}
                   />
-                  <button type="submit" className="text-white">
-                    tai
+                  <button type="submit" className="text-black">
+                    SEARCH
                   </button>
                 </form>
                 <button
@@ -123,7 +123,7 @@ export default function TablePage() {
                     });
                     setTrigger(5);
                   }}
-                  className="text-white"
+                  className="text-black"
                 >
                   All
                 </button>
@@ -145,7 +145,7 @@ export default function TablePage() {
             <div className="w-96 mr-16">
               {/* CALENDAR */}
               <button onClick={() => setPage("Calendar")}>
-                <div className="my-5 flex-col justify-center items-center rounded-lg overflow-hidden shadow-md w-52 transition ease-in-out delay-50 bg-white hover:-translate-y-1 hover:scale-110 hover:bg-white duration-300">
+                <div className="my-5 flex-col justify-center items-center rounded-lg overflow-hidden shadow-slate-800 shadow-lg w-52 transition ease-in-out delay-50 bg-white hover:-translate-y-1 hover:scale-110 hover:bg-white duration-300">
                   <div className="bg-gradient-to-r from-blue-500 via-blue-400 to-blue-200 text-white py-4 px-8">
                     <p className="text-2xl font-semibold text-white uppercase tracking-wide text-center">
                       {calendar.month}
@@ -162,7 +162,7 @@ export default function TablePage() {
                 </div>
               </button>
               {/* LIVECHAT */}
-              <div className="container m-auto text-white rounded-lg bg-white">
+              <div className="container m-auto text-white rounded-lg bg-[#121212] shadow-slate-700 shadow-xl">
                 <div className="p-3">
                   <ChatRoom />
                 </div>
