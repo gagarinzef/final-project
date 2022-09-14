@@ -86,7 +86,7 @@ export default function TablePage() {
               </button>
               <button
                 onClick={() => setPage("Calendar")}
-                className="ml-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                className="ml-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-lg shadow-slate-700"
               >
                 Calendar
               </button>
