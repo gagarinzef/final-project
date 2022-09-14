@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { fetchData } from "../../store/actions";
 import { errorHandler } from "../../helpers/toast";
+import axios from "axios";
 
 export default function TableTest({ data, trigger }) {
   const dispatch = useDispatch();
@@ -18,6 +19,10 @@ export default function TableTest({ data, trigger }) {
     ProjectId: projectId,
   });
   const [inputEdit, setInputEdit] = useState({});
+  const [inputFilter, setInputFilter] = useState({
+    startDate: "",
+    endDate: "",
+  });
 
   useEffect(() => {
     setTask(data.project.Tasks);
@@ -38,7 +43,13 @@ export default function TableTest({ data, trigger }) {
     dispatch(fetchData(`http://localhost:3001/tasks`, "POST", input))
       .then(() => {
         trigger(input);
-        setInput({ title: "", email: "", date: "", color: "" });
+        setInput({
+          title: "",
+          email: "",
+          date: "",
+          color: "",
+          ProjectId: projectId,
+        });
       })
       .catch((err) => {
         errorHandler(err);
@@ -46,8 +57,8 @@ export default function TableTest({ data, trigger }) {
   };
 
   const updateTask = (e, el) => {
-    console.log(e.target.value, "value");
-    console.log(el, "element");
+    // console.log(e.target.value, "value");
+    // console.log(el, "element");
     const { value, name } = e.target;
     let status;
     if (name === "color") {
@@ -89,6 +100,30 @@ export default function TableTest({ data, trigger }) {
         console.log(err);
       });
   };
+
+  const handleFilter = (event) => {
+    const { name, value } = event.target;
+    setInputFilter({ ...inputFilter, [name]: value });
+  };
+
+  const filterDate = async (e) => {
+    e.preventDefault();
+    try {
+      let { data } = await axios(
+        `http://localhost:3001/projects/${projectId}`,
+        {
+          method: "GET",
+          headers: { access_token: localStorage.getItem("access_token") },
+          data: inputEdit,
+        }
+      );
+      // console.log(data);
+      setInputEdit(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log(inputEdit);
 
   return (
     <div className="container overflow-visible">
@@ -203,7 +238,7 @@ export default function TableTest({ data, trigger }) {
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             fill="currentColor"
-                            class="w-6 h-6"
+                            className="w-6 h-6"
                           >
                             <path
                               fill-rule="evenodd"

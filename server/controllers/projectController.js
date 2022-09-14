@@ -75,11 +75,33 @@ class ProjectController {
   static async getProjectById(req, res, next) {
     const { projectId } = req.params;
     const { id } = req.user;
+
+    let start;
+    let end;
+
     try {
+      const { startDate, endDate } = req.body;
+
+      let obj = {};
+      let option;
+
+      if (startDate && endDate) {
+        //ini untuk konversi date dari fe jadi tanggal utk cari between
+        start = new Date(startDate);
+        end = new Date(endDate);
+
+        obj.createdAt = { [Op.between]: [startDate, endDate] };
+      }
+
+      if (obj.createdAt) {
+        //kalo nilai konversi ada, maka where bisa diget
+        option = { where: obj };
+      }
+
       const data = await UserProject.findOne({
         where: {
           UserId: id,
-          ProjectId: projectId,
+          ProjectId: projectId, // nanti ambil dr pramas project client
         },
       });
 
@@ -88,6 +110,7 @@ class ProjectController {
       const project = await Project.findByPk(projectId, {
         include: {
           model: Task,
+          ...option, // kondisional buat nyari between
           include: {
             model: User,
             attributes: {

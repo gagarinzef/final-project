@@ -42,9 +42,7 @@ export default function TablePage() {
       });
   }, [trigger]);
 
-  useEffect(() => {
-
-  }, [project, dispatch, projectId]);
+  useEffect(() => {}, [project, dispatch, projectId]);
 
   if (loading) {
     return <h1>Loading</h1>;
@@ -69,12 +67,35 @@ export default function TablePage() {
                   Kanban
                 </button>
               </div>
+              <div className="pt-4 ">
+                <form>
+                  <input
+                    name="startDate"
+                    // onChange={handleFilter}
+                    type="date"
+                    className="mx-1 rounded-sm focus:outline-none focus:border-sky-500"
+                  />
+                  <input
+                    name="endDate"
+                    // onChange={handleFilter}
+                    type="date"
+                    onfocus="(this.type='date')"
+                    placeholder="End"
+                    className="mx-1 rounded-=md rounded-sm focus:outline-none focus:border-sky-500"
+                  />
+                  <button type="submit" className="text-white bg-blue-600 mx-2">
+                    Filter
+                  </button>
+                </form>
+              </div>
               {/* TABLE CONTAINER */}
               <div className="flex justify-center mt-8 mx-10">
                 {/* <TableData columns={columns} data={rowdata} /> */}
                 {page === "Kanban" && <Kanban />}
                 {/* TABLE COMPONENT */}
-                {page === "Table" && <TableTest data={project} trigger={value} />}
+                {page === "Table" && (
+                  <TableTest data={project} trigger={value} />
+                )}
                 {/* CALENDAR COMPONENT */}
                 {page === "Calendar" && (
                   <CalendarPage data={project} trigger={value} />
