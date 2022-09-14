@@ -448,7 +448,7 @@ const verify = (obj) => {
                       <!-- Body content -->
                     <tr>
                     <td class="email-masthead">
-                      <img src="https://i.postimg.cc/s2rkZHpL/icon.jpg" alt="website logo" width="250" height="250">
+                      <img src="https://i.postimg.cc/T3gw4x5j/unknown.png" alt="website logo" width="250" height="250">
                     </td>
                     </tr>
                       <tr>

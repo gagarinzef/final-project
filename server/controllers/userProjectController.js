@@ -25,14 +25,13 @@ class UserProjectController {
       await invitationEmail(obj);
       res.status(200).json({ message: "Invitation email has been sent" });
     } catch (error) {
-      console.log(error);
       next(error);
     }
   }
   
   static async acceptInvite(req, res, next) {
     try {
-      const { UserId, ProjectId } = req.query;
+      const { UserId, ProjectId } = req.query
       const findUserProject = await UserProject.findOne({
         where: { UserId: +UserId, ProjectId: +ProjectId },
       });
@@ -47,6 +46,7 @@ class UserProjectController {
       next(error);
     }
   }
+
   static async getUserByProjectId(req, res, next) {
     try {
       const { ProjectId } = req.params;

@@ -7,10 +7,10 @@ const chatRouter = require('./chat')
 const authentication = require("../middleware/authentication");
 
 router.use("/users", userRouter);
+router.use("/userprojects", userProjectRouter);
 router.use(authentication);
 router.use("/tasks", taskRouter);
 router.use("/projects", projectRouter);
-router.use("/userprojects", userProjectRouter);
 router.use('/chat', chatRouter)
 
 module.exports = router;

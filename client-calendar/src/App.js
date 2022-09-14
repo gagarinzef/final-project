@@ -86,9 +86,7 @@ function App() {
         <Route
           path="/invitation"
           element={
-            <ProtectedRoutesLogin>
               <InvitationPage />
-            </ProtectedRoutesLogin>
           }
         />
       </Routes>
