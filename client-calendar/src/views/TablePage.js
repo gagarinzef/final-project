@@ -77,7 +77,7 @@ export default function TablePage() {
     return (
       <>
         <div>
-          <div className="flex min-h-screen bg-biru">
+          <div className="flex min-h-screen w-full bg-biru">
             <SideNav />
             <div className="container mx-auto my-5">
               <div className="flex justify-start mb-15">
@@ -94,63 +94,54 @@ export default function TablePage() {
                   Kanban
                 </button>
               </div>
-              <div className="pt-4 ">
-                <form>
-                  <input
-                    name="startDate"
-                    // onChange={handleFilter}
-                    type="date"
-                    className="mx-1 rounded-sm focus:outline-none focus:border-sky-500"
-                  />
-                  <input
-                    name="endDate"
-                    // onChange={handleFilter}
-                    type="date"
-                    onfocus="(this.type='date')"
-                    placeholder="End"
-                    className="mx-1 rounded-=md rounded-sm focus:outline-none focus:border-sky-500"
-                  />
-                  <button type="submit" className="text-white bg-blue-600 mx-2">
-                    Filter
+
+              <h1 className="text-white flex justify-start pt-4 pl-10 text-weight-bold">
+                By Created At
+              </h1>
+              <div className="flex justify-star pl-10">
+                <div></div>
+                <div className="flex justify-between">
+                  <form onSubmit={handleSubmit}>
+                    <label className=" text-white">Start:</label>
+                    <input
+                      name="start"
+                      type="date"
+                      onChange={handleChange}
+                      value={input.start}
+                      className="mx-2"
+                    />
+                    <label className="text-white">End:</label>
+                    <input
+                      name="end"
+                      type="date"
+                      onChange={handleChange}
+                      value={input.end}
+                      className="ml-2"
+                    />{" "}
+                    <button
+                      type="submit"
+                      className="text-white mx-2 px-4 py-1 bg-blue-600 rounded-md"
+                    >
+                      Filter
+                    </button>
+                  </form>
+                  <button
+                    onClick={() => {
+                      setInput({
+                        start: "",
+                        end: "",
+                      });
+                      setTrigger(5);
+                    }}
+                    className="text-white px-4 py-1 bg-blue-600 rounded-md "
+                  >
+                    Clear
                   </button>
-                </form>
+                </div>
               </div>
+
               {/* TABLE CONTAINER */}
-              <div>
-                <form onSubmit={handleSubmit}>
-                  <label>start</label>
-                  <input
-                    name="start"
-                    type="date"
-                    onChange={handleChange}
-                    value={input.start}
-                  />
-                  <label>end</label>
-                  <input
-                    name="end"
-                    type="date"
-                    onChange={handleChange}
-                    value={input.end}
-                  />
-                  <button type="submit" className="text-white">
-                    tai
-                  </button>
-                </form>
-                <button
-                  onClick={() => {
-                    setInput({
-                      start: "",
-                      end: "",
-                    });
-                    setTrigger(5);
-                  }}
-                  className="text-white"
-                >
-                  All
-                </button>
-              </div>
               <div className="flex justify-center mt-8 mx-10">
-                {/* <TableData columns={columns} data={rowdata} /> */}
                 {page === "Kanban" && <Kanban trigger={value} />}
                 {/* TABLE COMPONENT */}
                 {page === "Table" && (

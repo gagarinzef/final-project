@@ -11,9 +11,9 @@ module.exports = {
         abu: "#25262B",
       },
       fontFamily: {
-        Poppins: ["Poppins", "sans-serif"]
+        Poppins: ["Poppins", "sans-serif"],
       },
     },
   },
-  plugins: [],
+  plugins: [require("tailwind-scrollbar-hide")],
 };

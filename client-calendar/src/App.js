@@ -13,6 +13,7 @@ import { Route, Routes } from "react-router-dom";
 import ProjectList from "./views/ProjectList";
 import FooterComponent from "./components/FooterComponent";
 import TableTest from "./components/table/TableTest";
+import Home from "./views/Home";
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
       <ToastContainer />
       <Routes>
         <Route
-          path="/"
+          path="/login"
           element={
             <ProtectedRoutesHome>
               <LoginPage />
@@ -28,16 +29,6 @@ function App() {
           }
         />
 
-        <Route path="/test" element={<TableTest />} />
-
-        <Route
-          path="/calendar"
-          element={
-            <ProtectedRoutesLogin>
-              <CalendarPage />
-            </ProtectedRoutesLogin>
-          }
-        />
         <Route
           path="/register"
           element={
@@ -47,6 +38,7 @@ function App() {
           }
         />
 
+        {/* <Route path="/" element={<Home />}> */}
         <Route
           path="/projects"
           element={
@@ -64,6 +56,7 @@ function App() {
             </ProtectedRoutesLogin>
           }
         />
+        {/* </Route> */}
 
         <Route
           path="/assign/:projectId"
@@ -92,9 +85,9 @@ function App() {
           }
         />
       </Routes>
-      <div>
+      {/* <div>
         <FooterComponent />
-      </div>
+      </div> */}
     </div>
   );
 }
