@@ -36,16 +36,14 @@ export default function TablePage() {
   });
 
   const value = (data) => {
+    console.log(data);
     setTrigger(data);
   };
 
   const title = (data) => {
     setInput({ ...input, ...data });
+    setTrigger(data);
   };
-
-  useEffect(() => {
-    console.log(project);
-  }, [project]);
 
   useEffect(() => {
     dispatch(
@@ -79,7 +77,6 @@ export default function TablePage() {
     setInput({ ...input, [name]: value });
   };
 
-  useEffect(() => {}, [project, dispatch, projectId]);
   return (
     <>
       <div className="flex">
@@ -110,7 +107,7 @@ export default function TablePage() {
               <div className="flex justify-end">
                 <div className="container bg-stone-800 p-3 rounded-lg w-1/2 mx-9 my-4">
                   <h1 className="text-white flex justify-start mb-3 font-bold">
-                    By Created At
+                    Posted Date
                   </h1>
                   <div className="flex justify-start">
                     <div className="flex">

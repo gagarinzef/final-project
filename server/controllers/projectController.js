@@ -81,7 +81,10 @@ class ProjectController {
       let obj = {};
       let option = {};
       let list = { order: [[{ model: Task }, "createdAt", "DESC"]] };
-      if (req.query.key) {
+      if (
+        req.query.key !==
+        '{"start":"","end":"","status":"","sort":"","UserId":""}'
+      ) {
         const {
           start: startDate,
           end: endDate,
@@ -89,6 +92,8 @@ class ProjectController {
           UserId,
           status,
         } = JSON.parse(req.query.key);
+
+        console.log(JSON.parse(req.query.key));
         if (startDate && endDate) {
           obj.createdAt = { [Op.between]: [startDate, endDate] };
           // sort title
@@ -179,6 +184,10 @@ class ProjectController {
         ...list, // filter
       });
 
+      // const project = await Project.findByPk(projectId);
+      if (!project) {
+        throw { name: "notFound" };
+      }
       const member = await UserProject.findAll({
         where: {
           ProjectId: projectId,

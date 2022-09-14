@@ -184,18 +184,18 @@ export default function Kanban({ trigger }) {
                                 {(provided, snapshot) => {
                                   return (
                                     <div
-                                      className="transform hover:translate-x-5 duration-300 ease-in-out"
+                                      className="hover:scale-105 duration-300"
                                       ref={provided.innerRef}
                                       {...provided.draggableProps}
                                       {...provided.dragHandleProps}
                                       style={{
                                         userSelect: "none",
                                         padding: 0,
-                                        margin: "0 0 8px 0",
+                                        margin: "0 0 15px 0",
                                         minHeight: "20px",
                                         height: "120px",
                                         backgroundColor: snapshot.isDragging
-                                          ? "grey"
+                                          ? "#e5e7eb"
                                           : "white",
                                         color: "black",
                                         borderLeftWidth: 10,
