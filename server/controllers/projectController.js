@@ -79,18 +79,83 @@ class ProjectController {
     try {
       let obj = {};
       let option = {};
+      let list = { order: [[{ model: Task }, "createdAt", "DESC"]] };
+      console.log(req.query, "TEST");
       if (req.query.key) {
-        console.log(req.query);
-        const { start: startDate, end: endDate } = JSON.parse(req.query.key);
+        const {
+          start: startDate,
+          end: endDate,
+          sort,
+          UserId,
+          status,
+        } = JSON.parse(req.query.key);
         if (startDate && endDate) {
           obj.createdAt = { [Op.between]: [startDate, endDate] };
+          // sort title
+          sort
+            ? sort != "none"
+              ? (list = { order: [[{ model: Task }, "createdAt", `${sort}`]] })
+              : null
+            : null;
+          // sort by created at
+          sort
+            ? sort.created
+              ? sort.created != "none"
+                ? (list = {
+                    order: [[{ model: Task }, "createdAt", `${sort.created}`]],
+                  })
+                : null
+              : null
+            : null;
+          // sort due
+          sort
+            ? sort.due
+              ? sort.due != "none"
+                ? (list = { order: [[{ model: Task }, "date", `${sort.due}`]] })
+                : null
+              : null
+            : null;
+          // sort userId
+          UserId ? (UserId != "none" ? (obj.UserId = UserId) : null) : null;
+          // filter status
+          status ? (status != "none" ? (obj.status = status) : null) : null;
+          // kalo startdate & enddate  true
+          obj.createdAt ? (option = { where: obj }) : null;
         }
 
-        if (obj.createdAt) {
-          //kalo nilai konversi ada, maka where bisa diget
-          option = { where: obj };
+        // filter dan sort tanpa filter date
+        if (!obj.createdAt) {
+          // sort title
+          sort
+            ? (list = { order: [[{ model: Task }, "title", `${sort}`]] })
+            : null;
+          // sort createdAt
+          sort
+            ? sort.created
+              ? sort.created != "none"
+                ? (list = {
+                    order: [[{ model: Task }, "createdAt", `${sort.created}`]],
+                  })
+                : null
+              : null
+            : null;
+          // sort due
+          sort
+            ? sort.due
+              ? sort.due != "none"
+                ? (list = { order: [[{ model: Task }, "date", `${sort.due}`]] })
+                : null
+              : null
+            : null;
+          // filter assignee
+          UserId ? (UserId != "none" ? (obj.UserId = UserId) : null) : null;
+          // filter status
+          status ? (status != "none" ? (obj.status = status) : null) : null;
+          // kalo obj createdAtnya gaada
+          !obj.createdAt ? (option = { where: obj }) : null;
         }
       }
+
       const data = await UserProject.findOne({
         where: {
           UserId: id,
@@ -111,7 +176,7 @@ class ProjectController {
             },
           },
         },
-        order: [[{ model: Task }, "id", "ASC"]],
+        ...list, // filter
       });
 
       const member = await UserProject.findAll({

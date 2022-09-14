@@ -29,7 +29,7 @@ function LoginPage() {
       localStorage.setItem("access_token", data.access_token);
       navigate(`/projects`);
     } catch (error) {
-      console.log(error);
+      Swal.fire(`${error.response.data.message}`);
     }
   };
 

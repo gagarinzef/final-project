@@ -34,6 +34,14 @@ export default function TablePage() {
     setTrigger(data);
   };
 
+  const title = (data) => {
+    setInput({ ...input, ...data });
+  };
+
+  useEffect(() => {
+    console.log(input);
+  }, [input]);
+
   useEffect(() => {
     dispatch(
       fetchData(
@@ -52,7 +60,7 @@ export default function TablePage() {
         }
         console.log(err);
       });
-  }, [trigger]);
+  }, [trigger, input]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -146,7 +154,7 @@ export default function TablePage() {
                 {page === "Kanban" && <Kanban trigger={value} />}
                 {/* TABLE COMPONENT */}
                 {page === "Table" && (
-                  <TableTest data={project} trigger={value} />
+                  <TableTest data={project} trigger={value} title={title} />
                 )}
                 {/* CALENDAR COMPONENT */}
                 {page === "Calendar" && (
