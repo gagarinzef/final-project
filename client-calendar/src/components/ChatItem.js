@@ -16,7 +16,9 @@ const ChatItem = props => {
         color: 'black',
         flexDirection: 'column',
         margin: '5px',
-        borderRadius: 8
+        borderRadius: 8,
+        overflowWrap: 'anywhere'
+        
     }
 
     const formatDate = (date) => {
@@ -55,11 +57,20 @@ const ChatItem = props => {
             <span style={{
                  float: 'left'
             }}
-            ><b>{user}</b>: {message}</span>
+            ><b>{user}</b></span>
+        </div>
+        <div>
+            <span style={{
+                 float: 'left',
+                 marginTop: 15,
+                 textAlign: 'justify'
+            }}
+            >{message}</span>
         </div>
         <span style={{
             fontSize: '9px',
-            textAlign: 'end'
+            textAlign: 'end',
+            marginTop: 20
         }}>
         {formatDate(createdAt)}
         </span>
