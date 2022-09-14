@@ -27,14 +27,22 @@ export default function TablePage() {
     end: "",
   });
 
-  const [initInput, setInitInput] = useState({
-    start: "",
-    end: "",
-  });
+  // const [initInput, setInitInput] = useState({
+  //   start: "",
+  //   end: "",
+  // });
 
   const value = (data) => {
     setTrigger(data);
   };
+
+  const title = (data) => {
+    setInput({...input, ...data});
+  }
+  
+  // useEffect(() => {
+  //   console.log(input);
+  // }, [input])
 
   useEffect(() => {
     dispatch(
@@ -51,7 +59,7 @@ export default function TablePage() {
       .catch((err) => {
         console.log(err);
       });
-  }, [trigger]);
+  }, [trigger, input]);
 
   const handleSubmit = (event) => {
     console.log("masuk");
@@ -59,13 +67,12 @@ export default function TablePage() {
     setTrigger(input);
   };
 
-  useEffect(() => {
-    console.log(project);
-  }, [project]);
+  // useEffect(() => {
+  //   console.log(project);
+  // }, [project]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    console.log(name, value);
     setInput({ ...input, [name]: value });
   };
 
@@ -133,7 +140,7 @@ export default function TablePage() {
                 {page === "Kanban" && <Kanban trigger={value} />}
                 {/* TABLE COMPONENT */}
                 {page === "Table" && (
-                  <TableTest data={project} trigger={value} />
+                  <TableTest data={project} trigger={value} title={title}/>
                 )}
                 {/* CALENDAR COMPONENT */}
                 {page === "Calendar" && (

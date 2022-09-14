@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { fetchData } from "../../store/actions";
 import { errorHandler } from "../../helpers/toast";
 
-export default function TableTest({ data, trigger }) {
+export default function TableTest({ data, trigger, title, created }) {
   const dispatch = useDispatch();
   const { projectId } = useParams();
   const [task, setTask] = useState([]);
@@ -94,6 +94,26 @@ export default function TableTest({ data, trigger }) {
       });
   };
 
+  const handleFilter = (e) => {
+    switch (e.target.id) {
+      case "1":
+        title({sort: "ASC"})
+        break;
+      case "2":
+        title({sort: "DESC"})
+        break;
+      case "3":
+        title({sort: {created: "ASC"}})
+        break;
+      case "4":
+        title({sort: {created: "DESC"}})
+        break;
+      default:
+        break;
+    }  
+  }
+  
+
   return (
     <div className="container overflow-visible">
       <div className="bg-white rounded-md p-0.5">
@@ -103,11 +123,33 @@ export default function TableTest({ data, trigger }) {
               <th className="bg-blue-600 rounded-sm border-b-2 border-slate-300 ">
                 No.
               </th>
-              <th className="bg-blue-600">Title</th>
+              <th className="bg-blue-600 group relative dropdown px-4 hover:text-gray-900 cursor-pointer font-bold text-base tracking-wide text-center">
+                  <div className="flex flex-row justify-center">
+                  <p>Title</p>
+                  <img className="w-3 h-3 mt-1.5 -mr-20 ml-20" src="https://img.icons8.com/ultraviolet/40/000000/circled-chevron-down.png"/>
+                  </div>
+                  <div className="group-hover:block dropdown-menu absolute hidden h-auto">
+                   <ul className="w-48 bg-blue-600 shadow rounded-lg mt-0.5 ml-1">
+                      <li id="1" className="py-1 block hover:text-gray-900 hover:bg-blue-400 text-white cursor-pointer rounded-lg" onClick={handleFilter}>A-Z</li>
+                      <li id="2" className="py-1 block hover:text-gray-900 hover:bg-blue-400 text-white cursor-pointer rounded-lg" onClick={handleFilter}>Z-A</li>
+                  </ul>
+                </div>
+              </th>
               <th className="bg-blue-600">Assignees</th>
               <th className="bg-blue-600">Due Date</th>
               <th className="bg-blue-600">Priority</th>
-              <th className="bg-blue-600">Created At</th>
+              <th className="bg-blue-600 group relative dropdown px-4 hover:text-gray-900 cursor-pointer font-bold text-base tracking-wide text-center">
+                  <div className="flex flex-row justify-center">
+                  <p>Created At</p>
+                  <img className="w-3 h-3 mt-1.5 -mr-5 ml-1" src="https://img.icons8.com/ultraviolet/40/000000/circled-chevron-down.png"/>
+                  </div>
+                  <div className="group-hover:block dropdown-menu absolute hidden h-auto">
+                   <ul className="w-36 bg-blue-600 shadow rounded-lg mt-0.5 ml-1">
+                      <li id="4" className="py-1 block hover:text-gray-900 hover:bg-blue-400 text-white cursor-pointer rounded-lg" onClick={handleFilter}>Newest</li>
+                      <li id="3" className="py-1 block hover:text-gray-900 hover:bg-blue-400 text-white cursor-pointer rounded-lg" onClick={handleFilter}>Oldest</li>
+                  </ul>
+                </div>
+              </th>
               <th className="bg-blue-600 px-2 rounded-sm">Action</th>
             </tr>
           </thead>

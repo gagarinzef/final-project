@@ -79,17 +79,34 @@ class ProjectController {
     try {
       let obj = {};
       let option = {};
+      let list = {order: [[{ model: Task }, "createdAt", "ASC"]]};
+      console.log(req.query)
       if (req.query.key) {
-        const { start: startDate, end: endDate } = JSON.parse(req.query.key);
+        const { start: startDate, end: endDate, sort } = JSON.parse(req.query.key);
         if (startDate && endDate) {
-          obj.createdAt = { [Op.between]: [startDate, endDate] };
+          obj.createdAt = { [Op.between]: [startDate, endDate]};
+          if (sort) {
+            list = {order: [[{ model: Task }, "createdAt", `${sort}`]]}
+          } else if (sort.created) {
+            list = {order: [[{ model: Task }, "createdAt", `${sort.created}`]]}
+          }
         }
 
         if (obj.createdAt) {
           //kalo nilai konversi ada, maka where bisa diget
           option = { where: obj };
         }
+
+        if (sort) {
+          if (sort.created) {
+            list = {order: [[{ model: Task }, "createdAt", `${sort.created}`]]}
+          } else  {
+          // Cek ada sort apa ngga
+            list = {order: [[{ model: Task }, "title", `${sort}`]]}
+          }
+        }
       }
+    
       const data = await UserProject.findOne({
         where: {
           UserId: id,
@@ -110,7 +127,8 @@ class ProjectController {
             },
           },
         },
-        order: [[{ model: Task }, "id", "ASC"]],
+        ...list, // filter title
+        // order: [[{ model: Task }, "id", "ASC"]]
       });
 
       const member = await UserProject.findAll({
@@ -130,6 +148,18 @@ class ProjectController {
     } catch (error) {
       console.log(error);
       // next(error);
+    }
+  }
+
+  static async deleteProjectById(req, res, next) {
+    try {
+      const { projectId } = req.params;
+      const findProject = await Project.findByPk(projectId);
+      if(!findProject) throw { name: "notFound" }
+      await Project.destroy({where: {id: projectId }});
+      res.status(200).json({message: `${findProject.name} has been deleted`});
+    } catch (error) {
+      next(error)
     }
   }
 }

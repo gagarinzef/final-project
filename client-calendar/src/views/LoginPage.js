@@ -31,7 +31,7 @@ function LoginPage() {
       navigate(`/projects`);
       Swal.fire("Login Success");
     } catch (error) {
-      console.log(error);
+      Swal.fire(`${error.response.data.message}`);
     }
   };
 
