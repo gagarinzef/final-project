@@ -15,7 +15,6 @@ export const errorHandler = (err, navigate) => {
 };
 
 export const success = (data) => {
-  console.log(data);
   toast.success(data.message, {
     theme: "colored",
     position: "bottom-right",

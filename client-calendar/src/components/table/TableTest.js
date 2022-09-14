@@ -115,19 +115,17 @@ export default function TableTest({ data, trigger }) {
   } else {
     return (
       <div className="container overflow-visible">
-        <div className="bg-white rounded-md p-0.5">
+        <div className="bg-blue-700 rounded-xl p-1">
           <table className="table-auto w-full border-spacing:20%">
             <thead className="text-white">
               <tr className="divide-x-2 divide-slate-300">
-                <th className="bg-blue-600 rounded-sm border-b-2 border-slate-300 ">
-                  No.
-                </th>
-                <th className="bg-blue-600">Title</th>
-                <th className="bg-blue-600">Assignees</th>
-                <th className="bg-blue-600">Due Date</th>
-                <th className="bg-blue-600">Priority</th>
-                <th className="bg-blue-600">Created At</th>
-                <th className="bg-blue-600 px-2 rounded-sm">Action</th>
+                <th className="border-b-2 border-slate-300">No.</th>
+                <th>Task</th>
+                <th>Assignees</th>
+                <th>Due Date</th>
+                <th>Status</th>
+                <th>Posted</th>
+                <th className="bg-blue-700 px-2 rounded-sm">Action</th>
               </tr>
             </thead>
             <tbody className="h-fit">
@@ -144,11 +142,11 @@ export default function TableTest({ data, trigger }) {
                         >
                           {idx + 1}
                         </td>
-                        <td name="title" className="bg-white  ">
+                        <td name="title" className="bg-white flex-grow">
                           <input
                             type="text"
                             name="title"
-                            className="focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                            className="w-full focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
                             defaultValue={el.title}
                             onChange={(e) => handleChangeEdit(e, el)}
                             onBlur={updateTask}
@@ -207,13 +205,13 @@ export default function TableTest({ data, trigger }) {
                             </option>
                           </select>
                         </td>
-                        <td name="createdAt" className="bg-white  ">
+                        <td name="createdAt" className="bg-white">
                           {new Date(el.createdAt).toLocaleDateString("id-ID")}
                         </td>
-                        <td>
+                        <td className="bg-white">
                           <button
                             onClick={() => deleteTask(el.id)}
-                            className="text-red-800 pt-2"
+                            className="text-red-800 pt-2 bg-white"
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -234,8 +232,8 @@ export default function TableTest({ data, trigger }) {
                   })
                 : null}
               <tr className="divide-x-2 divide-y-2 divide-slate-300">
-                <td className="bg-white px-20 rounded-md"></td>
-                <td name="title" className="bg-white   ">
+                <td className="bg-white rounded-md"></td>
+                <td name="title" className="bg-white text-left">
                   <input
                     value={input.title}
                     type="text"
@@ -246,10 +244,10 @@ export default function TableTest({ data, trigger }) {
                   />
                 </td>
 
-                <td name="userId" className="bg-white    px-20"></td>
-                <td name="date" className="bg-white    px-20"></td>
-                <td name="color" className="bg-white    px-20"></td>
-                <td name="createdAt" className="bg-white   px-20"></td>
+                <td name="userId" className="bg-white "></td>
+                <td name="date" className="bg-white "></td>
+                <td name="color" className="bg-white "></td>
+                <td name="createdAt" className="bg-white "></td>
                 <td className="divide-x-2 divide-y-2 divide-slate-300"></td>
               </tr>
             </tbody>

@@ -90,7 +90,7 @@ function CalendarPage({ data, trigger }) {
         trigger={trigger}
       />
 
-      <div className="mx-auto w-2/3 bg-white rounded-xl">
+      <div className="mx-auto w-2/3 bg-white rounded-xl shadow-xl shadow-slate-600">
         <div className="p-10">
           <FullCalendar
             plugins={[dayGridPlugin, interactionPlugin]}

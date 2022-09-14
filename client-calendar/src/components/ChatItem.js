@@ -18,7 +18,11 @@ const ChatItem = props => {
         margin: '5px',
         borderRadius: 8,
         overflowWrap: 'anywhere'
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> fdf42177a7f5ea6fc76e007b617e9268a4cff79b
     }
 
     const formatDate = (date) => {
@@ -50,13 +54,14 @@ const ChatItem = props => {
             } ${d.getFullYear()}`;
     }
 
-    
+
 
     return <div style={style}>
         <div>
             <span style={{
-                 float: 'left'
+                float: 'left'
             }}
+<<<<<<< HEAD
             ><b>{user}</b></span>
         </div>
         <div>
@@ -64,6 +69,13 @@ const ChatItem = props => {
                  float: 'left',
                  marginTop: 15,
                  textAlign: 'justify'
+=======
+            ><b>{user}</b> :</span>
+        </div>
+        <div>
+            <span style={{
+                float: 'left'
+>>>>>>> fdf42177a7f5ea6fc76e007b617e9268a4cff79b
             }}
             >{message}</span>
         </div>
@@ -72,7 +84,7 @@ const ChatItem = props => {
             textAlign: 'end',
             marginTop: 20
         }}>
-        {formatDate(createdAt)}
+            {formatDate(createdAt)}
         </span>
     </div>
 }

@@ -65,23 +65,22 @@ export default function TablePage() {
   };
 
   useEffect(() => {}, [project, dispatch, projectId]);
-
   return (
     <>
       <div>
-        <div className="flex min-h-screen w-full bg-biru">
+        <div className="flex min-h-screen w-full bg-[#EFEFEF]">
           <SideNav />
           <div className="container mx-auto my-5">
             <div className="flex justify-start mb-15">
               <button
                 onClick={() => setPage("Table")}
-                className="ml-10 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                className="ml-10 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-lg shadow-slate-700"
               >
                 Table
               </button>
               <button
                 onClick={() => setPage("Kanban")}
-                className="ml-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                className="ml-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-lg shadow-slate-700"
               >
                 Kanban
               </button>
@@ -94,13 +93,13 @@ export default function TablePage() {
             </div>
             {page !== "Kanban" && (
               <>
-                <h1 className="text-white flex justify-start pt-4 pl-10 text-weight-bold">
+                <h1 className="text-black flex justify-start pt-4 pl-10 text-weight-bold">
                   By Created At
                 </h1>
                 <div className="flex justify-star pl-10">
                   <div className="flex justify-between">
                     <form onSubmit={handleSubmit}>
-                      <label className=" text-white">Start:</label>
+                      <label className=" text-black">Start:</label>
                       <input
                         name="start"
                         type="date"
@@ -108,7 +107,7 @@ export default function TablePage() {
                         value={input.start}
                         className="mx-2"
                       />
-                      <label className="text-white">End:</label>
+                      <label className="text-black">End:</label>
                       <input
                         name="end"
                         type="date"
@@ -118,7 +117,7 @@ export default function TablePage() {
                       />
                       <button
                         type="submit"
-                        className="text-white mx-2 px-4 py-1 bg-blue-600 rounded-md"
+                        className="text-white mx-2 px-4 py-1 bg-blue-600 rounded-md shadow-lg shadow-slate-700"
                       >
                         Filter
                       </button>
@@ -131,7 +130,7 @@ export default function TablePage() {
                         });
                         setTrigger(5);
                       }}
-                      className="text-white px-4 py-1 bg-blue-600 rounded-md "
+                      className="text-white px-4 py-1 bg-blue-600 rounded-md shadow-lg shadow-slate-700"
                     >
                       Clear
                     </button>
@@ -161,7 +160,7 @@ export default function TablePage() {
             {/* CALENDAR */}
             <button onClick={() => setPage("Calendar")}>
               <div className="my-5 flex-col justify-center items-center rounded-lg overflow-hidden shadow-slate-800 shadow-lg w-52 transition ease-in-out delay-50 bg-white hover:-translate-y-1 hover:scale-110 hover:bg-white duration-300">
-                <div className="bg-gradient-to-r from-blue-500 via-blue-400 to-blue-200 text-white py-4 px-8">
+                <div className="bg-gradient-to-r from-blue-500 via-blue-400 to-blue-200 text-black py-4 px-8">
                   <p className="text-2xl font-semibold text-white uppercase tracking-wide text-center">
                     {calendar.month}
                   </p>
@@ -176,6 +175,11 @@ export default function TablePage() {
                 </div>
               </div>
             </button>
+            <div className="container m-auto bg-gradient-to-r from-rose-700 to-pink-600 rounded-xl mb-7 mt-3 text-white shadow-gray-500 shadow-lg">
+              <h1 className="text-2xl font-bold p-2">
+                {project?.project?.name}
+              </h1>
+            </div>
             {/* LIVECHAT */}
             <div className="fixed bottom-0">
               <button
