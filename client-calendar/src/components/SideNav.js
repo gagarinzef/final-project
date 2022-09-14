@@ -1,9 +1,12 @@
 import React, { useState } from "react";
-import axios from "axios";
 import Swal from "sweetalert2";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useRoutes, useLocation } from "react-router-dom";
 
-export default function SideNav({ proId }) {
+export default function SideNav({ handleSubmit }) {
+  // const routes = useRoutes();
+  // console.log(routes);
+  const location = useLocation();
+  console.log(location);
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [input, setInput] = useState({
@@ -15,26 +18,6 @@ export default function SideNav({ proId }) {
     setInput({ ...input, [name]: value });
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      const { name } = input;
-      const { data } = await axios(`http://localhost:3001/projects`, {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-          access_token: localStorage.getItem("access_token"),
-        },
-        data: { name },
-      });
-
-      Swal.fire("Project created");
-      setShowModal(false);
-    } catch (error) {
-      // TERMINAL ERROR
-      console.log(error);
-    }
-  };
   const handleLogout = () => {
     localStorage.clear();
     navigate("/");
@@ -64,12 +47,15 @@ export default function SideNav({ proId }) {
               <span className="ml-3 whitespace-nowrap">Projects</span>
             </Link>
           </li>
-          <li className="cursor-pointer">
-            <div className="flex items-center p-2 text-base font-bold hover:text-gray-900 w-full rounded-lg text-white hover:bg-gray-100">
-              <i className="fas fa-user-plus"></i>
-              <span className="ml-3 whitespace-nowrap">Invite</span>
-            </div>
-          </li>
+          {location.pathname !== "/projects" && (
+            <li className="cursor-pointer">
+              <div className="flex items-center p-2 text-base font-bold hover:text-gray-900 w-full rounded-lg text-white hover:bg-gray-100">
+                <i className="fas fa-user-plus"></i>
+                <span className="ml-3 whitespace-nowrap">Invite</span>
+              </div>
+            </li>
+          )}
+
           <hr className="bg-white" />
           <li className="cursor-pointer">
             <div className="flex items-center p-2 text-base font-bold hover:text-gray-900 w-full rounded-lg text-white hover:bg-gray-100">
@@ -101,7 +87,10 @@ export default function SideNav({ proId }) {
                   </button>
                 </div>
                 <form
-                  onSubmit={handleSubmit}
+                  onSubmit={(event) => {
+                    handleSubmit(event, input);
+                    setShowModal(false);
+                  }}
                   className="bg-abu shadow-md rounded px-8 pt-6 pb-8 w-full"
                 >
                   <div className="relative p-6 flex-auto">

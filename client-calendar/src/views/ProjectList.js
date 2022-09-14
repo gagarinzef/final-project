@@ -9,9 +9,7 @@ export default function ProjectList() {
   const dispatch = useDispatch();
   const { projects } = useSelector((state) => state.project);
   const [loading, setLoading] = useState(true);
-  const [change, setChange] = useState([]);
   const navigate = useNavigate();
-
   const [showModal, setShowModal] = useState(false);
   const [input, setInput] = useState({
     name: "",
@@ -21,25 +19,29 @@ export default function ProjectList() {
     dispatch(
       fetchData(`http://localhost:3001/projects`, "GET", null, "projects")
     )
-      .then((data) => {
+      .then(() => {
         setLoading(false);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [dispatch, change]);
+  }, [dispatch, value]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setInput({ ...input, [name]: value });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event, data) => {
     event.preventDefault();
+    let newInput = input;
+    if (data) {
+      newInput = data;
+    }
 
-    dispatch(fetchData(`http://localhost:3001/projects`, "POST", input))
+    dispatch(fetchData(`http://localhost:3001/projects`, "POST", newInput))
       .then(() => {
-        setValue(input);
+        setValue(newInput);
         setShowModal(false);
       })
       .catch((err) => {
@@ -53,12 +55,12 @@ export default function ProjectList() {
 
   return (
     <div className="h-screen bg-biru flex ">
-      <SideNav />
+      <SideNav handleSubmit={handleSubmit} />
       <div className="items-center mx-16 my-4 w-screen text-start">
         <div className="bg-slate-600 h-[85vh] p-6 rounded-lg">
           <h1 className="text-2xl text-white mx-6">
             <i class="fas fa-gavel"> </i>
-            <span className="font-extrabold"> Recent projects</span>
+            <span className="font-extrabold"> My Projects</span>
           </h1>
 
           {/* STARTING CARD HERE */}

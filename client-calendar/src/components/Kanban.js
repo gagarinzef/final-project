@@ -218,7 +218,6 @@ export default function Kanban({ trigger }) {
                                         <p
                                           style={{
                                             textAlign: "end",
-                                            // alignItems: "end",
                                             fontWeight: 400,
                                             marginRight: 10,
                                             marginTop: "30px",

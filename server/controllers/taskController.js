@@ -10,6 +10,7 @@ class TaskController {
       const task = await Task.findAll({
         where: { ProjectId: projectId },
         include: User,
+        order: [["ProjectId", "DESC"]],
       });
       if (!task.length) throw { name: "notFound" };
       res.status(200).json(task);
@@ -38,7 +39,7 @@ class TaskController {
           "id",
           "status",
           "color",
-          "updatedAt",
+          // "updatedAt",
         ],
       }); //unstarted
 
@@ -49,7 +50,7 @@ class TaskController {
           "id",
           "status",
           "color",
-          "updatedAt",
+          // "updatedAt",
         ],
       }); //in progress
 
@@ -60,7 +61,7 @@ class TaskController {
           "id",
           "status",
           "color",
-          "updatedAt",
+          // "updatedAt",
         ],
       }); //completed
 
