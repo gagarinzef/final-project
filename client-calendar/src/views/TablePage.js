@@ -75,7 +75,7 @@ export default function TablePage() {
     setInput({ ...input, [name]: value });
   };
 
-  useEffect(() => {}, [project, dispatch, projectId]);
+  useEffect(() => { }, [project, dispatch, projectId]);
   return (
     <>
       <div className="flex">
@@ -198,10 +198,9 @@ export default function TablePage() {
             <div className="fixed bottom-0">
               <button
                 onClick={() => setToggle(!toggle)}
-                className={`${
-                  !toggle ? "animate-bounce" : "animate-none"
-                } inline-block px-24 py-2.5 bg-black text-white font-medium leading-tight rounded-md shadow-md 
-                hover:bg-white  hover:shadow-lg hover:text-black 
+                className={`${!toggle ? "animate-bounce" : "animate-none"
+                  } w-full inline-block px-24 py-2.5 bg-black text-white font-medium leading-tight rounded-md shadow-md 
+                hover:bg-white hover:shadow-lg hover:text-black 
                 focus:shadow-lg  
                 focus:outline-none focus:ring-0 
                 active:shadow-lg transition duration-150 ease-in-out mb-1 mt-6 text-lg`}

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import people from "../assets/people.png";
 import axios from "axios";
 import Swal from "sweetalert2";
 
@@ -43,14 +44,14 @@ function RegisterPage() {
   };
 
   return (
-    <div className="antialiased bg-biru">
+    <div className="antialiased bg-gradient-to-r from-rose-800 to-yellow-600">
       <div className="container px-6 mx-auto">
         <div className="flex flex-col text-center md:text-left h-screen md:items-center justify-center">
           <div className="w-full md:w-full lg:w-9/12 mx-auto md:mx-0">
             <div className="bg-white p-10 flex flex-col w-full shadow-xl rounded-xl m-auto">
               <div className="flex flex-col w-full md:items-center mb-10">
                 <img
-                  src="https://i.imgur.com/j5gSXf9.png"
+                  src={"https://images-ext-2.discordapp.net/external/UJyLyld9NIfjmLolyhqa8UJs9LH0C9nonv7665KOYz4/https/i.postimg.cc/T3gw4x5j/unknown.png"}
                   alt="Wok-it-Out"
                   className="w-40 rounded-lg"
                 />
@@ -107,7 +108,7 @@ function RegisterPage() {
                 <div id="button" className="flex flex-col w-full my-5">
                   <button
                     type="submit"
-                    className="w-full py-4 bg-abu rounded-lg text-white"
+                    className="w-full py-4 rounded-lg text-white bg-rose-600 transform hover:bg-rose-900 duration-300 ease-in-out"
                   >
                     <div className="flex flex-row items-center justify-center">
                       <div className="mr-2">
