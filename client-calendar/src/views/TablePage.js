@@ -16,7 +16,7 @@ export default function TablePage() {
   const date = new Date();
   const lang = navigator.language;
   const { projectId } = useParams();
-  const [page, setPage] = useState("Table");
+  const [page, setPage] = useState("Calendar");
   const [loading, setLoading] = useState(true);
   const [calendar, setCalendar] = useState({
     month: date.toLocaleString(lang, { month: "long" }),
@@ -34,7 +34,7 @@ export default function TablePage() {
   };
 
   useEffect(() => {
-    console.log(input);
+    console.log(trigger);
     dispatch(
       fetchData(
         `http://localhost:3001/projects/${projectId}?key=${JSON.stringify(
@@ -85,52 +85,61 @@ export default function TablePage() {
               >
                 Kanban
               </button>
+              <button
+                onClick={() => setPage("Calendar")}
+                className="ml-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Calendar
+              </button>
             </div>
+            {page !== "Kanban" && (
+              <>
+                <h1 className="text-white flex justify-start pt-4 pl-10 text-weight-bold">
+                  By Created At
+                </h1>
+                <div className="flex justify-star pl-10">
+                  <div className="flex justify-between">
+                    <form onSubmit={handleSubmit}>
+                      <label className=" text-white">Start:</label>
+                      <input
+                        name="start"
+                        type="date"
+                        onChange={handleChange}
+                        value={input.start}
+                        className="mx-2"
+                      />
+                      <label className="text-white">End:</label>
+                      <input
+                        name="end"
+                        type="date"
+                        onChange={handleChange}
+                        value={input.end}
+                        className="ml-2"
+                      />
+                      <button
+                        type="submit"
+                        className="text-white mx-2 px-4 py-1 bg-blue-600 rounded-md"
+                      >
+                        Filter
+                      </button>
+                    </form>
+                    <button
+                      onClick={() => {
+                        setInput({
+                          start: "",
+                          end: "",
+                        });
+                        setTrigger(5);
+                      }}
+                      className="text-white px-4 py-1 bg-blue-600 rounded-md "
+                    >
+                      Clear
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
 
-            <h1 className="text-white flex justify-start pt-4 pl-10 text-weight-bold">
-              By Created At
-            </h1>
-            <div className="flex justify-star pl-10">
-              <div></div>
-              <div className="flex justify-between">
-                <form onSubmit={handleSubmit}>
-                  <label className=" text-white">Start:</label>
-                  <input
-                    name="start"
-                    type="date"
-                    onChange={handleChange}
-                    value={input.start}
-                    className="mx-2"
-                  />
-                  <label className="text-white">End:</label>
-                  <input
-                    name="end"
-                    type="date"
-                    onChange={handleChange}
-                    value={input.end}
-                    className="ml-2"
-                  />
-                  <button
-                    type="submit"
-                    className="text-white mx-2 px-4 py-1 bg-blue-600 rounded-md"
-                  >
-                    Filter
-                  </button>
-                </form>
-                <button
-                  onClick={() => {
-                    setInput({
-                      start: "",
-                      end: "",
-                    });
-                    setTrigger(5);
-                  }}
-                  className="text-white px-4 py-1 bg-blue-600 rounded-md "
-                >
-                  Clear
-                </button>
-              </div>
-            </div>
             {loading ? (
               <Loading />
             ) : (
