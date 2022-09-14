@@ -47,7 +47,7 @@ return (
       <table className="table-auto w-full border-spacing:20%">
         <thead className="text-white">
           <tr className="divide-x-2 divide-slate-300">
-            <th className="bg-blue-600 rounded-sm border-b-2 border-slate-300 ">
+            <th className="bg-stone-800 rounded-sm border-b-2 border-slate-300 ">
               No.
             </th>
             <th className="bg-blue-600 group relative dropdown px-4 hover:text-gray-900 cursor-pointer font-bold text-base tracking-wide text-center">
@@ -59,7 +59,7 @@ return (
                 />
               </div>
               <div className="group-hover:block dropdown-menu absolute hidden h-auto">
-                <ul className="w-48 bg-blue-600 shadow rounded-lg mt-0.5 ml-1">
+                <ul className="w-48 bg-stone-800 shadow rounded-lg mt-0.5 ml-1">
                   <li
                     id="asc"
                     className="py-1 block hover:text-gray-900 hover:bg-blue-400 text-white cursor-pointer rounded-lg"
@@ -77,7 +77,7 @@ return (
                 </ul>
               </div>
             </th>
-            <th className="bg-blue-600 group relative dropdown px-4 hover:text-gray-900 cursor-pointer font-bold text-base tracking-wide text-center">
+            <th className="bg-stone-800 group relative dropdown px-4 hover:text-gray-900 cursor-pointer font-bold text-base tracking-wide text-center">
               <div className="flex flex-row justify-center">
                 <p>Asiggnees</p>
                 <img
@@ -86,7 +86,7 @@ return (
                 />
               </div>
               <div className="group-hover:block dropdown-menu absolute hidden h-auto">
-                <ul className="w-52 bg-blue-600 shadow rounded-lg mt-0.5 ml-2">
+                <ul className="w-52 bg-stone-800 shadow rounded-lg mt-0.5 ml-2">
                   <li
                     id="none"
                     className="py-1 block hover:text-gray-900 hover:bg-blue-400 text-white cursor-pointer rounded-lg"
@@ -96,21 +96,21 @@ return (
                   </li>
                   {member
                     ? member.map((el) => (
-                        <li
-                          id="user"
-                          className="py-1 block hover:text-gray-900 hover:bg-blue-400 text-white cursor-pointer rounded-lg"
-                          value={el.User.id}
-                          onClick={handleFilter}
-                          key={el.id}
-                        >
-                          {el.User.username}
-                        </li>
-                      ))
+                      <li
+                        id="user"
+                        className="py-1 block hover:text-gray-900 hover:bg-blue-400 text-white cursor-pointer rounded-lg"
+                        value={el.User.id}
+                        onClick={handleFilter}
+                        key={el.id}
+                      >
+                        {el.User.username}
+                      </li>
+                    ))
                     : null}
                 </ul>
               </div>
             </th>
-            <th className="bg-blue-600 group relative dropdown px-4 hover:text-gray-900 cursor-pointer font-bold text-base tracking-wide text-center">
+            <th className="bg-stone-800 group relative dropdown px-4 hover:text-gray-900 cursor-pointer font-bold text-base tracking-wide text-center">
               <div className="flex flex-row justify-center">
                 <p>Due Date</p>
                 <img
@@ -119,7 +119,7 @@ return (
                 />
               </div>
               <div className="group-hover:block dropdown-menu absolute hidden h-auto">
-                <ul className="w-36 bg-blue-600 shadow rounded-lg mt-0.5 ml-1">
+                <ul className="w-36 bg-stone-800 shadow rounded-lg mt-0.5 ml-1">
                   <li
                     id="latest"
                     className="py-1 block hover:text-gray-900 hover:bg-blue-400 text-white cursor-pointer rounded-lg"
@@ -137,7 +137,7 @@ return (
                 </ul>
               </div>
             </th>
-            <th className="bg-blue-600 group relative dropdown px-4 hover:text-gray-900 cursor-pointer font-bold text-base tracking-wide text-center">
+            <th className="bg-stone-800 group relative dropdown px-4 hover:text-gray-900 cursor-pointer font-bold text-base tracking-wide text-center">
               <div className="flex flex-row justify-center">
                 <p>Priority</p>
                 <img
@@ -146,7 +146,7 @@ return (
                 />
               </div>
               <div className="group-hover:block dropdown-menu absolute hidden h-auto">
-                <ul className="w-36 bg-blue-600 shadow rounded-lg mt-0.5 ml-1">
+                <ul className="w-36 bg-stone-800 shadow rounded-lg mt-0.5 ml-1">
                   <li
                     id="priority"
                     className="py-1 block hover:text-gray-900 hover:bg-blue-400 text-white cursor-pointer rounded-lg"
@@ -178,7 +178,7 @@ return (
                 </ul>
               </div>
             </th>
-            <th className="bg-blue-600 group relative dropdown px-4 hover:text-gray-900 cursor-pointer font-bold text-base tracking-wide text-center">
+            <th className="bg-stone-800 group relative dropdown px-4 hover:text-gray-900 cursor-pointer font-bold text-base tracking-wide text-center">
               <div className="flex flex-row justify-center">
                 <p>Created At</p>
                 <img
@@ -187,7 +187,7 @@ return (
                 />
               </div>
               <div className="group-hover:block dropdown-menu absolute hidden h-auto">
-                <ul className="w-36 bg-blue-600 shadow rounded-lg mt-0.5 ml-1">
+                <ul className="w-36 bg-stone-800 shadow rounded-lg mt-0.5 ml-1">
                   <li
                     id="newest"
                     className="py-1 block hover:text-gray-900 hover:bg-blue-400 text-white cursor-pointer rounded-lg"
@@ -205,7 +205,7 @@ return (
                 </ul>
               </div>
             </th>
-            <th className="bg-blue-600 px-2 rounded-sm">Action</th>
+            <th className="bg-stone-800 px-2 rounded-sm">Action</th>
           </tr>
         </thead>
         <tbody className="h-fit">
