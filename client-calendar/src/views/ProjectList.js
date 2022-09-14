@@ -53,8 +53,6 @@ export default function ProjectList() {
   };
 
   const deleteProject = (id) => {
-    console.log("DELETE", id);
-
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -83,11 +81,11 @@ export default function ProjectList() {
 
   return (
     <>
-      <div className="h-screen bg-biru flex">
+      <div className="h-screen bg-[#EFEFEF] flex">
         <SideNav handleSubmit={handleSubmit} />
-        <div className="items-center mx-16 my-4 w-screen text-start">
-          <div className="bg-slate-600 h-[85vh] p-6 rounded-lg">
-            <h1 className="text-2xl text-white mx-6">
+        <div className="items-center mx-16 my-4 w-screen text-start ml-60">
+          <div className="bg-[#EFEFEF] h-[85vh] p-6 rounded-lg">
+            <h1 className="text-2xl text-gray-800 mx-6">
               <i class="fas fa-gavel"> </i>
               <span className="font-extrabold"> My Projects</span>
             </h1>

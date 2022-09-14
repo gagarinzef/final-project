@@ -64,6 +64,7 @@ class ProjectController {
             exclude: ["password", "token", "status"],
           },
         },
+        order: [["createdAt", "ASC"]],
       });
 
       res.status(200).json({ chat });

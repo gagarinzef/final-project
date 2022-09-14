@@ -8,10 +8,9 @@ class ChatController {
                     all: true,
                     nested: true
                 },
-                order: ['id']
+                order: [['createdAt', 'ASC']]
             })
             res.status(200).json(chats)
-
         } catch (error) {
             console.log(error)
         }

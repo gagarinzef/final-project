@@ -132,7 +132,7 @@ const ChatRoom = (props) => {
         <input
           style={{
             width: "95%",
-            height: "20px",
+            height: "30px",
             padding: "5px",
             fontSize: "12px",
             color: "black",

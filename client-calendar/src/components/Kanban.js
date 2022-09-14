@@ -63,7 +63,6 @@ export default function Kanban({ trigger }) {
         data: columns,
       });
       trigger(data);
-      console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -122,7 +121,6 @@ export default function Kanban({ trigger }) {
   };
 
   useEffect(() => {
-    console.log("masuk");
     ws.onmessage = handleWsMessage;
     fetchTask();
   }, []);
@@ -134,12 +132,15 @@ export default function Kanban({ trigger }) {
     }
   }, [columns]);
 
-  if (loading) {
-    return <h1>Loading</h1>;
-  } else {
+  if (!loading) {
     return (
       <div
-        style={{ display: "flex", justifyContent: "center", height: "100%" }}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          height: "100%",
+          marginTop: 50,
+        }}
       >
         <DragDropContext
           onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
@@ -154,7 +155,7 @@ export default function Kanban({ trigger }) {
                 }}
                 key={columnId}
               >
-                <h2 style={{ color: "black" }}>{column.name}</h2>
+                <h2 className="text-black font-bold">{column.name}</h2>
                 <div
                   style={{
                     margin: 8,
@@ -183,6 +184,7 @@ export default function Kanban({ trigger }) {
                                 {(provided, snapshot) => {
                                   return (
                                     <div
+                                      className="transform hover:translate-x-5 duration-300 ease-in-out"
                                       ref={provided.innerRef}
                                       {...provided.draggableProps}
                                       {...provided.dragHandleProps}
@@ -199,7 +201,7 @@ export default function Kanban({ trigger }) {
                                         borderLeftWidth: 10,
                                         borderLeftColor: `${item.color}`,
                                         ...provided.draggableProps.style,
-                                        boxShadow: "1px 2px 2px 1px gray"
+                                        boxShadow: "1px 5px 5px 1px gray",
                                       }}
                                     >
                                       <p

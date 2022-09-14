@@ -19,7 +19,7 @@ export default function TablePage() {
   const { projectId } = useParams();
   const [page, setPage] = useState("Calendar");
   const [loading, setLoading] = useState(true);
-  const [toggle, setToggle] = useState(true);
+  const [toggle, setToggle] = useState(false);
   const [calendar, setCalendar] = useState({
     month: date.toLocaleString(lang, { month: "long" }),
     dayName: date.toLocaleString(lang, { weekday: "long" }),
@@ -77,73 +77,75 @@ export default function TablePage() {
   useEffect(() => {}, [project, dispatch, projectId]);
   return (
     <>
-      <div>
-        <div className="flex min-h-screen w-full bg-[#EFEFEF]">
-          <SideNav />
+      <div className="flex">
+        <SideNav />
+        <div className="flex min-h-screen w-full bg-[#EFEFEF] ml-60">
           <div className="container mx-auto my-5">
-            <div className="flex justify-start mb-15">
+            <div className="flex justify-start">
               <button
                 onClick={() => setPage("Table")}
-                className="ml-10 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-lg shadow-slate-700"
+                className="ml-10 bg-stone-800 text-white transform hover:-translate-y-1 duration-300 ease-in-out hover:bg-white hover:text-black font-bold py-2 px-4 rounded shadow-lg shadow-slate-700"
               >
                 Table
               </button>
               <button
                 onClick={() => setPage("Kanban")}
-                className="ml-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-lg shadow-slate-700"
+                className="ml-2 bg-stone-800 text-white transform hover:-translate-y-1 duration-300 ease-in-out hover:bg-white hover:text-black font-bold py-2 px-4 rounded shadow-lg shadow-slate-700"
               >
                 Kanban
               </button>
               <button
                 onClick={() => setPage("Calendar")}
-                className="ml-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-lg shadow-slate-700"
+                className="ml-2 bg-stone-800 text-white transform hover:-translate-y-1 duration-300 ease-in-out hover:bg-white hover:text-black font-bold py-2 px-4 rounded shadow-lg shadow-slate-700"
               >
                 Calendar
               </button>
             </div>
             {page !== "Kanban" && (
               <>
-                <h1 className="text-black flex justify-start pt-4 pl-10 text-weight-bold">
-                  By Created At
-                </h1>
-                <div className="flex justify-star pl-10">
-                  <div className="flex justify-between">
-                    <form onSubmit={handleSubmit}>
-                      <label className=" text-black">Start:</label>
-                      <input
-                        name="start"
-                        type="date"
-                        onChange={handleChange}
-                        value={input.start}
-                        className="mx-2"
-                      />
-                      <label className="text-black">End:</label>
-                      <input
-                        name="end"
-                        type="date"
-                        onChange={handleChange}
-                        value={input.end}
-                        className="ml-2"
-                      />
+                <div className="container bg-stone-800 p-3 rounded-lg w-1/2 mx-9 my-4">
+                  <h1 className="text-white flex justify-start font-bold">
+                    By Created At
+                  </h1>
+                  <div className="flex justify-start">
+                    <div className="flex">
+                      <form onSubmit={handleSubmit}>
+                        <label className=" text-white">Start:</label>
+                        <input
+                          name="start"
+                          type="date"
+                          onChange={handleChange}
+                          value={input.start}
+                          className="mx-2"
+                        />
+                        <label className="text-white">End:</label>
+                        <input
+                          name="end"
+                          type="date"
+                          onChange={handleChange}
+                          value={input.end}
+                          className="ml-2"
+                        />
+                        <button
+                          type="submit"
+                          className="text-white mx-4 px-4 py-1 bg-green-800 hover:bg-green-400 transform hover:-translate-y-1 duration-500 ease-in-out rounded-md shadow-lg shadow-slate-700"
+                        >
+                          Filter
+                        </button>
+                      </form>
                       <button
-                        type="submit"
-                        className="text-white mx-2 px-4 py-1 bg-blue-600 rounded-md shadow-lg shadow-slate-700"
+                        onClick={() => {
+                          setInput({
+                            start: "",
+                            end: "",
+                          });
+                          setTrigger(5);
+                        }}
+                        className="text-white px-4 py-1 bg-green-800 hover:bg-green-400 transform hover:-translate-y-1 duration-500 ease-in-out rounded-md shadow-lg shadow-slate-700"
                       >
-                        Filter
+                        Clear
                       </button>
-                    </form>
-                    <button
-                      onClick={() => {
-                        setInput({
-                          start: "",
-                          end: "",
-                        });
-                        setTrigger(5);
-                      }}
-                      className="text-white px-4 py-1 bg-blue-600 rounded-md shadow-lg shadow-slate-700"
-                    >
-                      Clear
-                    </button>
+                    </div>
                   </div>
                 </div>
               </>
@@ -152,7 +154,7 @@ export default function TablePage() {
             {loading ? (
               <Loading />
             ) : (
-              <div className="flex justify-center mt-8 mx-10">
+              <div className="flex justify-center mt-2 mx-10">
                 {page === "Kanban" && <Kanban trigger={value} />}
                 {/* TABLE COMPONENT */}
                 {page === "Table" && (
@@ -166,8 +168,8 @@ export default function TablePage() {
             )}
           </div>
 
+          {/* CALENDAR */}
           <div className="w-96 mr-16">
-            {/* CALENDAR */}
             <button onClick={() => setPage("Calendar")}>
               <div className="my-5 flex-col justify-center items-center rounded-lg overflow-hidden shadow-slate-800 shadow-lg w-52 transition ease-in-out delay-50 bg-white hover:-translate-y-1 hover:scale-110 hover:bg-white duration-300">
                 <div className="bg-gradient-to-r from-blue-500 via-blue-400 to-blue-200 text-black py-4 px-8">
@@ -186,16 +188,30 @@ export default function TablePage() {
               </div>
             </button>
             <div className="container m-auto bg-gradient-to-r from-rose-700 to-pink-600 rounded-xl mb-7 mt-3 text-white shadow-gray-500 shadow-lg">
-              <h1 className="text-2xl font-bold p-2">
+              <h1 className="text-3xl font-bold p-2">
                 {project?.project?.name}
               </h1>
             </div>
+
             {/* LIVECHAT */}
             <div className="fixed bottom-0">
               <button
                 onClick={() => setToggle(!toggle)}
-                className="inline-block px-24 py-2.5 bg-blue-500 text-white font-medium leading-tight uppercase rounded-md shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out mb-10 mt-6 fas fa-comment-dots text-xl"
-              ></button>
+                className={`${
+                  !toggle ? "animate-bounce" : "animate-none"
+                } inline-block px-24 py-2.5 bg-black text-white font-medium leading-tight rounded-md shadow-md 
+                hover:bg-white  hover:shadow-lg hover:text-black 
+                focus:shadow-lg  
+                focus:outline-none focus:ring-0 
+                active:shadow-lg transition duration-150 ease-in-out mb-1 mt-6 text-lg`}
+              >
+                <span>Messaging</span>
+                {!toggle ? (
+                  <i className="fas fa-chevron-up px-2"></i>
+                ) : (
+                  <i class="fas fa-chevron-down px-2"></i>
+                )}
+              </button>
               {toggle && (
                 <div className="container m-auto text-white rounded-lg bg-white">
                   <div className="p-3">

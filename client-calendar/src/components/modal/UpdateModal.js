@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchData } from "../../store/actions";
 import { errorHandler, success } from "../../helpers/toast";
+import Swal from "sweetalert2";
 
 export default function UpdateModal({
   show,
@@ -15,7 +16,6 @@ export default function UpdateModal({
   const dispatch = useDispatch();
   const { task } = useSelector((state) => state.task);
   const { projectId } = useParams();
-  const [loading, setLoading] = useState(true);
 
   const [user, setUser] = useState([]);
   const [input, setInput] = useState({
@@ -45,13 +45,9 @@ export default function UpdateModal({
     if (eventID) {
       dispatch(
         fetchData(`http://localhost:3001/tasks/${eventID}`, "GET", null, "task")
-      )
-        .then(() => {
-          setLoading(false);
-        })
-        .catch((err) => {
-          errorHandler(err);
-        });
+      ).catch((err) => {
+        errorHandler(err);
+      });
     }
   }, [eventID]);
 
@@ -87,8 +83,24 @@ export default function UpdateModal({
   };
 
   const handleDelete = () => {
-    dispatch(fetchData(`http://localhost:3001/tasks/${eventID}`, "DELETE"))
-      .then(() => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    })
+      .then((result) => {
+        if (result.isConfirmed) {
+          return dispatch(
+            fetchData(`http://localhost:3001/tasks/${eventID}`, "DELETE")
+          );
+        }
+      })
+      .then((data) => {
+        success(data);
         trigger(eventID);
         setShow(false);
       })
