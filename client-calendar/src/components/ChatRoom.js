@@ -91,7 +91,7 @@ const ChatRoom = props => {
         flexDirection: 'column',
         justifyContent: 'flex-end',
         width: '100%',
-        height: '43vh',
+        height: '68vh',
         backgroundColor: 'lightgray',
         borderRadius: 8,
     }}>

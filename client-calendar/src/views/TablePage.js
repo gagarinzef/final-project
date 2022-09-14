@@ -16,6 +16,7 @@ export default function TablePage() {
   const { projectId } = useParams();
   const [page, setPage] = useState("Table");
   const [loading, setLoading] = useState(true);
+  const [toggle, setToggle] = useState(true)
   const [calendar, setCalendar] = useState({
     month: date.toLocaleString(lang, { month: "long" }),
     dayName: date.toLocaleString(lang, { weekday: "long" }),
@@ -162,10 +163,16 @@ export default function TablePage() {
                 </div>
               </button>
               {/* LIVECHAT */}
+              <div className="fixed bottom-0">
+              <button onClick={() => setToggle(!toggle)} className="inline-block px-24 py-2.5 bg-blue-500 text-white font-medium leading-tight uppercase rounded-md shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out mb-10 mt-6 fas fa-comment-dots text-xl">      
+            </button>
+            {toggle && (
               <div className="container m-auto text-white rounded-lg bg-white">
                 <div className="p-3">
                   <ChatRoom />
                 </div>
+                </div>
+                )}
               </div>
             </div>
           </div>
