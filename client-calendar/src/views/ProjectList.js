@@ -55,17 +55,20 @@ export default function ProjectList() {
   };
 
   return (
-    <div className="h-screen bg-biru flex ">
-      <SideNav handleSubmit={handleSubmit} />
-      <div className="items-center mx-16 my-4 w-screen text-start">
-        <div className="bg-slate-600 h-[85vh] p-6 rounded-lg">
-          <h1 className="text-2xl text-white mx-6">
-            <i class="fas fa-gavel"> </i>
-            <span className="font-extrabold"> My Projects</span>
-          </h1>
+    <>
+      <div className="h-screen bg-biru flex ">
+        <SideNav handleSubmit={handleSubmit} />
+        <div className="items-center mx-16 my-4 w-screen text-start">
+          <div className="bg-slate-600 h-[85vh] p-6 rounded-lg">
+            <h1 className="text-2xl text-white mx-6">
+              <i class="fas fa-gavel"> </i>
+              <span className="font-extrabold"> My Projects</span>
+            </h1>
 
             {/* STARTING CARD HERE */}
-            {loading ? <Loading /> :
+            {loading ? (
+              <Loading />
+            ) : (
               <div className="flex flex-wrap m-5">
                 <div
                   className="m-5 rounded-xl shadow-xl items-center w-1/6 duration-200 hover:scale-110"
@@ -108,7 +111,7 @@ export default function ProjectList() {
                   );
                 })}
               </div>
-            }
+            )}
           </div>
         </div>
 
@@ -159,7 +162,6 @@ export default function ProjectList() {
             </div>
           </>
         ) : null}
-
       </div>
     </>
   );
