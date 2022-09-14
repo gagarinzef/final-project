@@ -6,7 +6,7 @@ const { queryInterface } = sequelize;
 let access_token =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjYyNzk0NDg5fQ.k_mdh2gX9DT8ycWPtIujHmNMjbi4ETwiS5aA_QY4O9c";
 
-jest.setTimeout(500);
+jest.setTimeout(10000);
 
 beforeAll(async () => {
   try {
