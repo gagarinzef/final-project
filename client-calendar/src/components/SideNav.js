@@ -25,7 +25,7 @@ export default function SideNav({ handleSubmit }) {
   };
   return (
     <aside className="w-56" aria-label="Sidebar">
-      <div className="h-full overflow-y-auto py-4 px-3 rounded-lg bg-abu dark:bg-abu">
+      <div className="h-full overflow-y-auto py-4 px-3 bg-abu dark:bg-abu">
         <ul className="space-y-2">
           <li>
             <button
