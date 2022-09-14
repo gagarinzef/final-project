@@ -8,6 +8,7 @@ import ChatRoom from "../components/ChatRoom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchData } from "../store/actions";
 import Loading from "../components/Loader/Loading";
+import { errorHandler } from "../helpers/toast";
 
 export default function TablePage() {
   const navigate = useNavigate();
@@ -28,6 +29,9 @@ export default function TablePage() {
   const [input, setInput] = useState({
     start: "",
     end: "",
+    status: "",
+    sort: "",
+    UserId: "",
   });
 
   const value = (data) => {
@@ -37,10 +41,6 @@ export default function TablePage() {
   const title = (data) => {
     setInput({ ...input, ...data });
   };
-
-  useEffect(() => {
-    console.log(input);
-  }, [input]);
 
   useEffect(() => {
     dispatch(
@@ -53,12 +53,14 @@ export default function TablePage() {
         "project"
       )
     )
-      .then(() => setLoading(false))
+      .then(() => {
+        setLoading(false);
+      })
       .catch((err) => {
         if (err === "User not Authorized") {
           navigate("/projects");
         }
-        console.log(err);
+        errorHandler(err);
       });
   }, [trigger, input]);
 

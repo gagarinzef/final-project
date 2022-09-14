@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { Link, useNavigate, useRoutes, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 export default function SideNav({ handleSubmit }) {
   const location = useLocation();
-  console.log(location);
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [input, setInput] = useState({
@@ -27,8 +26,7 @@ export default function SideNav({ handleSubmit }) {
             <button
               type="button"
               onClick={() => setShowModal(true)}
-              className="flex items-center p-2 text-base font-bold hover:text-gray-900 w-full rounded-lg text-white hover:bg-gray-100
-"
+              className="flex items-center p-2 text-base font-bold hover:text-gray-900 w-full rounded-lg text-white hover:bg-gray-100"
             >
               <i className="fas fa-plus"></i>
               <span className="ml-3 whitespace-nowrap">New</span>

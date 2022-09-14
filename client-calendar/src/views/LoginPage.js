@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { errorHandler } from "../helpers/toast";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ function LoginPage() {
       localStorage.setItem("access_token", data.access_token);
       navigate(`/projects`);
     } catch (error) {
-      Swal.fire(`${error.response.data.message}`);
+      errorHandler(error.response.data.message);
     }
   };
 
