@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-export default function Kanban() {
+export default function Kanban({ trigger }) {
   const { projectId } = useParams();
   const [columns, setColumns] = useState({});
   const [initColumns, setInitColumns] = useState({});
@@ -62,6 +62,7 @@ export default function Kanban() {
         },
         data: columns,
       });
+      trigger(data);
       console.log(data);
     } catch (error) {
       console.log(error);
@@ -190,7 +191,7 @@ export default function Kanban() {
                                         padding: 0,
                                         margin: "0 0 8px 0",
                                         minHeight: "20px",
-                                        height: "100px",
+                                        height: "120px",
                                         backgroundColor: snapshot.isDragging
                                           ? "grey"
                                           : "white",
@@ -206,6 +207,9 @@ export default function Kanban() {
                                           padding: 15,
                                           fontWeight: 600,
                                           fontSize: 20,
+                                          textOverflow: "ellipsis",
+                                          overflow: "hidden",
+                                          whiteSpace: "nowrap",
                                         }}
                                       >
                                         {item.title}
@@ -214,8 +218,10 @@ export default function Kanban() {
                                         <p
                                           style={{
                                             textAlign: "end",
+                                            // alignItems: "end",
                                             fontWeight: 400,
                                             marginRight: 10,
+                                            marginTop: "30px",
                                           }}
                                         >
                                           {item.username}

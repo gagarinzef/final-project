@@ -1,4 +1,5 @@
 const { Project, UserProject, Task, User, Chat } = require("../models");
+const { Op } = require("sequelize");
 
 class ProjectController {
   static async createProject(req, res, next) {
@@ -75,29 +76,20 @@ class ProjectController {
   static async getProjectById(req, res, next) {
     const { projectId } = req.params;
     const { id } = req.user;
-
-    let start;
-    let end;
-
     try {
-      const { startDate, endDate } = req.body;
-
       let obj = {};
-      let option;
+      let option = {};
+      if (req.query.key) {
+        const { start: startDate, end: endDate } = JSON.parse(req.query.key);
+        if (startDate && endDate) {
+          obj.createdAt = { [Op.between]: [startDate, endDate] };
+        }
 
-      if (startDate && endDate) {
-        //ini untuk konversi date dari fe jadi tanggal utk cari between
-        start = new Date(startDate);
-        end = new Date(endDate);
-
-        obj.createdAt = { [Op.between]: [startDate, endDate] };
+        if (obj.createdAt) {
+          //kalo nilai konversi ada, maka where bisa diget
+          option = { where: obj };
+        }
       }
-
-      if (obj.createdAt) {
-        //kalo nilai konversi ada, maka where bisa diget
-        option = { where: obj };
-      }
-
       const data = await UserProject.findOne({
         where: {
           UserId: id,
@@ -136,7 +128,7 @@ class ProjectController {
 
       res.status(200).json({ project, member });
     } catch (error) {
-      // console.log(error);
+      console.log(error);
       // next(error);
     }
   }

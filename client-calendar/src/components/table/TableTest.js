@@ -57,10 +57,11 @@ export default function TableTest({ data, trigger }) {
   };
 
   const updateTask = (e, el) => {
-    // console.log(e.target.value, "value");
-    // console.log(el, "element");
+    let newInput = inputEdit;
+    let obj = {};
     const { value, name } = e.target;
     let status;
+
     if (name === "color") {
       if (value === "#29A488") {
         status = "Done";
@@ -69,22 +70,19 @@ export default function TableTest({ data, trigger }) {
       } else if (value === "#D7A463") {
         status = "On Progress";
       }
+      obj = {
+        ...el,
+        status,
+        color: value,
+      };
+      newInput = obj;
     }
 
-    const obj = {
-      ...el,
-      status,
-      color: value,
-    };
     dispatch(
-      fetchData(
-        `http://localhost:3001/tasks/${inputEdit.id}`,
-        "PATCH",
-        inputEdit
-      )
+      fetchData(`http://localhost:3001/tasks/${newInput.id}`, "PATCH", newInput)
     )
       .then((data) => {
-        trigger(inputEdit);
+        trigger(data);
       })
       .catch((err) => {
         console.log(err);
@@ -100,30 +98,6 @@ export default function TableTest({ data, trigger }) {
         console.log(err);
       });
   };
-
-  const handleFilter = (event) => {
-    const { name, value } = event.target;
-    setInputFilter({ ...inputFilter, [name]: value });
-  };
-
-  const filterDate = async (e) => {
-    e.preventDefault();
-    try {
-      let { data } = await axios(
-        `http://localhost:3001/projects/${projectId}`,
-        {
-          method: "GET",
-          headers: { access_token: localStorage.getItem("access_token") },
-          data: inputEdit,
-        }
-      );
-      // console.log(data);
-      setInputEdit(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  console.log(inputEdit);
 
   return (
     <div className="container overflow-visible">
@@ -173,7 +147,9 @@ export default function TableTest({ data, trigger }) {
                           onChange={(e) => handleChangeEdit(e, el)}
                           onBlur={updateTask}
                         >
-                          <option disabled selected></option>
+                          <option selected className="text-center">
+                            -
+                          </option>
                           {member.map((e) => {
                             return (
                               <option
@@ -205,23 +181,14 @@ export default function TableTest({ data, trigger }) {
                           defaultValue={el.color}
                           className={`bg-[${el.color}] w-full text-start px-5 cursor-pointer focus:outline-none`}
                           onChange={(e) => updateTask(e, el)}
-                          // onBlur={updateTask}
                         >
                           <option value="#E8697D" className="bg-[#E8697D]">
                             Urgent
                           </option>
-                          <option
-                            value="#D7A463"
-                            className="bg-[#D7A463]"
-                            // selected={el.color === "#D7A463" ? "selected" : ""}
-                          >
+                          <option value="#D7A463" className="bg-[#D7A463]">
                             On Progress
                           </option>
-                          <option
-                            value="#29A488"
-                            className="bg-[#29A488]"
-                            // selected={el.color === "#29A488" ? "selected" : ""}
-                          >
+                          <option value="#29A488" className="bg-[#29A488]">
                             Done
                           </option>
                         </select>
@@ -241,9 +208,9 @@ export default function TableTest({ data, trigger }) {
                             className="w-6 h-6"
                           >
                             <path
-                              fill-rule="evenodd"
+                              fillRule="evenodd"
                               d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
-                              clip-rule="evenodd"
+                              clipRule="evenodd"
                             />
                           </svg>
                         </button>

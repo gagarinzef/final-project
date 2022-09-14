@@ -22,6 +22,15 @@ export default function TablePage() {
     dayNumber: date.getDate(),
   });
   const [trigger, setTrigger] = useState("");
+  const [input, setInput] = useState({
+    start: "",
+    end: "",
+  });
+
+  const [initInput, setInitInput] = useState({
+    start: "",
+    end: "",
+  });
 
   const value = (data) => {
     setTrigger(data);
@@ -30,7 +39,9 @@ export default function TablePage() {
   useEffect(() => {
     dispatch(
       fetchData(
-        `http://localhost:3001/projects/${projectId}`,
+        `http://localhost:3001/projects/${projectId}?key=${JSON.stringify(
+          input
+        )}`,
         "GET",
         null,
         "project"
@@ -41,6 +52,22 @@ export default function TablePage() {
         console.log(err);
       });
   }, [trigger]);
+
+  const handleSubmit = (event) => {
+    console.log("masuk");
+    event.preventDefault();
+    setTrigger(input);
+  };
+
+  useEffect(() => {
+    console.log(project);
+  }, [project]);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    console.log(name, value);
+    setInput({ ...input, [name]: value });
+  };
 
   useEffect(() => {}, [project, dispatch, projectId]);
 
@@ -89,9 +116,42 @@ export default function TablePage() {
                 </form>
               </div>
               {/* TABLE CONTAINER */}
+              <div>
+                <form onSubmit={handleSubmit}>
+                  <label>start</label>
+                  <input
+                    name="start"
+                    type="date"
+                    onChange={handleChange}
+                    value={input.start}
+                  />
+                  <label>end</label>
+                  <input
+                    name="end"
+                    type="date"
+                    onChange={handleChange}
+                    value={input.end}
+                  />
+                  <button type="submit" className="text-white">
+                    tai
+                  </button>
+                </form>
+                <button
+                  onClick={() => {
+                    setInput({
+                      start: "",
+                      end: "",
+                    });
+                    setTrigger(5);
+                  }}
+                  className="text-white"
+                >
+                  All
+                </button>
+              </div>
               <div className="flex justify-center mt-8 mx-10">
                 {/* <TableData columns={columns} data={rowdata} /> */}
-                {page === "Kanban" && <Kanban />}
+                {page === "Kanban" && <Kanban trigger={value} />}
                 {/* TABLE COMPONENT */}
                 {page === "Table" && (
                   <TableTest data={project} trigger={value} />

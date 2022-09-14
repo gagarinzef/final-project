@@ -93,7 +93,7 @@ class TaskController {
 
   static async updateTask(req, res, next) {
     try {
-      const { UserId, ProjectId } = req.body;
+      const { UserId, ProjectId, status, title, date, color } = req.body;
       console.log(req.body);
       const { taskId } = req.params;
       let response = {
@@ -102,7 +102,10 @@ class TaskController {
       const task = await Task.findByPk(+taskId);
       if (!task) throw { name: "notFound" };
 
-      await Task.update(req.body, { where: { id: +taskId } });
+      await Task.update(
+        { status, title, date, color, UserId },
+        { where: { id: +taskId } }
+      );
 
       if (UserId) {
         const user = await User.findByPk(+UserId);
