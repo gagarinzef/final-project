@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1663072216713" clover="3.2.0">
-  <project timestamp="1663072216713" name="All files">
-    <metrics statements="305" coveredstatements="294" conditionals="75" coveredconditionals="68" methods="27" coveredmethods="27" elements="407" coveredelements="389" complexity="0" loc="305" ncloc="305" packages="4" files="18" classes="18"/>
+<coverage generated="1663120337440" clover="3.2.0">
+  <project timestamp="1663120337440" name="All files">
+    <metrics statements="301" coveredstatements="291" conditionals="75" coveredconditionals="68" methods="27" coveredmethods="27" elements="403" coveredelements="386" complexity="0" loc="301" ncloc="301" packages="4" files="18" classes="18"/>
     <package name="controllers">
-      <metrics statements="177" coveredstatements="170" conditionals="52" coveredconditionals="49" methods="18" coveredmethods="18"/>
+      <metrics statements="174" coveredstatements="168" conditionals="52" coveredconditionals="49" methods="18" coveredmethods="18"/>
       <file name="chatController.js" path="D:\H8\phase3\baru\final-project\server\controllers\chatController.js">
-        <metrics statements="14" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <metrics statements="11" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
         <line num="13" count="1" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="20" count="2" type="stmt"/>
         <line num="21" count="2" type="stmt"/>
         <line num="22" count="2" type="stmt"/>
-        <line num="23" count="2" type="stmt"/>
-        <line num="24" count="2" type="stmt"/>
-        <line num="25" count="2" type="stmt"/>
-        <line num="31" count="2" type="stmt"/>
-        <line num="33" count="0" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
-        <line num="39" count="1" type="stmt"/>
+        <line num="28" count="2" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
       </file>
       <file name="projectController.js" path="D:\H8\phase3\baru\final-project\server\controllers\projectController.js">
         <metrics statements="31" coveredstatements="31" conditionals="4" coveredconditionals="4" methods="4" coveredmethods="4"/>
@@ -198,7 +195,7 @@
       </file>
     </package>
     <package name="helpers">
-      <metrics statements="31" coveredstatements="31" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="7"/>
+      <metrics statements="30" coveredstatements="30" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="7"/>
       <file name="assignEmail.js" path="D:\H8\phase3\baru\final-project\server\helpers\assignEmail.js">
         <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
@@ -227,13 +224,12 @@
         <line num="31" count="1" type="stmt"/>
       </file>
       <file name="jwt.js" path="D:\H8\phase3\baru\final-project\server\helpers\jwt.js">
-        <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
-        <line num="4" count="2" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
         <line num="5" count="46" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
-        <line num="23" count="1" type="stmt"/>
       </file>
       <file name="verifyEmail.js" path="D:\H8\phase3\baru\final-project\server\helpers\verifyEmail.js">
         <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
@@ -256,14 +252,14 @@
         <line num="6" count="1" type="stmt"/>
         <line num="7" count="60" type="stmt"/>
         <line num="8" count="60" type="stmt"/>
-        <line num="14" count="60" type="cond" truecount="2" falsecount="0"/>
-        <line num="15" count="46" type="stmt"/>
-        <line num="16" count="32" type="cond" truecount="1" falsecount="1"/>
-        <line num="17" count="32" type="stmt"/>
-        <line num="18" count="32" type="stmt"/>
-        <line num="24" count="32" type="cond" truecount="3" falsecount="1"/>
-        <line num="26" count="28" type="stmt"/>
-        <line num="30" count="1" type="stmt"/>
+        <line num="10" count="60" type="cond" truecount="2" falsecount="0"/>
+        <line num="11" count="46" type="stmt"/>
+        <line num="12" count="32" type="cond" truecount="1" falsecount="1"/>
+        <line num="13" count="32" type="stmt"/>
+        <line num="14" count="32" type="stmt"/>
+        <line num="18" count="32" type="cond" truecount="3" falsecount="1"/>
+        <line num="20" count="28" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
       </file>
       <file name="errorHandler.js" path="D:\H8\phase3\baru\final-project\server\middleware\errorHandler.js">
         <metrics statements="35" coveredstatements="31" conditionals="15" coveredconditionals="13" methods="1" coveredmethods="1"/>
@@ -301,7 +297,7 @@
         <line num="75" count="2" type="stmt"/>
         <line num="77" count="0" type="stmt"/>
         <line num="80" count="0" type="stmt"/>
-        <line num="155" count="1" type="stmt"/>
+        <line num="83" count="1" type="stmt"/>
       </file>
     </package>
     <package name="routes">

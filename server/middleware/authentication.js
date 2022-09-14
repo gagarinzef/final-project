@@ -7,10 +7,6 @@ const authentication = async (req, res, next) => {
   try {
     const { access_token, socket_key } = req.headers;
 
-    // if (socket_key === SOCKET_SECRET_KEY) {
-    // console.log("socket here")
-    //   next();
-    // } else {
     if (!access_token) throw { name: "nullToken" };
     const payload = verifyToken(access_token);
     if (!payload.id) throw { name: "unauthorized" };
@@ -19,8 +15,6 @@ const authentication = async (req, res, next) => {
       id: user.id,
       role: user.role,
     };
-    //   next();
-    // }
     if (socket_key === SOCKET_SECRET_KEY || req.user) next();
   } catch (error) {
     next(error);
