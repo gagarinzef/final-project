@@ -65,59 +65,71 @@ export default function TablePage() {
   };
 
   useEffect(() => {}, [project, dispatch, projectId]);
+
   return (
     <>
       <div>
-        <div className="flex min-h-screen bg-[#EFEFEF]">
+        <div className="flex min-h-screen w-full bg-biru">
           <SideNav />
           <div className="container mx-auto my-5">
             <div className="flex justify-start mb-15">
               <button
                 onClick={() => setPage("Table")}
-                className="ml-10 shadow-md shadow-black bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                className="ml-10 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               >
                 Table
               </button>
               <button
                 onClick={() => setPage("Kanban")}
-                className="ml-2 shadow-md shadow-black bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                className="ml-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               >
                 Kanban
               </button>
             </div>
-            {/* TABLE CONTAINER */}
-            <div>
-              <form onSubmit={handleSubmit}>
-                <label className="text-black">start</label>
-                <input
-                  name="start"
-                  type="date"
-                  onChange={handleChange}
-                  value={input.start}
-                />
-                <label className="text-black">end</label>
-                <input
-                  name="end"
-                  type="date"
-                  onChange={handleChange}
-                  value={input.end}
-                />
-                <button type="submit" className="text-black">
-                  SEARCH
+
+            <h1 className="text-white flex justify-start pt-4 pl-10 text-weight-bold">
+              By Created At
+            </h1>
+            <div className="flex justify-star pl-10">
+              <div></div>
+              <div className="flex justify-between">
+                <form onSubmit={handleSubmit}>
+                  <label className=" text-white">Start:</label>
+                  <input
+                    name="start"
+                    type="date"
+                    onChange={handleChange}
+                    value={input.start}
+                    className="mx-2"
+                  />
+                  <label className="text-white">End:</label>
+                  <input
+                    name="end"
+                    type="date"
+                    onChange={handleChange}
+                    value={input.end}
+                    className="ml-2"
+                  />
+                  <button
+                    type="submit"
+                    className="text-white mx-2 px-4 py-1 bg-blue-600 rounded-md"
+                  >
+                    Filter
+                  </button>
+                </form>
+                <button
+                  onClick={() => {
+                    setInput({
+                      start: "",
+                      end: "",
+                    });
+                    setTrigger(5);
+                  }}
+                  className="text-white px-4 py-1 bg-blue-600 rounded-md "
+                >
+                  Clear
                 </button>
-              </form>
-              <button
-                onClick={() => {
-                  setInput({
-                    start: "",
-                    end: "",
-                  });
-                  setTrigger(5);
-                }}
-                className="text-black"
-              >
-                All
-              </button>
+              </div>
             </div>
             {loading ? (
               <Loading />

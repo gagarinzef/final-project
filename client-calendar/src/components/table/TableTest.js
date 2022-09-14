@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { fetchData } from "../../store/actions";
 import { errorHandler } from "../../helpers/toast";
+import axios from "axios";
 
 export default function TableTest({ data, trigger }) {
   const dispatch = useDispatch();
@@ -18,6 +19,10 @@ export default function TableTest({ data, trigger }) {
     ProjectId: projectId,
   });
   const [inputEdit, setInputEdit] = useState({});
+  const [inputFilter, setInputFilter] = useState({
+    startDate: "",
+    endDate: "",
+  });
 
   useEffect(() => {
     console.log(data);

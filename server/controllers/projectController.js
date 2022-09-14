@@ -93,7 +93,7 @@ class ProjectController {
       const data = await UserProject.findOne({
         where: {
           UserId: id,
-          ProjectId: projectId,
+          ProjectId: projectId, // nanti ambil dr pramas project client
         },
       });
 
