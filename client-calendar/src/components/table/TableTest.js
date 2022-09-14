@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { fetchData } from "../../store/actions";
 import { errorHandler } from "../../helpers/toast";
-import axios from "axios";
+import Swal from "sweetalert2";
 
 export default function TableTest({ data, trigger }) {
   const dispatch = useDispatch();
@@ -19,17 +19,9 @@ export default function TableTest({ data, trigger }) {
     ProjectId: projectId,
   });
   const [inputEdit, setInputEdit] = useState({});
-  const [inputFilter, setInputFilter] = useState({
-    startDate: "",
-    endDate: "",
-  });
 
   useEffect(() => {
-    console.log(data);
-
-    if (data.project) {
-      setTask(data.project.Tasks);
-    }
+    setTask(data?.project?.Tasks);
     setMember(data.member);
   }, [data]);
 
@@ -56,7 +48,7 @@ export default function TableTest({ data, trigger }) {
         });
       })
       .catch((err) => {
-        errorHandler(err);
+        // errorHandler(err);
       });
   };
 
@@ -94,12 +86,27 @@ export default function TableTest({ data, trigger }) {
   };
 
   const deleteTask = (id) => {
-    dispatch(fetchData(`http://localhost:3001/tasks/${id}`, "DELETE"))
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    })
+      .then((result) => {
+        if (result.isConfirmed) {
+          return dispatch(
+            fetchData(`http://localhost:3001/tasks/${id}`, "DELETE")
+          );
+        }
+      })
       .then(() => {
         trigger(id);
       })
       .catch((err) => {
-        console.log(err);
+        errorHandler(err);
       });
   };
 
@@ -166,7 +173,7 @@ export default function TableTest({ data, trigger }) {
                                   key={e.User.id}
                                   value={e.User.id}
                                 >
-                                  {e.User.email}
+                                  {e.User.username}
                                 </option>
                               );
                             })}

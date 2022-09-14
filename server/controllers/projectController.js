@@ -80,6 +80,7 @@ class ProjectController {
       let obj = {};
       let option = {};
       if (req.query.key) {
+        console.log(req.query);
         const { start: startDate, end: endDate } = JSON.parse(req.query.key);
         if (startDate && endDate) {
           obj.createdAt = { [Op.between]: [startDate, endDate] };
@@ -129,6 +130,18 @@ class ProjectController {
       res.status(200).json({ project, member });
     } catch (error) {
       console.log(error);
+      next(error);
+    }
+  }
+
+  static async deleteProjectById(req, res, next) {
+    try {
+      const { projectId } = req.params;
+      const findProject = await Project.findByPk(projectId);
+      if (!findProject) throw { name: "notFound" };
+      await Project.destroy({ where: { id: projectId } });
+      res.status(200).json({ message: `${findProject.name} has been deleted` });
+    } catch (error) {
       next(error);
     }
   }
