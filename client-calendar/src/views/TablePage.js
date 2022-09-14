@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import SideNav from "../components/SideNav";
 import Kanban from "../components/Kanban";
 import CalendarPage from "../components/CalendarPage";
@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchData } from "../store/actions";
 
 export default function TablePage() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { project } = useSelector((state) => state.project);
   const date = new Date();
@@ -27,16 +28,12 @@ export default function TablePage() {
     end: "",
   });
 
-  const [initInput, setInitInput] = useState({
-    start: "",
-    end: "",
-  });
-
   const value = (data) => {
     setTrigger(data);
   };
 
   useEffect(() => {
+    console.log(input);
     dispatch(
       fetchData(
         `http://localhost:3001/projects/${projectId}?key=${JSON.stringify(
@@ -49,27 +46,22 @@ export default function TablePage() {
     )
       .then(() => setLoading(false))
       .catch((err) => {
+        if (err === "User not Authorized") {
+          navigate("/projects");
+        }
         console.log(err);
       });
   }, [trigger]);
 
   const handleSubmit = (event) => {
-    console.log("masuk");
     event.preventDefault();
     setTrigger(input);
   };
 
-  useEffect(() => {
-    console.log(project);
-  }, [project]);
-
   const handleChange = (event) => {
     const { name, value } = event.target;
-    console.log(name, value);
     setInput({ ...input, [name]: value });
   };
-
-  useEffect(() => {}, [project, dispatch, projectId]);
 
   if (loading) {
     return <h1>Loading</h1>;
@@ -112,7 +104,7 @@ export default function TablePage() {
                     value={input.end}
                   />
                   <button type="submit" className="text-white">
-                    tai
+                    filter
                   </button>
                 </form>
                 <button
