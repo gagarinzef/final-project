@@ -165,11 +165,158 @@ export default function TableTest({ data, trigger, title }) {
           <thead className="text-white">
             <tr className="divide-x-2 divide-slate-300">
               <th className="border-b-2 border-slate-300">No.</th>
-              <th>Task</th>
-              <th>Assignees</th>
-              <th>Due Date</th>
-              <th>Status</th>
-              <th>Posted</th>
+
+              {/* FILTER TASK */}
+              <th className="bg-stone-800 group relative dropdown px-4 hover:text-white cursor-pointer font-bold text-base tracking-wide text-center">
+                <div className="flex flex-row justify-center">
+                  <p>Task</p>
+                  <i className="fas fa-chevron-circle-down w-2 mt-1 ml-1"></i>
+                </div>
+                <div className="group-hover:block dropdown-menu absolute hidden h-auto">
+                  <ul className="w-52 bg-stone-800 shadow rounded-lg mt-0.5 ml-4">
+                    <li
+                      id="asc"
+                      className="py-1 block hover:text-stone-900 hover:bg-white text-white cursor-pointer rounded-lg"
+                      onClick={handleFilter}
+                    >
+                      A-Z
+                    </li>
+                    <li
+                      id="desc"
+                      className="py-1 block hover:text-stone-900 hover:bg-white text-white cursor-pointer rounded-lg"
+                      onClick={handleFilter}
+                    >
+                      Z-A
+                    </li>
+                  </ul>
+                </div>
+              </th>
+
+              {/* FILTER ASSIGN */}
+              <th className="bg-stone-800 group relative dropdown px-4 hover:text-white cursor-pointer font-bold text-base tracking-wide text-center">
+                <div className="flex flex-row justify-center">
+                  <p>Assignees</p>
+                  <i className="fas fa-chevron-circle-down w-2 mt-1 ml-1"></i>
+                </div>
+                <div className="group-hover:block dropdown-menu absolute hidden h-auto">
+                  <ul className="w-36 bg-stone-800 shadow rounded-lg mt-0.5 ml-3">
+                    <li
+                      id="none"
+                      className="py-1 block hover:text-stone-900 hover:bg-white text-white cursor-pointer rounded-lg"
+                      onClick={handleFilter}
+                    >
+                      All
+                    </li>
+                    {member
+                      ? member.map((el) => (
+                        <li
+                          id="user"
+                          className="py-1 block hover:text-stone-900 hover:bg-white text-white cursor-pointer rounded-lg"
+                          value={el.User.id}
+                          onClick={handleFilter}
+                          key={el.id}
+                        >
+                          {el.User.username}
+                        </li>
+                      ))
+                      : null}
+                  </ul>
+                </div>
+              </th>
+
+              {/* FILTER DUE DATE */}
+              <th className="bg-stone-800 group relative dropdown px-4 hover:text-white cursor-pointer font-bold text-base tracking-wide text-center">
+                <div className="flex flex-row justify-center">
+                  <p>Due Date</p>
+                  <i className="fas fa-chevron-circle-down w-2 mt-1 ml-1"></i>
+                </div>
+                <div className="group-hover:block dropdown-menu absolute hidden h-auto">
+                  <ul className="w-36 bg-stone-800 shadow rounded-lg mt-0.5 ml-5">
+                    <li
+                      id="latest"
+                      className="py-1 block hover:text-stone-900 hover:bg-white text-white cursor-pointer rounded-lg"
+                      onClick={handleFilter}
+                    >
+                      Latest
+                    </li>
+                    <li
+                      id="older"
+                      className="py-1 block hover:text-stone-900 hover:bg-white text-white cursor-pointer rounded-lg"
+                      onClick={handleFilter}
+                    >
+                      Oldest
+                    </li>
+                  </ul>
+                </div>
+              </th>
+
+
+              {/* FILTER STATUS */}
+              <th className="bg-stone-800 group relative dropdown px-4 hover:text-white cursor-pointer font-bold text-base tracking-wide text-center">
+                <div className="flex flex-row justify-center">
+                  <p>Status</p>
+                  <i className="fas fa-chevron-circle-down w-2 mt-1 ml-1"></i>
+                </div>
+                <div className="group-hover:block dropdown-menu absolute hidden h-auto">
+                  <ul className="w-36 bg-stone-800 shadow rounded-lg mt-0.5 ml-6">
+                    <li
+                      id="priority"
+                      className="py-1 block hover:text-stone-900 hover:bg-white text-white cursor-pointer rounded-lg"
+                      onClick={handleFilter}
+                    >
+                      All
+                    </li>
+                    <li
+                      id="urgent"
+                      className="py-1 block hover:text-stone-900 hover:bg-white text-white cursor-pointer rounded-lg"
+                      onClick={handleFilter}
+                    >
+                      Urgent
+                    </li>
+                    <li
+                      id="onprogress"
+                      className="py-1 block hover:text-stone-900 hover:bg-white text-white cursor-pointer rounded-lg"
+                      onClick={handleFilter}
+                    >
+                      Onprogress
+                    </li>
+                    <li
+                      id="done"
+                      className="py-1 block hover:text-stone-900 hover:bg-white text-white cursor-pointer rounded-lg"
+                      onClick={handleFilter}
+                    >
+                      Done
+                    </li>
+                  </ul>
+                </div>
+              </th>
+
+              {/* FILTER POSTED */}
+              <th className="bg-stone-800 group relative dropdown px-4 hover:text-white cursor-pointer font-bold text-base tracking-wide text-center">
+                <div className="flex flex-row justify-center">
+                  <p>Posted</p>
+                  <i className="fas fa-chevron-circle-down w-2 mt-1 ml-1"></i>
+                </div>
+                <div className="group-hover:block dropdown-menu absolute hidden h-auto">
+                  <ul className="w-24 bg-stone-800 shadow rounded-lg mt-0.5 ml-3">
+                    <li
+                      id="newest"
+                      className="py-1 block hover:text-stone-900 hover:bg-white text-white cursor-pointer rounded-lg"
+                      onClick={handleFilter}
+                    >
+                      Newest
+                    </li>
+                    <li
+                      id="oldest"
+                      className="py-1 block hover:text-stone-900 hover:bg-white text-white cursor-pointer rounded-lg"
+                      onClick={handleFilter}
+                    >
+                      Oldest
+                    </li>
+                  </ul>
+                </div>
+              </th>
+
               <th className="px-2 rounded-sm">Action</th>
             </tr>
           </thead>
@@ -208,105 +355,105 @@ export default function TableTest({ data, trigger, title }) {
             </tr>
             {task.length
               ? task.map((el, idx) => {
-                  return (
-                    <tr
-                      key={el.id}
-                      className="divide-x-2 divide-y-2 divide-slate-300"
+                return (
+                  <tr
+                    key={el.id}
+                    className="divide-x-2 divide-y-2 divide-slate-300"
+                  >
+                    <td
+                      name="TaskId"
+                      className="bg-white border-b-2 border-slate-300 "
                     >
-                      <td
-                        name="TaskId"
-                        className="bg-white border-b-2 border-slate-300 "
+                      {idx + 1}
+                    </td>
+                    <td name="title" className="bg-white flex-grow">
+                      <input
+                        type="text"
+                        name="title"
+                        className="w-full focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                        defaultValue={el.title}
+                        onChange={(e) => handleChangeEdit(e, el)}
+                        onBlur={updateTask}
+                      />
+                    </td>
+                    <td name="userId" className="bg-white  ">
+                      <select
+                        name="UserId"
+                        className="cursor-pointer focus:outline-none"
+                        onChange={(e) => handleChangeEdit(e, el)}
+                        onBlur={updateTask}
                       >
-                        {idx + 1}
-                      </td>
-                      <td name="title" className="bg-white flex-grow">
-                        <input
-                          type="text"
-                          name="title"
-                          className="w-full focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
-                          defaultValue={el.title}
-                          onChange={(e) => handleChangeEdit(e, el)}
-                          onBlur={updateTask}
-                        />
-                      </td>
-                      <td name="userId" className="bg-white  ">
-                        <select
-                          name="UserId"
-                          className="cursor-pointer focus:outline-none"
-                          onChange={(e) => handleChangeEdit(e, el)}
-                          onBlur={updateTask}
+                        <option selected className="text-center">
+                          -
+                        </option>
+                        {member.map((e) => {
+                          return (
+                            <option
+                              selected={
+                                el.UserId === e.User.id ? "selected" : ""
+                              }
+                              key={e.User.id}
+                              value={e.User.id}
+                            >
+                              {e.User.username}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    </td>
+                    <td name="date" className="bg-white  ">
+                      <input
+                        type="date"
+                        name="date"
+                        className="cursor-pointer focus:outline-none"
+                        defaultValue={el.date}
+                        onChange={(e) => handleChangeEdit(e, el)}
+                        onBlur={updateTask}
+                      />
+                    </td>
+                    <td className={`bg-[${el.color}] cursor-pointer`}>
+                      <select
+                        name="color"
+                        defaultValue={el.color}
+                        className={`bg-[${el.color}] w-full text-start px-5 cursor-pointer focus:outline-none`}
+                        onChange={(e) => updateTask(e, el)}
+                      >
+                        <option value="#E8697D" className="bg-[#E8697D]">
+                          Urgent
+                        </option>
+                        <option value="#D7A463" className="bg-[#D7A463]">
+                          On Progress
+                        </option>
+                        <option value="#29A488" className="bg-[#29A488]">
+                          Done
+                        </option>
+                      </select>
+                    </td>
+                    <td name="createdAt" className="bg-white">
+                      {new Date(el.createdAt).toLocaleDateString("id-ID")}
+                    </td>
+                    <td className="bg-white">
+                      <button
+                        onClick={() => deleteTask(el.id)}
+                        className="text-red-800 pt-2 bg-white"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                          className="w-6 h-6"
                         >
-                          <option selected className="text-center">
-                            -
-                          </option>
-                          {member.map((e) => {
-                            return (
-                              <option
-                                selected={
-                                  el.UserId === e.User.id ? "selected" : ""
-                                }
-                                key={e.User.id}
-                                value={e.User.id}
-                              >
-                                {e.User.username}
-                              </option>
-                            );
-                          })}
-                        </select>
-                      </td>
-                      <td name="date" className="bg-white  ">
-                        <input
-                          type="date"
-                          name="date"
-                          className="cursor-pointer focus:outline-none"
-                          defaultValue={el.date}
-                          onChange={(e) => handleChangeEdit(e, el)}
-                          onBlur={updateTask}
-                        />
-                      </td>
-                      <td className={`bg-[${el.color}] cursor-pointer`}>
-                        <select
-                          name="color"
-                          defaultValue={el.color}
-                          className={`bg-[${el.color}] w-full text-start px-5 cursor-pointer focus:outline-none`}
-                          onChange={(e) => updateTask(e, el)}
-                        >
-                          <option value="#E8697D" className="bg-[#E8697D]">
-                            Urgent
-                          </option>
-                          <option value="#D7A463" className="bg-[#D7A463]">
-                            On Progress
-                          </option>
-                          <option value="#29A488" className="bg-[#29A488]">
-                            Done
-                          </option>
-                        </select>
-                      </td>
-                      <td name="createdAt" className="bg-white">
-                        {new Date(el.createdAt).toLocaleDateString("id-ID")}
-                      </td>
-                      <td className="bg-white">
-                        <button
-                          onClick={() => deleteTask(el.id)}
-                          className="text-red-800 pt-2 bg-white"
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                            className="w-6 h-6"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })
+                          <path
+                            fillRule="evenodd"
+                            d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })
               : null}
           </tbody>
         </table>
