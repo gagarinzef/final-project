@@ -44,6 +44,10 @@ export default function TablePage() {
   };
 
   useEffect(() => {
+    console.log(project);
+  }, [project]);
+
+  useEffect(() => {
     dispatch(
       fetchData(
         `http://localhost:3001/projects/${projectId}?key=${JSON.stringify(
