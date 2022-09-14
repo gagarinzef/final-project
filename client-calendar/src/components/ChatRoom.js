@@ -91,11 +91,7 @@ const ChatRoom = props => {
         flexDirection: 'column',
         justifyContent: 'flex-end',
         width: '100%',
-<<<<<<< HEAD
-        height: '68vh',
-=======
-        height: '48vh',
->>>>>>> fdf42177a7f5ea6fc76e007b617e9268a4cff79b
+        height: '56vh',
         backgroundColor: 'lightgray',
         borderRadius: 8,
     }}>
@@ -125,7 +121,7 @@ const ChatRoom = props => {
         }}>
             <input style={{
                 width: '95%',
-                height: '20px',
+                height: '30px',
                 padding: '5px',
                 fontSize: '12px',
                 color: 'black',

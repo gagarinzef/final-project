@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Swal from "sweetalert2";
+import people from "../assets/people.png"
 import { success } from "../helpers/toast";
 
 function LoginPage() {
@@ -40,19 +40,22 @@ function LoginPage() {
   };
 
   return (
-    <div className="antialiased bg-biru">
+    <div className="antialiased bg-gradient-to-r from-rose-800 to-yellow-600">
       <div className="container px-6 mx-auto">
         <div className="flex flex-col text-center md:text-left md:flex-row h-screen justify-evenly md:items-center">
-          <div className="flex flex-col w-full">
+          <div className="flex flex-col w-full drop-shadow-xl shadow-stone-800">
             <img
-              src="https://i.imgur.com/j5gSXf9.png"
+              src={people}
               alt="Wok-it-Out"
-              className="w-80"
+              className="w-96 drop-shadow-xl shadow-stone-800"
             />
+            <span className="text-6xl text-white font-extrabold w-96 text-center uppercase drop-shadow-xl shadow-stone-800">
+              WokItOut
+            </span>
           </div>
           <div className="w-full md:w-full lg:w-9/12 mx-auto md:mx-0">
-            <div className=" my-10 mx-10 bg-white p-10 flex flex-col w-full shadow-xl rounded-xl">
-              <h2 className="text-4xl font-bold text-gray-800 text-left mb-5 m-auto">
+            <div className="my-10 mx-10 bg-white p-10 flex flex-col w-full shadow-2xl shadow-gray-800 rounded-xl">
+              <h2 className="text-4xl font-bold text-stone-800 text-left mb-5 m-auto">
                 LOGIN
               </h2>
               <form onSubmit={handleSubmit} className="w-full">
@@ -82,12 +85,12 @@ function LoginPage() {
                     className="appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:shadow-lg"
                   />
                 </div>
-                <div id="button" className="flex flex-col w-full my-5">
+                <div id="button" className="flex flex-col w-full my-5 ">
                   <button
                     type="submit"
-                    className="w-full py-4 bg-abu rounded-lg text-white"
+                    className="w-full py-4 bg-rose-600 rounded-lg text-white transform hover:bg-rose-900 duration-300 ease-in-out"
                   >
-                    <div className="flex flex-row items-center justify-center">
+                    <div className="flex flex-row items-center justify-center ">
                       <div className="mr-2">
                         <svg
                           className="w-6 h-6"

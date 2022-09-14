@@ -64,6 +64,7 @@ class ProjectController {
             exclude: ["password", "token", "status"],
           },
         },
+        order: [['createdAt', 'ASC']]
       });
 
       res.status(200).json({ chat });
@@ -80,7 +81,6 @@ class ProjectController {
       let obj = {};
       let option = {};
       if (req.query.key) {
-        console.log(req.query);
         const { start: startDate, end: endDate } = JSON.parse(req.query.key);
         if (startDate && endDate) {
           obj.createdAt = { [Op.between]: [startDate, endDate] };
@@ -111,7 +111,7 @@ class ProjectController {
             },
           },
         },
-        order: [[{ model: Task }, "id", "ASC"]],
+        order: [[{ model: Task }, "id", "DESC"]],
       });
 
       const member = await UserProject.findAll({
