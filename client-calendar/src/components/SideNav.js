@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 import { Link, useNavigate, useRoutes, useLocation } from "react-router-dom";
+import { success } from "../helpers/toast";
 
 export default function SideNav({ handleSubmit }) {
   // const routes = useRoutes();
@@ -19,9 +20,12 @@ export default function SideNav({ handleSubmit }) {
   };
 
   const handleLogout = () => {
+    const msg = {
+      message: "Logout success"
+    }
     localStorage.clear();
-    navigate("/");
-    Swal.fire("Logout Success");
+    navigate("/login");
+    success(msg)
   };
   return (
     <aside className="w-64 z-40" aria-label="Sidebar">

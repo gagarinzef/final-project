@@ -16,7 +16,7 @@ export default function TablePage() {
   const date = new Date();
   const lang = navigator.language;
   const { projectId } = useParams();
-  const [page, setPage] = useState("Table");
+  const [page, setPage] = useState("Calendar");
   const [loading, setLoading] = useState(true);
   const [calendar, setCalendar] = useState({
     month: date.toLocaleString(lang, { month: "long" }),
@@ -34,7 +34,6 @@ export default function TablePage() {
   };
 
   useEffect(() => {
-    console.log(input);
     dispatch(
       fetchData(
         `http://localhost:3001/projects/${projectId}?key=${JSON.stringify(
@@ -64,73 +63,74 @@ export default function TablePage() {
     setInput({ ...input, [name]: value });
   };
 
-  useEffect(() => {}, [project, dispatch, projectId]);
-
+  useEffect(() => { }, [project, dispatch, projectId]);
   return (
     <>
       <div>
-        <div className="flex min-h-screen w-full bg-biru">
+        <div className="flex min-h-screen w-full bg-[#EFEFEF]">
           <SideNav />
           <div className="container mx-auto my-5">
             <div className="flex justify-start mb-15">
               <button
                 onClick={() => setPage("Table")}
-                className="ml-10 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                className="ml-10 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-lg shadow-slate-700"
               >
                 Table
               </button>
               <button
                 onClick={() => setPage("Kanban")}
-                className="ml-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                className="ml-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-lg shadow-slate-700"
               >
                 Kanban
               </button>
             </div>
 
-            <h1 className="text-white flex justify-start pt-4 pl-10 text-weight-bold">
+            <h1 className="text-black flex justify-start pt-4 pl-10 text-weight-bold">
               By Created At
             </h1>
-            <div className="flex justify-star pl-10">
-              <div></div>
-              <div className="flex justify-between">
-                <form onSubmit={handleSubmit}>
-                  <label className=" text-white">Start:</label>
-                  <input
-                    name="start"
-                    type="date"
-                    onChange={handleChange}
-                    value={input.start}
-                    className="mx-2"
-                  />
-                  <label className="text-white">End:</label>
-                  <input
-                    name="end"
-                    type="date"
-                    onChange={handleChange}
-                    value={input.end}
-                    className="ml-2"
-                  />
+            {page === "Table" && (
+              <div className="flex justify-star pl-10">
+                <div className="flex justify-between">
+                  <form onSubmit={handleSubmit}>
+                    <label className=" text-black">Start:</label>
+                    <input
+                      name="start"
+                      type="date"
+                      onChange={handleChange}
+                      value={input.start}
+                      className="mx-2"
+                    />
+                    <label className="text-black">End:</label>
+                    <input
+                      name="end"
+                      type="date"
+                      onChange={handleChange}
+                      value={input.end}
+                      className="ml-2"
+                    />
+                    <button
+                      type="submit"
+                      className="text-white mx-2 px-4 py-1 bg-blue-600 rounded-md shadow-lg shadow-slate-700"
+                    >
+                      Filter
+                    </button>
+                  </form>
                   <button
-                    type="submit"
-                    className="text-white mx-2 px-4 py-1 bg-blue-600 rounded-md"
+                    onClick={() => {
+                      setInput({
+                        start: "",
+                        end: "",
+                      });
+                      setTrigger(5);
+                    }}
+                    className="text-white px-4 py-1 bg-blue-600 rounded-md shadow-lg shadow-slate-700"
                   >
-                    Filter
+                    Clear
                   </button>
-                </form>
-                <button
-                  onClick={() => {
-                    setInput({
-                      start: "",
-                      end: "",
-                    });
-                    setTrigger(5);
-                  }}
-                  className="text-white px-4 py-1 bg-blue-600 rounded-md "
-                >
-                  Clear
-                </button>
+                </div>
               </div>
-            </div>
+            )}
+
             {loading ? (
               <Loading />
             ) : (
@@ -152,7 +152,7 @@ export default function TablePage() {
             {/* CALENDAR */}
             <button onClick={() => setPage("Calendar")}>
               <div className="my-5 flex-col justify-center items-center rounded-lg overflow-hidden shadow-slate-800 shadow-lg w-52 transition ease-in-out delay-50 bg-white hover:-translate-y-1 hover:scale-110 hover:bg-white duration-300">
-                <div className="bg-gradient-to-r from-blue-500 via-blue-400 to-blue-200 text-white py-4 px-8">
+                <div className="bg-gradient-to-r from-blue-500 via-blue-400 to-blue-200 text-black py-4 px-8">
                   <p className="text-2xl font-semibold text-white uppercase tracking-wide text-center">
                     {calendar.month}
                   </p>
@@ -167,9 +167,12 @@ export default function TablePage() {
                 </div>
               </div>
             </button>
+            <div className="container m-auto bg-gradient-to-r from-rose-700 to-pink-600 rounded-xl mb-7 mt-3 text-white shadow-gray-500 shadow-lg">
+              <h1 className="text-2xl font-bold p-2">{project?.project?.name}</h1>
+            </div>
             {/* LIVECHAT */}
-            <div className="container m-auto text-white rounded-lg bg-[#121212] shadow-slate-700 shadow-xl">
-              <div className="p-3">
+            <div className="container m-auto text-white rounded-lg bg-gray-500 shadow-xl shadow-slate-700">
+              <div className="p-1">
                 <ChatRoom />
               </div>
             </div>

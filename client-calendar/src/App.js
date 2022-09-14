@@ -38,7 +38,7 @@ function App() {
           }
         />
 
-        {/* <Route path="/" element={<Home />}> */}
+        {/* <Route path="/" element={<Home />} /> */}
         <Route
           path="/projects"
           element={
@@ -85,9 +85,9 @@ function App() {
           }
         />
       </Routes>
-      {/* <div>
+      <div>
         <FooterComponent />
-      </div> */}
+      </div>
     </div>
   );
 }

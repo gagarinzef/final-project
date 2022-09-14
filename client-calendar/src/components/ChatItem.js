@@ -16,7 +16,9 @@ const ChatItem = props => {
         color: 'black',
         flexDirection: 'column',
         margin: '5px',
-        borderRadius: 8
+        borderRadius: 8,
+        overflowWrap: 'anywhere'
+
     }
 
     const formatDate = (date) => {
@@ -48,20 +50,26 @@ const ChatItem = props => {
             } ${d.getFullYear()}`;
     }
 
-    
+
 
     return <div style={style}>
         <div>
             <span style={{
-                 float: 'left'
+                float: 'left'
             }}
-            ><b>{user}</b>: {message}</span>
+            ><b>{user}</b> :</span>
+        </div>
+        <div>
+            <span style={{
+                float: 'left'
+            }}
+            >{message}</span>
         </div>
         <span style={{
             fontSize: '9px',
             textAlign: 'end'
         }}>
-        {formatDate(createdAt)}
+            {formatDate(createdAt)}
         </span>
     </div>
 }

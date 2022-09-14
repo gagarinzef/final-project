@@ -12,7 +12,6 @@ function text(err) {
 }
 
 export const errorHandler = (err, navigate) => {
-  console.log(err);
   if (err[0] === "Invalid token") {
     localStorage.clear();
     navigate("/login");
@@ -26,7 +25,6 @@ export const errorHandler = (err, navigate) => {
 };
 
 export const success = (data) => {
-  console.log(data);
   toast.success(data.message, {
     theme: "colored",
     position: "bottom-right",
