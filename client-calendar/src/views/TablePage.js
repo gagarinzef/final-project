@@ -40,9 +40,9 @@ export default function TablePage() {
     setInput({...input, ...data});
   }
   
-  // useEffect(() => {
-  //   console.log(input);
-  // }, [input])
+  useEffect(() => {
+    console.log(input);
+  }, [input])
 
   useEffect(() => {
     dispatch(

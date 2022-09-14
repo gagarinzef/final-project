@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { fetchData } from "../../store/actions";
 import { errorHandler } from "../../helpers/toast";
 
-export default function TableTest({ data, trigger, title, created }) {
+export default function TableTest({ data, trigger, title }) {
   const dispatch = useDispatch();
   const { projectId } = useParams();
   const [task, setTask] = useState([]);
@@ -96,17 +96,41 @@ export default function TableTest({ data, trigger, title, created }) {
 
   const handleFilter = (e) => {
     switch (e.target.id) {
-      case "1":
+      case "asc":
         title({sort: "ASC"})
         break;
-      case "2":
+      case "desc":
         title({sort: "DESC"})
         break;
-      case "3":
+      case "oldest":
         title({sort: {created: "ASC"}})
         break;
-      case "4":
+      case "newest":
         title({sort: {created: "DESC"}})
+        break;
+      case "user":
+        title({UserId: e.target.value})
+        break;
+      case "none":
+        title({UserId: "none"})
+        break;
+      case "latest":
+        title({sort: {due: "DESC"}})
+        break;
+      case "older":
+        title({sort: {due: "ASC"}})
+        break;
+      case "urgent":
+        title({status: "Urgent"})
+        break;
+      case "onprogress":
+        title({status: "On Progress"})
+        break;
+      case "done":
+        title({status: "Done"})
+        break;
+      case "priority":
+        title({status: "none"})
         break;
       default:
         break;
@@ -130,14 +154,49 @@ export default function TableTest({ data, trigger, title, created }) {
                   </div>
                   <div className="group-hover:block dropdown-menu absolute hidden h-auto">
                    <ul className="w-48 bg-blue-600 shadow rounded-lg mt-0.5 ml-1">
-                      <li id="1" className="py-1 block hover:text-gray-900 hover:bg-blue-400 text-white cursor-pointer rounded-lg" onClick={handleFilter}>A-Z</li>
-                      <li id="2" className="py-1 block hover:text-gray-900 hover:bg-blue-400 text-white cursor-pointer rounded-lg" onClick={handleFilter}>Z-A</li>
+                      <li id="asc" className="py-1 block hover:text-gray-900 hover:bg-blue-400 text-white cursor-pointer rounded-lg" onClick={handleFilter}>A-Z</li>
+                      <li id="desc" className="py-1 block hover:text-gray-900 hover:bg-blue-400 text-white cursor-pointer rounded-lg" onClick={handleFilter}>Z-A</li>
                   </ul>
                 </div>
               </th>
-              <th className="bg-blue-600">Assignees</th>
-              <th className="bg-blue-600">Due Date</th>
-              <th className="bg-blue-600">Priority</th>
+              <th className="bg-blue-600 group relative dropdown px-4 hover:text-gray-900 cursor-pointer font-bold text-base tracking-wide text-center">
+                  <div className="flex flex-row justify-center">
+                  <p>Asiggnees</p>
+                  <img className="w-3 h-3 mt-1.5 -mr-20 ml-12" src="https://img.icons8.com/ultraviolet/40/000000/circled-chevron-down.png"/>
+                  </div>
+                  <div className="group-hover:block dropdown-menu absolute hidden h-auto">
+                   <ul className="w-52 bg-blue-600 shadow rounded-lg mt-0.5 ml-2">
+                      <li id="none" className="py-1 block hover:text-gray-900 hover:bg-blue-400 text-white cursor-pointer rounded-lg" onClick={handleFilter}>All Assignees</li>
+                      {member ? member.map(el => ((<li id="user" className="py-1 block hover:text-gray-900 hover:bg-blue-400 text-white cursor-pointer rounded-lg" value={el.User.id} onClick={handleFilter}>{el.User.username}</li>))) : null }
+                  </ul>
+                </div>
+              </th>
+              <th className="bg-blue-600 group relative dropdown px-4 hover:text-gray-900 cursor-pointer font-bold text-base tracking-wide text-center">
+                  <div className="flex flex-row justify-center">
+                  <p>Due Date</p>
+                  <img className="w-3 h-3 mt-1.5 -mr-5 ml-1" src="https://img.icons8.com/ultraviolet/40/000000/circled-chevron-down.png"/>
+                  </div>
+                  <div className="group-hover:block dropdown-menu absolute hidden h-auto">
+                   <ul className="w-36 bg-blue-600 shadow rounded-lg mt-0.5 ml-1">
+                      <li id="latest" className="py-1 block hover:text-gray-900 hover:bg-blue-400 text-white cursor-pointer rounded-lg" onClick={handleFilter}>Latest</li>
+                      <li id="older" className="py-1 block hover:text-gray-900 hover:bg-blue-400 text-white cursor-pointer rounded-lg" onClick={handleFilter}>Oldest</li>
+                  </ul>
+                </div>
+              </th>
+              <th className="bg-blue-600 group relative dropdown px-4 hover:text-gray-900 cursor-pointer font-bold text-base tracking-wide text-center">
+                  <div className="flex flex-row justify-center">
+                  <p>Priority</p>
+                  <img className="w-3 h-3 mt-1.5 -mr-5 ml-1" src="https://img.icons8.com/ultraviolet/40/000000/circled-chevron-down.png"/>
+                  </div>
+                  <div className="group-hover:block dropdown-menu absolute hidden h-auto">
+                   <ul className="w-36 bg-blue-600 shadow rounded-lg mt-0.5 ml-1">
+                      <li id="priority" className="py-1 block hover:text-gray-900 hover:bg-blue-400 text-white cursor-pointer rounded-lg" onClick={handleFilter}>All Priority</li>
+                      <li id="urgent" className="py-1 block hover:text-gray-900 hover:bg-blue-400 text-white cursor-pointer rounded-lg" onClick={handleFilter}>Urgent</li>
+                      <li id="onprogress" className="py-1 block hover:text-gray-900 hover:bg-blue-400 text-white cursor-pointer rounded-lg" onClick={handleFilter}>Onprogress</li>
+                      <li id="done" className="py-1 block hover:text-gray-900 hover:bg-blue-400 text-white cursor-pointer rounded-lg" onClick={handleFilter}>Done</li>
+                  </ul>
+                </div>
+              </th>
               <th className="bg-blue-600 group relative dropdown px-4 hover:text-gray-900 cursor-pointer font-bold text-base tracking-wide text-center">
                   <div className="flex flex-row justify-center">
                   <p>Created At</p>
@@ -145,8 +204,8 @@ export default function TableTest({ data, trigger, title, created }) {
                   </div>
                   <div className="group-hover:block dropdown-menu absolute hidden h-auto">
                    <ul className="w-36 bg-blue-600 shadow rounded-lg mt-0.5 ml-1">
-                      <li id="4" className="py-1 block hover:text-gray-900 hover:bg-blue-400 text-white cursor-pointer rounded-lg" onClick={handleFilter}>Newest</li>
-                      <li id="3" className="py-1 block hover:text-gray-900 hover:bg-blue-400 text-white cursor-pointer rounded-lg" onClick={handleFilter}>Oldest</li>
+                      <li id="newest" className="py-1 block hover:text-gray-900 hover:bg-blue-400 text-white cursor-pointer rounded-lg" onClick={handleFilter}>Newest</li>
+                      <li id="oldest" className="py-1 block hover:text-gray-900 hover:bg-blue-400 text-white cursor-pointer rounded-lg" onClick={handleFilter}>Oldest</li>
                   </ul>
                 </div>
               </th>
