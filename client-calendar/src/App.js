@@ -1,6 +1,6 @@
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import CalendarPage from "./components/CalendarPage";
+
 import RegisterPage from "./views/RegisterPage";
 import ProtectedRoutesLogin from "./components/ProtectedRoutesLogin";
 import ProtectedRoutesHome from "./components/ProtectedRoutesHome";
@@ -12,8 +12,6 @@ import AssignPage from "./components/AssignPage";
 import { Route, Routes } from "react-router-dom";
 import ProjectList from "./views/ProjectList";
 import FooterComponent from "./components/FooterComponent";
-import TableTest from "./components/table/TableTest";
-import Home from "./views/Home";
 
 function App() {
   return (
@@ -21,7 +19,7 @@ function App() {
       <ToastContainer />
       <Routes>
         <Route
-          path="/login"
+          path="/"
           element={
             <ProtectedRoutesHome>
               <LoginPage />
@@ -38,7 +36,6 @@ function App() {
           }
         />
 
-        {/* <Route path="/" element={<Home />}> */}
         <Route
           path="/projects"
           element={
@@ -56,7 +53,6 @@ function App() {
             </ProtectedRoutesLogin>
           }
         />
-        {/* </Route> */}
 
         <Route
           path="/assign/:projectId"

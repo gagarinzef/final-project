@@ -128,12 +128,12 @@ export default function ProjectList() {
       </div>
       {showModal ? (
         <>
-          <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className="relative w-auto my-6 mx-auto max-w-3xl">
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-abu outline-none focus:outline-none">
+          <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0  z-50 outline-none focus:outline-none">
+            <div className="relative w-96 my-6 mx-auto max-w-3xl">
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-gradient-to-r from-pink-900 to-pink-500 outline-none focus:outline-none">
                 <div className="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t ">
-                  <h3 className="text-3xl text-white font-bold uppercase">
-                    New
+                  <h3 className="text-2xl text-white font-bold uppercase mt-2">
+                    Create Project
                   </h3>
                   <button
                     className="bg-transparent border-0 text-black float-right"
@@ -146,22 +146,31 @@ export default function ProjectList() {
                 </div>
                 <form
                   onSubmit={handleSubmit}
-                  className="bg-abu shadow-md rounded px-8 pt-6 pb-8 w-full"
+                  className="bg-slate-100 shadow-md rounded px-8 pt-6 pb-2 w-full"
                 >
-                  <div className="relative p-6 flex-auto">
-                    <label className="block text-white text-sm font-extrabold mb-1">
-                      Title
+                  <div className="relative p-4 flex-auto">
+                    <label className="block text-slate-700 text-md font-extrabold mb-1">
+                      <a
+                        target="_blank"
+                        href="https://icons8.com/icon/DUi0tw0LJ06n/training"
+                      ></a>
+                      <img
+                        className="h-16"
+                        src="https://img.icons8.com/fluency/48/000000/training.png"
+                      />
+                      Project's Title
                     </label>
                     <input
                       name="name"
                       type="name"
                       onChange={handleChange}
-                      className="shadow appearance-none border rounded w-full py-2 px-1 text-black"
+                      placeholder="My Project"
+                      className="shadow appearance-none border rounded w-full mb-6 py-2 px-1 text-black"
                     />
                   </div>
-                  <div className="flex items-center justify-center p-6 border-t border-solid border-blueGray-200 rounded-b">
+                  <div className="flex items-center justify-center px-2 pb-2 pt-4  rounded-b">
                     <button
-                      className="text-white bg-blue-600 active:bg-blue-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                      className="text-slate-100 bg-pink-600 active:bg-blue-700 font-bold uppercase text-sm px-6 py-3 rounded-lg shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                       type="submit"
                     >
                       Submit

@@ -102,18 +102,18 @@ export default function TableTest({ data, trigger }) {
   return (
     <div className="container overflow-visible">
       <div className="bg-white rounded-md p-0.5">
-        <table className="table-auto w-full border-spacing:20%">
+        <table className="table-auto w-full ">
           <thead className="text-white">
             <tr className="divide-x-2 divide-slate-300">
               <th className="bg-blue-600 rounded-sm border-b-2 border-slate-300 ">
                 No.
               </th>
-              <th className="bg-blue-600">Title</th>
+              <th className="bg-blue-600">Task</th>
               <th className="bg-blue-600">Assignees</th>
               <th className="bg-blue-600">Due Date</th>
-              <th className="bg-blue-600">Priority</th>
-              <th className="bg-blue-600">Created At</th>
-              <th className="bg-blue-600 px-2 rounded-sm">Action</th>
+              <th className="bg-blue-600">Status</th>
+              <th className="bg-blue-600">Posted At</th>
+              <th className="bg-blue-600 px-4 rounded-sm"></th>
             </tr>
           </thead>
           <tbody className="h-fit">

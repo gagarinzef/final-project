@@ -8,7 +8,7 @@ import ChatRoom from "../components/ChatRoom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchData } from "../store/actions";
 
-export default function TablePage() {
+export default function TablePage({}) {
   const dispatch = useDispatch();
   const { project } = useSelector((state) => state.project);
   const date = new Date();
@@ -21,6 +21,7 @@ export default function TablePage() {
     dayName: date.toLocaleString(lang, { weekday: "long" }),
     dayNumber: date.getDate(),
   });
+
   const [trigger, setTrigger] = useState("");
   const [input, setInput] = useState({
     start: "",
@@ -95,14 +96,14 @@ export default function TablePage() {
                 </button>
               </div>
 
-              <h1 className="text-white flex justify-start pt-4 pl-10 text-weight-bold">
-                By Created At
+              <h1 className="text-white flex justify-end  pr-10 text-weight-bold">
+                By Posted At
               </h1>
-              <div className="flex justify-star pl-10">
+              <div className="flex justify-end pr-10">
                 <div></div>
                 <div className="flex justify-between">
                   <form onSubmit={handleSubmit}>
-                    <label className=" text-white">Start:</label>
+                    <label className=" text-white">From:</label>
                     <input
                       name="start"
                       type="date"
@@ -110,7 +111,7 @@ export default function TablePage() {
                       value={input.start}
                       className="mx-2"
                     />
-                    <label className="text-white">End:</label>
+                    <label className="text-white">To:</label>
                     <input
                       name="end"
                       type="date"
@@ -141,7 +142,7 @@ export default function TablePage() {
               </div>
 
               {/* TABLE CONTAINER */}
-              <div className="flex justify-center mt-8 mx-10">
+              <div className="flex justify-center mt-6 mx-10">
                 {page === "Kanban" && <Kanban trigger={value} />}
                 {/* TABLE COMPONENT */}
                 {page === "Table" && (
