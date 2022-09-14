@@ -439,7 +439,6 @@ return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://w
           <table class="email-content" width="100%" cellpadding="0" cellspacing="0" role="presentation">
             <tr>
               <td class="email-masthead">
-                <img src="https://i.postimg.cc/s2rkZHpL/icon.jpg" alt="website logo" width="250" height="250">
               </td>
             </tr>
             <!-- Email Body -->
@@ -447,6 +446,11 @@ return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://w
               <td class="email-body" width="570" cellpadding="0" cellspacing="0">
                 <table class="email-body_inner" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
                   <!-- Body content -->
+                  <tr>
+                  <td class="email-masthead">
+                    <img src="https://i.postimg.cc/T3gw4x5j/unknown.png" alt="website logo" width="250" height="250">
+                  </td>
+                 </tr>
                   <tr>
                     <td class="content-cell">
                       <div class="f-fallback">

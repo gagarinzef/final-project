@@ -15,16 +15,12 @@ function InvitationPage() {
         const { data } = await axios(
           `http://localhost:3001/userprojects/accept?UserId=${searchParams.get("UserId")}&ProjectId=${searchParams.get("ProjectId")}`,
           {
-            method: "post",
-            headers: {
-              access_token: localStorage.getItem("access_token"),
-            },
+            method: "post"
           }
         );
         setMessage(data.message);
         setTimeout(() => navigate(`/table/${searchParams.get("ProjectId")}`), 2000);
       } catch (error) {
-        console.log(error);
         setError(true);
         setMessage(error.response.data.message);
         setTimeout(() => navigate(`/table/${searchParams.get("ProjectId")}`), 2000);
@@ -38,7 +34,7 @@ function InvitationPage() {
     <div className="InvitationPage">
     <div className="flex justify-center mt-20">
       <a className="block p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-1000">
-      <img src="https://i.postimg.cc/s2rkZHpL/icon.jpg" className="w-40 h-40 m-auto mb-10"></img>
+      <img src="https://i.postimg.cc/T3gw4x5j/unknown.png" className="w-40 h-40 m-auto mb-10"></img>
       {error ? ( <>
       <p className="text-gray-700 font-bold"> {message} </p>
       <img src={loading} className="w-10 h-10 mt-10 mb-10 m-auto"></img>
