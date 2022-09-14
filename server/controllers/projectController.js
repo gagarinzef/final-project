@@ -81,7 +81,6 @@ class ProjectController {
       let obj = {};
       let option = {};
       let list = { order: [[{ model: Task }, "createdAt", "DESC"]] };
-      console.log(req.query, "TEST");
       if (req.query.key) {
         const {
           start: startDate,
@@ -192,10 +191,8 @@ class ProjectController {
           },
         },
       });
-
       res.status(200).json({ project, member });
     } catch (error) {
-      console.log(error);
       next(error);
     }
   }

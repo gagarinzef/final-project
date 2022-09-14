@@ -150,7 +150,7 @@ const ChatRoom = (props) => {
         <button
           style={{
             width: "30px",
-            backgroundColor: "black",
+            backgroundColor: "#292524",
             cursor: "pointer",
             borderRadius: "5px",
             fontSize: "12px",

@@ -8,7 +8,7 @@ export const errorHandler = (err, navigate) => {
   }
   toast.error(err, {
     theme: "colored",
-    position: "bottom-right",
+    position: "top-right",
     pauseOnHover: false,
     autoClose: 1000,
   });
@@ -17,7 +17,7 @@ export const errorHandler = (err, navigate) => {
 export const success = (data) => {
   toast.success(data.message, {
     theme: "colored",
-    position: "bottom-right",
+    position: "top-right",
     pauseOnHover: false,
     autoClose: 1000,
   });

@@ -79,7 +79,7 @@ export default function TablePage() {
     setInput({ ...input, [name]: value });
   };
 
-  useEffect(() => { }, [project, dispatch, projectId]);
+  useEffect(() => {}, [project, dispatch, projectId]);
   return (
     <>
       <div className="flex">
@@ -109,27 +109,27 @@ export default function TablePage() {
             {page !== "Kanban" && (
               <div className="flex justify-end">
                 <div className="container bg-stone-800 p-3 rounded-lg w-1/2 mx-9 my-4">
-                  <h1 className="text-white flex justify-end font-bold">
+                  <h1 className="text-white flex justify-start mb-3 font-bold">
                     By Created At
                   </h1>
-                  <div className="flex justify-end">
+                  <div className="flex justify-start">
                     <div className="flex">
                       <form onSubmit={handleSubmit}>
-                        <label className=" text-white">Start:</label>
+                        <label className=" text-white">From :</label>
                         <input
                           name="start"
                           type="date"
                           onChange={handleChange}
                           value={input.start}
-                          className="mx-2"
+                          className="mx-4"
                         />
-                        <label className="text-white">End:</label>
+                        <label className="text-white">To :</label>
                         <input
                           name="end"
                           type="date"
                           onChange={handleChange}
                           value={input.end}
-                          className="ml-2"
+                          className="ml-4"
                         />
                         <button
                           type="submit"
@@ -202,9 +202,10 @@ export default function TablePage() {
             <div className="fixed bottom-0">
               <button
                 onClick={() => setToggle(!toggle)}
-                className={`${!toggle ? "animate-bounce" : "animate-none"
-                  } w-full inline-block px-24 py-2.5 bg-black text-white font-medium leading-tight rounded-md shadow-md 
-                hover:bg-white hover:shadow-lg hover:text-black 
+                className={`${
+                  !toggle ? "animate-bounce" : "animate-none"
+                } w-full inline-block px-24 py-2.5 bg-stone-800 text-white font-medium leading-tight rounded-md shadow-md 
+                hover:bg-white hover:shadow-lg hover:text-stone-800 
                 focus:shadow-lg  
                 focus:outline-none focus:ring-0 
                 active:shadow-lg transition duration-150 ease-in-out mb-1 mt-6 text-lg`}
