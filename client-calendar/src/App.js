@@ -1,6 +1,5 @@
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import CalendarPage from "./components/CalendarPage";
 import RegisterPage from "./views/RegisterPage";
 import ProtectedRoutesLogin from "./components/ProtectedRoutesLogin";
 import ProtectedRoutesHome from "./components/ProtectedRoutesHome";
@@ -9,12 +8,14 @@ import LoginPage from "./views/LoginPage";
 import InvitationPage from "./components/InvitationPage";
 import TablePage from "./views/TablePage";
 import AssignPage from "./components/AssignPage";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import ProjectList from "./views/ProjectList";
 import FooterComponent from "./components/FooterComponent";
 import TableTest from "./components/table/TableTest";
+import CalendarPage from "./components/CalendarPage";
 
 function App() {
+  const location = useLocation();
   return (
     <div className="App">
       <ToastContainer />
@@ -83,16 +84,17 @@ function App() {
           }
         />
 
-        <Route
-          path="/invitation"
-          element={
-              <InvitationPage />
-          }
-        />
+        <Route path="/invitation" element={<InvitationPage />} />
       </Routes>
-      <div>
-        <FooterComponent />
-      </div>
+
+      {location.pathname !== "/invitation" ||
+        location.pathname !== "/verified/:token" ||
+        location.pathname !==
+          "/assign/:projectId"(
+            <div>
+              <FooterComponent />
+            </div>
+          )}
     </div>
   );
 }

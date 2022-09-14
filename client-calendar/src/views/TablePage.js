@@ -25,6 +25,7 @@ export default function TablePage() {
     dayName: date.toLocaleString(lang, { weekday: "long" }),
     dayNumber: date.getDate(),
   });
+
   const [trigger, setTrigger] = useState("");
   const [input, setInput] = useState({
     start: "",
@@ -102,12 +103,12 @@ export default function TablePage() {
               </button>
             </div>
             {page !== "Kanban" && (
-              <>
+              <div className="flex justify-end">
                 <div className="container bg-stone-800 p-3 rounded-lg w-1/2 mx-9 my-4">
-                  <h1 className="text-white flex justify-start font-bold">
+                  <h1 className="text-white flex justify-end font-bold">
                     By Created At
                   </h1>
-                  <div className="flex justify-start">
+                  <div className="flex justify-end">
                     <div className="flex">
                       <form onSubmit={handleSubmit}>
                         <label className=" text-white">Start:</label>
@@ -148,7 +149,7 @@ export default function TablePage() {
                     </div>
                   </div>
                 </div>
-              </>
+              </div>
             )}
 
             {loading ? (
