@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Swal from "sweetalert2";
-import { success } from "../helpers/toast";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -20,9 +18,6 @@ function LoginPage() {
   // INPUT DATA TO SERVER
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const msg = {
-      message: "Login success"
-    }
     try {
       const { email, password } = input;
       const { data } = await axios(`http://localhost:3001/users/login`, {
@@ -33,7 +28,6 @@ function LoginPage() {
       localStorage.setItem("username", data.username);
       localStorage.setItem("access_token", data.access_token);
       navigate(`/projects`);
-      success(msg)
     } catch (error) {
       console.log(error);
     }
