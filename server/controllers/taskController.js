@@ -1,8 +1,7 @@
 const { Task, User, Project } = require("../models");
 const assignEmail = require("../helpers/assignEmail");
-const socket = require("../app");
-// const WebSocket = require("ws");
-// const wss = new WebSocket.Server({ port: process.env.PORT || 3002 });
+const WebSocket = require("ws");
+const wss = new WebSocket.Server({ port: 3002 });
 // socket;
 
 class TaskController {
