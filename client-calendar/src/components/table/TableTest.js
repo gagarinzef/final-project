@@ -116,7 +116,6 @@ export default function TableTest({ data, trigger, title }) {
   };
 
   const handleFilter = (e) => {
-    console.log(e.target.id);
     switch (e.target.id) {
       case "asc":
         title({ sort: "ASC" });
@@ -157,10 +156,6 @@ export default function TableTest({ data, trigger, title }) {
       default:
         break;
     }
-  };
-
-  const func = () => {
-    console.log("masuk");
   };
 
   return (

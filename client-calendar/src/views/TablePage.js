@@ -37,7 +37,6 @@ export default function TablePage() {
   });
 
   const value = (data) => {
-    console.log(data);
     setTrigger(data);
   };
 
