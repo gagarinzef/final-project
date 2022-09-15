@@ -37,6 +37,10 @@ export default function CreateModal({
         success(data);
         trigger(input);
         setShow(false);
+        setInput({
+          title: "",
+          color: "",
+        });
       })
       .catch((err) => {
         errorHandler(err);
