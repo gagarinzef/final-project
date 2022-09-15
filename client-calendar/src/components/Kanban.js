@@ -13,7 +13,7 @@ export default function Kanban({ trigger }) {
   var HOST = window.location.origin.replace(/^http/, "ws");
   // const ws = new WebSocket("wss://wokitout-server.herokuapp.com");
 
-  const ws = new WebSocket(HOST);
+  // const ws = new WebSocket(HOST);
   const [value, setValue] = useState("");
 
   const fetchTask = async () => {
