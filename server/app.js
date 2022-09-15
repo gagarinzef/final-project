@@ -10,7 +10,11 @@ const app = require("express")();
 const server = require("http").Server(app);
 const bodyParser = require("body-parser");
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(router);

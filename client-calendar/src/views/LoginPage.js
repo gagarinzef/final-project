@@ -23,7 +23,7 @@ function LoginPage() {
     event.preventDefault();
     try {
       const { email, password } = input;
-      const { data } = await axios(`${URL_SERVER}/login`, {
+      const { data } = await axios(`${URL_SERVER}/users/login`, {
         method: "post",
         data: { email, password },
       });

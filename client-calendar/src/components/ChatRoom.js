@@ -5,7 +5,7 @@ import io from "socket.io-client";
 import { URL_SERVER } from "../helpers/server-link";
 import ChatItem from "./ChatItem";
 
-const socket = io.connect("https://wokitout-socket-server.herokuapp.com");
+const socket = io.connect("https://wokitout-socket-server.herokuapp.com/");
 
 const ChatRoom = (props) => {
   const [currentProjectId, setCurrentProjectId] = useState(null);
