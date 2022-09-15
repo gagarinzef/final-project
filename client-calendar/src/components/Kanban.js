@@ -2,6 +2,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { URL_SERVER } from "../helpers/server-link";
 
 export default function Kanban({ trigger }) {
   const { projectId } = useParams();
@@ -9,7 +10,7 @@ export default function Kanban({ trigger }) {
   const [initColumns, setInitColumns] = useState({});
   const [loading, setLoading] = useState(true);
   // var HOST = window.location.origin.replace(/^http/, "ws");
-  const ws = new WebSocket("ws://localhost:3002/");
+  const ws = new WebSocket("ws://wokitout-server.herokuapp.com");
   // const ws = new WebSocket(HOST);
 
   const fetchTask = async () => {
@@ -29,7 +30,7 @@ export default function Kanban({ trigger }) {
     try {
       const { data } = await axios({
         method: "GET",
-        url: `http://localhost:3001/tasks/project/${projectId}`,
+        url: `${URL_SERVER}/tasks/project/${projectId}`,
         headers: {
           access_token: localStorage.getItem("access_token"),
         },
@@ -56,7 +57,7 @@ export default function Kanban({ trigger }) {
     try {
       const { data } = await axios({
         method: "PUT",
-        url: `http://localhost:3001/tasks`,
+        url: `${URL_SERVER}/tasks`,
         headers: {
           access_token: localStorage.getItem("access_token"),
         },
@@ -84,14 +85,6 @@ export default function Kanban({ trigger }) {
       const sourceItems = [...sourceColumn.items];
       const destItems = [...destColumn.items];
       const [removed] = sourceItems.splice(source.index, 1);
-
-      // bisa pake bisa ngga
-      // const updated = {
-      //   ...removed,
-      //   status: destColumn.name,
-      //   color: destColumn.color,
-      // };
-      // setUpdatedData(updated);
 
       destItems.splice(destination.index, 0, removed);
       setColumns({

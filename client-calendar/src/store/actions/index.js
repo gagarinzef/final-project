@@ -65,12 +65,6 @@ export const fetchData = (url, method, data, domain) => {
             case "task":
               dispatch(taskFetchSuccess(data));
               break;
-            // case "categories":
-            //   dispatch(categoriesFetchSuccess(data));
-            //   break;
-            // case "user":
-            //   dispatch(userFetchSuccess(data));
-            //   break;
           }
         }
         return data;

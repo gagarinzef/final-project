@@ -6,6 +6,7 @@ import { fetchData } from "../store/actions";
 import Loading from "../components/Loader/Loading";
 import Swal from "sweetalert2";
 import { success } from "../helpers/toast";
+import { URL_SERVER } from "../helpers/server-link";
 
 export default function ProjectList() {
   const dispatch = useDispatch();
@@ -19,9 +20,7 @@ export default function ProjectList() {
   const [value, setValue] = useState("");
 
   useEffect(() => {
-    dispatch(
-      fetchData(`http://localhost:3001/projects`, "GET", null, "projects")
-    )
+    dispatch(fetchData(`${URL_SERVER}/projects`, "GET", null, "projects"))
       .then(() => {
         setLoading(false);
       })
@@ -42,7 +41,7 @@ export default function ProjectList() {
       newInput = data;
     }
 
-    dispatch(fetchData(`http://localhost:3001/projects`, "POST", newInput))
+    dispatch(fetchData(`${URL_SERVER}/projects`, "POST", newInput))
       .then(() => {
         setValue(newInput);
         setShowModal(false);
@@ -64,9 +63,7 @@ export default function ProjectList() {
     })
       .then((result) => {
         if (result.isConfirmed) {
-          return dispatch(
-            fetchData(`http://localhost:3001/projects/${id}`, "DELETE")
-          );
+          return dispatch(fetchData(`${URL_SERVER}/projects/${id}`, "DELETE"));
         }
       })
 

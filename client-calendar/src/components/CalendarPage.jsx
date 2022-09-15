@@ -9,6 +9,7 @@ import UpdateModal from "./modal/UpdateModal";
 import { useDispatch } from "react-redux";
 import { fetchData } from "../store/actions";
 import { success } from "../helpers/toast";
+import { URL_SERVER } from "../helpers/server-link";
 
 function CalendarPage({ data, trigger }) {
   const { projectId } = useParams();
@@ -54,7 +55,7 @@ function CalendarPage({ data, trigger }) {
 
     dispatch(
       fetchData(
-        `http://localhost:3001/tasks/${info.event._def.publicId}`,
+        `${URL_SERVER}/tasks/${info.event._def.publicId}`,
         "PATCH",
         input
       )

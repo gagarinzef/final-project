@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { success } from "../helpers/toast";
+import { URL_SERVER } from "../helpers/server-link";
 
 export default function SideNav({}) {
   const location = useLocation();
@@ -26,7 +27,7 @@ export default function SideNav({}) {
     event.preventDefault();
     try {
       const { name } = input;
-      const { data } = await axios(`http://localhost:3001/projects`, {
+      const { data } = await axios(`${URL_SERVER}/projects`, {
         method: "post",
         headers: {
           "Content-Type": "application/json",
@@ -47,7 +48,7 @@ export default function SideNav({}) {
     event.preventDefault();
     try {
       const { email } = input;
-      const { data } = await axios(`http://localhost:3001/userprojects`, {
+      const { data } = await axios(`${URL_SERVER}/userprojects`, {
         method: "post",
         headers: {
           "Content-Type": "application/json",

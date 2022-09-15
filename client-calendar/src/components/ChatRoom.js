@@ -2,9 +2,10 @@ import axios from "axios";
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import io from "socket.io-client";
+import { URL_SERVER } from "../helpers/server-link";
 import ChatItem from "./ChatItem";
 
-const socket = io.connect("http://localhost:3003");
+const socket = io.connect("https://wokitout-socket-server.herokuapp.com");
 
 const ChatRoom = (props) => {
   const [currentProjectId, setCurrentProjectId] = useState(null);
@@ -45,7 +46,7 @@ const ChatRoom = (props) => {
 
   useEffect(() => {
     if (projectId) {
-      axios(`http://localhost:3001/projects/${projectId}/chat`, {
+      axios(`${URL_SERVER}/projects/${projectId}/chat`, {
         method: "get",
         headers: {
           access_token: localStorage.getItem("access_token"),

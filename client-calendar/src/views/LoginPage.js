@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import people from "../assets/people.png";
 import { errorHandler } from "../helpers/toast";
+import { URL_SERVER } from "../helpers/server-link";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ function LoginPage() {
     event.preventDefault();
     try {
       const { email, password } = input;
-      const { data } = await axios(`http://localhost:3001/users/login`, {
+      const { data } = await axios(`${URL_SERVER}/login`, {
         method: "post",
         data: { email, password },
       });

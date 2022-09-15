@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import people from "../assets/people.png";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { URL_SERVER } from "../helpers/server-link";
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -22,17 +23,17 @@ function RegisterPage() {
     event.preventDefault();
     try {
       const { username, email, password } = input;
-      const { data } = await axios(`http://localhost:3001/users`, {
+      const { data } = await axios(`${URL_SERVER}/users`, {
         method: "post",
         data: { username, email, password },
       });
       Swal.fire({
-        position: 'top',
-        icon: 'success',
+        position: "top",
+        icon: "success",
         title: `Thank you for registering! ${data.message}`,
         showConfirmButton: false,
-        timer: 1500
-      })
+        timer: 1500,
+      });
       setTimeout(() => navigate("/"), 1700);
     } catch (error) {
       Swal.fire({
@@ -51,7 +52,9 @@ function RegisterPage() {
             <div className="bg-white p-10 flex flex-col w-full shadow-xl rounded-xl m-auto">
               <div className="flex flex-col w-full md:items-center mb-10">
                 <img
-                  src={"https://images-ext-2.discordapp.net/external/UJyLyld9NIfjmLolyhqa8UJs9LH0C9nonv7665KOYz4/https/i.postimg.cc/T3gw4x5j/unknown.png"}
+                  src={
+                    "https://images-ext-2.discordapp.net/external/UJyLyld9NIfjmLolyhqa8UJs9LH0C9nonv7665KOYz4/https/i.postimg.cc/T3gw4x5j/unknown.png"
+                  }
                   alt="Wok-it-Out"
                   className="w-40 rounded-lg"
                 />
