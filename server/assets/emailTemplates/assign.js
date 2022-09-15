@@ -1,5 +1,5 @@
 const assign = (obj) => {
-    return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
     <html xmlns="http://www.w3.org/1999/xhtml">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -464,7 +464,7 @@ const assign = (obj) => {
                                   <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
                                     <tr>
                                       <td align="center">
-                                        <a href="http://localhost:3000/assign/${obj.ProjectId}" class="f-fallback button button--green" target="_blank"><span style="color: white">Accept</span></a>
+                                        <a href="https://wokitout-project.web.app/assign/${obj.ProjectId}" class="f-fallback button button--green" target="_blank"><span style="color: white">Accept</span></a>
                                       </td>
                                     </tr>
                                   </table>
@@ -499,7 +499,7 @@ const assign = (obj) => {
           </tr>
         </table>
       </body>
-    </html>`
-    }
-    
-    module.exports = assign
+    </html>`;
+};
+
+module.exports = assign;

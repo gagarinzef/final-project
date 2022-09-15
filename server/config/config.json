@@ -2,22 +2,27 @@
   "development": {
     "username": "postgres",
     "password": "postgres",
+    "database": "sandbox-fp",
     "host": "127.0.0.1",
-    "dialect": "postgres",
-    "database": "sandbox-fp"
+    "dialect": "postgres"
   },
   "test": {
-    "username": "postgres",
-    "password": "postgres",
-    "host": "127.0.0.1",
-    "dialect": "postgres",
-    "database": "database_test"
-  },
-  "production": {
     "username": "root",
     "password": null,
-    "database": "database_production",
+    "database": "database_test",
     "host": "127.0.0.1",
     "dialect": "mysql"
+  },
+  "production": {
+    "use_env_variable": "DATABASE_URL",
+    "ssl": true,
+    "dialect": "postgres",
+    "protocol": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
   }
 }
