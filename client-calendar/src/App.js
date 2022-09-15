@@ -89,7 +89,7 @@ function App() {
 
       {location.pathname !== "/invitation" &&
         location.pathname !== "/assign/:projectId" &&
-        location.pathname !== "/table/:projectId" && (
+        location.pathname !== "/verified/:token" && (
           <div>
             <FooterComponent />
           </div>
