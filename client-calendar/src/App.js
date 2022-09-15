@@ -87,13 +87,13 @@ function App() {
         <Route path="/invitation" element={<InvitationPage />} />
       </Routes>
 
-      {location.pathname !== "/invitation" &&
+      {/* {location.pathname !== "/invitation" &&
         location.pathname !== "/assign/:projectId" &&
         location.pathname !== "/verified/:token" && (
           <div>
             <FooterComponent />
           </div>
-        )}
+        )} */}
     </div>
   );
 }

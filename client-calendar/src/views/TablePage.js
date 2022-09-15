@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchData } from "../store/actions";
 import Loading from "../components/Loader/Loading";
 import { errorHandler } from "../helpers/toast";
+import { URL_SERVER } from "../helpers/server-link";
 
 export default function TablePage() {
   const navigate = useNavigate();
@@ -36,7 +37,6 @@ export default function TablePage() {
   });
 
   const value = (data) => {
-    console.log(data);
     setTrigger(data);
   };
 
@@ -48,9 +48,7 @@ export default function TablePage() {
   useEffect(() => {
     dispatch(
       fetchData(
-        `http://localhost:3001/projects/${projectId}?key=${JSON.stringify(
-          input
-        )}`,
+        `${URL_SERVER}/projects/${projectId}?key=${JSON.stringify(input)}`,
         "GET",
         null,
         "project"

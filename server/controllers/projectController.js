@@ -207,10 +207,25 @@ class ProjectController {
   }
 
   static async deleteProjectById(req, res, next) {
+    const { id } = req.user;
     try {
       const { projectId } = req.params;
       const findProject = await Project.findByPk(projectId);
       if (!findProject) throw { name: "notFound" };
+
+      const user = await UserProject.findOne({
+        where: {
+          ProjectId: projectId,
+          UserId: id,
+        },
+      });
+      if (!user) {
+        throw { name: "notFound" };
+      }
+      if (user.role !== "leader") {
+        throw { name: "forbidden" };
+      }
+
       await Project.destroy({ where: { id: projectId } });
       res.status(200).json({ message: `${findProject.name} has been deleted` });
     } catch (error) {

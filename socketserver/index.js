@@ -12,7 +12,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000", // *
+    origin: "https://wokitout-project.web.app", // *
     methods: ["GET", "POST"],
   },
 });
@@ -21,7 +21,7 @@ const saveChat = (result) => {
   const SOCKET_SECRET_KEY = "kGFHCuUoOlRyoBgRis5y9KfDKvKWpO66";
   const { data } = result;
 
-  axios(`http://localhost:3001/chat`, {
+  axios(`https://wokitout-server.herokuapp.com/chat`, {
     method: "post",
     headers: {
       socket_key: SOCKET_SECRET_KEY,

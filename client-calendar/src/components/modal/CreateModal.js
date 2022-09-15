@@ -3,6 +3,7 @@ import { Fragment, useState } from "react";
 import { useDispatch } from "react-redux";
 import { fetchData } from "../../store/actions";
 import { errorHandler, success } from "../../helpers/toast";
+import { URL_SERVER } from "../../helpers/server-link";
 
 export default function CreateModal({
   show,
@@ -26,19 +27,19 @@ export default function CreateModal({
   const handleSubmit = (event) => {
     event.preventDefault();
     dispatch(
-      fetchData(`http://localhost:3001/tasks`, "POST", {
+      fetchData(`${URL_SERVER}/tasks`, "POST", {
         ...input,
         ProjectId: projectId,
         date: dueDate,
       })
     )
       .then((data) => {
-        success(data)
+        success(data);
         trigger(input);
         setShow(false);
       })
       .catch((err) => {
-        errorHandler(err)
+        errorHandler(err);
       });
   };
 

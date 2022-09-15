@@ -16,18 +16,6 @@ export const taskFetchSuccess = (payload) => {
   return { type: TASK_FETCH_SUCCESS, payload };
 };
 
-// export const productByIdFetchSuccess = (payload) => {
-//   return { type: PRODUCT_BY_ID_FETCH_SUCCESS, payload };
-// };
-
-// export const categoriesFetchSuccess = (payload) => {
-//   return { type: CATEGORIES_FETCH_SUCCESS, payload };
-// };
-
-// export const userFetchSuccess = (payload) => {
-//   return { type: USER_FETCH_SUCCESS, payload };
-// };
-
 export const fetchData = (url, method, data, domain) => {
   return (dispatch) => {
     let option = {
@@ -65,12 +53,6 @@ export const fetchData = (url, method, data, domain) => {
             case "task":
               dispatch(taskFetchSuccess(data));
               break;
-            // case "categories":
-            //   dispatch(categoriesFetchSuccess(data));
-            //   break;
-            // case "user":
-            //   dispatch(userFetchSuccess(data));
-            //   break;
           }
         }
         return data;

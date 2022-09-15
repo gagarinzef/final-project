@@ -6,6 +6,7 @@ import {
 const initState = {
   project: [],
   projects: [],
+  UserId: "",
 };
 
 export default function projectReducer(state = initState, action) {
@@ -20,11 +21,6 @@ export default function projectReducer(state = initState, action) {
         ...state,
         projects: action.payload,
       };
-    // case PRODUCT_BY_ID_FETCH_SUCCESS:
-    //   return {
-    //     ...state,
-    //     productById: action.payload,
-    //   };
     default:
       return state;
   }

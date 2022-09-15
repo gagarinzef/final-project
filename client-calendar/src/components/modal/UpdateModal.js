@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchData } from "../../store/actions";
 import { errorHandler, success } from "../../helpers/toast";
 import Swal from "sweetalert2";
+import { URL_SERVER } from "../../helpers/server-link";
 
 export default function UpdateModal({
   show,
@@ -44,7 +45,7 @@ export default function UpdateModal({
   useEffect(() => {
     if (eventID) {
       dispatch(
-        fetchData(`http://localhost:3001/tasks/${eventID}`, "GET", null, "task")
+        fetchData(`${URL_SERVER}/tasks/${eventID}`, "GET", null, "task")
       ).catch((err) => {
         errorHandler(err);
       });
@@ -66,7 +67,7 @@ export default function UpdateModal({
   const handleUpdate = (event) => {
     event.preventDefault();
     dispatch(
-      fetchData(`http://localhost:3001/tasks/${eventID}`, "PATCH", {
+      fetchData(`${URL_SERVER}/tasks/${eventID}`, "PATCH", {
         ...input,
         ProjectId: projectId,
         UserId: input.user,
@@ -95,7 +96,7 @@ export default function UpdateModal({
       .then((result) => {
         if (result.isConfirmed) {
           return dispatch(
-            fetchData(`http://localhost:3001/tasks/${eventID}`, "DELETE")
+            fetchData(`${URL_SERVER}/tasks/${eventID}`, "DELETE")
           );
         }
       })

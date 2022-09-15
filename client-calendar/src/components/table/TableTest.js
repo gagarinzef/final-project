@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { fetchData } from "../../store/actions";
 import { errorHandler } from "../../helpers/toast";
 import Swal from "sweetalert2";
+import { URL_SERVER } from "../../helpers/server-link";
 
 export default function TableTest({ data, trigger, title }) {
   const dispatch = useDispatch();
@@ -24,7 +25,6 @@ export default function TableTest({ data, trigger, title }) {
   const [togglePosted, setTogglePosted] = useState(false);
 
   useEffect(() => {
-    console.log(data, "tabletest");
     if (data.project) {
       setTask(data?.project?.Tasks);
     } else {
@@ -44,7 +44,7 @@ export default function TableTest({ data, trigger, title }) {
   };
 
   const createTask = () => {
-    dispatch(fetchData(`http://localhost:3001/tasks`, "POST", input))
+    dispatch(fetchData(`${URL_SERVER}/tasks`, "POST", input))
       .then(() => {
         trigger(input);
         setInput({
@@ -56,6 +56,7 @@ export default function TableTest({ data, trigger, title }) {
         });
       })
       .catch((err) => {
+        // console.log(err);
         // errorHandler(err);
       });
   };
@@ -82,14 +83,12 @@ export default function TableTest({ data, trigger, title }) {
       newInput = obj;
     }
 
-    dispatch(
-      fetchData(`http://localhost:3001/tasks/${newInput.id}`, "PATCH", newInput)
-    )
+    dispatch(fetchData(`${URL_SERVER}/tasks/${newInput.id}`, "PATCH", newInput))
       .then((data) => {
         trigger(data);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 
@@ -105,9 +104,7 @@ export default function TableTest({ data, trigger, title }) {
     })
       .then((result) => {
         if (result.isConfirmed) {
-          return dispatch(
-            fetchData(`http://localhost:3001/tasks/${id}`, "DELETE")
-          );
+          return dispatch(fetchData(`${URL_SERVER}/tasks/${id}`, "DELETE"));
         }
       })
       .then(() => {
@@ -119,7 +116,6 @@ export default function TableTest({ data, trigger, title }) {
   };
 
   const handleFilter = (e) => {
-    console.log(e.target.id);
     switch (e.target.id) {
       case "asc":
         title({ sort: "ASC" });
@@ -160,10 +156,6 @@ export default function TableTest({ data, trigger, title }) {
       default:
         break;
     }
-  };
-
-  const func = () => {
-    console.log("masuk");
   };
 
   return (
