@@ -6,8 +6,9 @@ const PORT = process.env.PORT || 3001;
 const router = require("./routes/index");
 const errorHandler = require("./middleware/errorHandler");
 
-const app = require("express")();
-const server = require("http").Server(app);
+const exoress = require("express");
+const app = express();
+// const server = require("http").Server(app);
 const bodyParser = require("body-parser");
 
 app.use(
@@ -15,11 +16,18 @@ app.use(
     origin: "*",
   })
 );
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(router);
 app.use(errorHandler);
 
-server.listen(PORT, () => console.log(`Listening port ${PORT}`));
+// server.listen(PORT, () => console.log(`Listening port ${PORT}`));
 
-module.exports = app;
+const server = app.listen(PORT, () => {
+  console.log("started app");
+});
+
+const socket = new WebSocket.Server({ server: server });
+
+export default socket;

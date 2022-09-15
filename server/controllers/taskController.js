@@ -1,7 +1,9 @@
 const { Task, User, Project } = require("../models");
 const assignEmail = require("../helpers/assignEmail");
-const WebSocket = require("ws");
-const wss = new WebSocket.Server({ port: process.env.PORT || 3002 });
+const socket = require("../app");
+// const WebSocket = require("ws");
+// const wss = new WebSocket.Server({ port: process.env.PORT || 3002 });
+// socket;
 
 class TaskController {
   static async findAllTaskByProjectId(req, res, next) {
@@ -65,7 +67,7 @@ class TaskController {
         ],
       }); //completed
 
-      wss.clients.forEach((ws) => ws.send("updated"));
+      socket.clients.forEach((ws) => ws.send("updated"));
       res.status(200).json({ message: "Item updated" });
     } catch (error) {
       console.log(error);
