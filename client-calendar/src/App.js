@@ -10,7 +10,6 @@ import TablePage from "./views/TablePage";
 import AssignPage from "./components/AssignPage";
 import { Route, Routes, useLocation } from "react-router-dom";
 import ProjectList from "./views/ProjectList";
-import FooterComponent from "./components/FooterComponent";
 import TableTest from "./components/table/TableTest";
 import CalendarPage from "./components/CalendarPage";
 
@@ -86,14 +85,6 @@ function App() {
 
         <Route path="/invitation" element={<InvitationPage />} />
       </Routes>
-
-      {/* {location.pathname !== "/invitation" &&
-        location.pathname !== "/assign/:projectId" &&
-        location.pathname !== "/verified/:token" && (
-          <div>
-            <FooterComponent />
-          </div>
-        )} */}
     </div>
   );
 }

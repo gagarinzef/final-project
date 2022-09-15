@@ -1,7 +1,7 @@
 const { Task, User, Project } = require("../models");
 const assignEmail = require("../helpers/assignEmail");
 const WebSocket = require("ws");
-const wss = new WebSocket.Server({ port: 3002 });
+const wss = new WebSocket.Server({ port: process.env.PORT || 3002 });
 
 class TaskController {
   static async findAllTaskByProjectId(req, res, next) {
