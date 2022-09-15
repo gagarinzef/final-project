@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchData } from "../store/actions";
 import Loading from "../components/Loader/Loading";
 import Swal from "sweetalert2";
-import { success } from "../helpers/toast";
+import { errorHandler, success } from "../helpers/toast";
 import { URL_SERVER } from "../helpers/server-link";
 
 export default function ProjectList() {
@@ -19,13 +19,17 @@ export default function ProjectList() {
   });
   const [value, setValue] = useState("");
 
+  const trigger = (data) => {
+    setValue(data);
+  };
+
   useEffect(() => {
     dispatch(fetchData(`${URL_SERVER}/projects`, "GET", null, "projects"))
       .then(() => {
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
+        errorHandler(err);
       });
   }, [dispatch, value]);
 
@@ -47,7 +51,7 @@ export default function ProjectList() {
         setShowModal(false);
       })
       .catch((err) => {
-        console.log(err);
+        errorHandler(err);
       });
   };
 
@@ -72,14 +76,14 @@ export default function ProjectList() {
         setValue(id);
       })
       .catch((err) => {
-        console.log(err);
+        errorHandler(err);
       });
   };
 
   return (
     <>
       <div className="h-screen bg-[#EFEFEF] flex">
-        <SideNav handleSubmit={handleSubmit} />
+        <SideNav trigger={trigger} />
         <div className="items-center mx-16 my-4 w-screen text-start ml-60">
           <div className="bg-[#EFEFEF] h-[85vh] p-6 rounded-lg">
             <h1 className="text-2xl text-gray-800 mx-6">

@@ -25,7 +25,6 @@ export default function TableTest({ data, trigger, title }) {
   const [togglePosted, setTogglePosted] = useState(false);
 
   useEffect(() => {
-    console.log(data, "tabletest");
     if (data.project) {
       setTask(data?.project?.Tasks);
     } else {
@@ -57,6 +56,7 @@ export default function TableTest({ data, trigger, title }) {
         });
       })
       .catch((err) => {
+        // console.log(err);
         // errorHandler(err);
       });
   };
@@ -88,7 +88,7 @@ export default function TableTest({ data, trigger, title }) {
         trigger(data);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 

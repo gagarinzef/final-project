@@ -3,10 +3,10 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { success } from "../helpers/toast";
+import { errorHandler, success } from "../helpers/toast";
 import { URL_SERVER } from "../helpers/server-link";
 
-export default function SideNav({}) {
+export default function SideNav({ trigger }) {
   const location = useLocation();
   const { projectId } = useParams();
   const navigate = useNavigate();
@@ -20,7 +20,6 @@ export default function SideNav({}) {
   const handleChange = (event) => {
     const { name, value } = event.target;
     setInput({ ...input, [name]: value });
-    console.log(input);
   };
 
   const handleSubmit = async (event) => {
@@ -35,12 +34,12 @@ export default function SideNav({}) {
         },
         data: { name },
       });
-
+      trigger(data);
       Swal.fire("Project created");
       setModalCP(false);
     } catch (error) {
       // TERMINAL ERROR
-      console.log(error);
+      errorHandler(error);
     }
   };
 
@@ -56,12 +55,11 @@ export default function SideNav({}) {
         },
         data: { email, ProjectId: projectId },
       });
-      console.log(data);
       Swal.fire("Invitation Sent");
       setModal(false);
     } catch (error) {
       // TERMINAL ERROR
-      console.log(error);
+      errorHandler(error);
     }
   };
 

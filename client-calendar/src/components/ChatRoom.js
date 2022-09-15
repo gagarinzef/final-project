@@ -3,9 +3,11 @@ import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import io from "socket.io-client";
 import { URL_SERVER } from "../helpers/server-link";
+import { errorHandler } from "../helpers/toast";
 import ChatItem from "./ChatItem";
 
 const socket = io.connect("https://wokitout-socket-server.herokuapp.com/");
+// https://wokitout-socket-server.herokuapp.com/
 
 const ChatRoom = (props) => {
   const [currentProjectId, setCurrentProjectId] = useState(null);
@@ -66,7 +68,7 @@ const ChatRoom = (props) => {
           });
           setMessageList(newMessageList);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => errorHandler(err));
     }
   }, [projectId]);
 

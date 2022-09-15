@@ -3,16 +3,18 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { URL_SERVER } from "../helpers/server-link";
+import { errorHandler } from "../helpers/toast";
 
 export default function Kanban({ trigger }) {
   const { projectId } = useParams();
   const [columns, setColumns] = useState({});
   const [initColumns, setInitColumns] = useState({});
   const [loading, setLoading] = useState(true);
-  // var HOST = window.location.origin.replace(/^http/, "ws");
-  const ws = new WebSocket("ws://wokitout-server.herokuapp.com");
+  var HOST = window.location.origin.replace(/^http/, "ws");
+  const ws = new WebSocket(HOST);
   // wokitout-server.herokuapp.com
   // const ws = new WebSocket(HOST);
+  const [value, setValue] = useState("");
 
   const fetchTask = async () => {
     let columnsFromBackend = {
@@ -50,7 +52,7 @@ export default function Kanban({ trigger }) {
       setInitColumns(columnsFromBackend);
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      errorHandler(error);
     }
   };
 
@@ -64,9 +66,10 @@ export default function Kanban({ trigger }) {
         },
         data: columns,
       });
+      setValue(data);
       trigger(data);
     } catch (error) {
-      console.log(error);
+      errorHandler(error);
     }
   };
 
@@ -117,7 +120,7 @@ export default function Kanban({ trigger }) {
   useEffect(() => {
     ws.onmessage = handleWsMessage;
     fetchTask();
-  }, []);
+  }, [value]);
 
   useEffect(() => {
     if (JSON.stringify(columns) !== JSON.stringify(initColumns)) {

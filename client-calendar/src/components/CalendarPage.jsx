@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 import UpdateModal from "./modal/UpdateModal";
 import { useDispatch } from "react-redux";
 import { fetchData } from "../store/actions";
-import { success } from "../helpers/toast";
+import { errorHandler, success } from "../helpers/toast";
 import { URL_SERVER } from "../helpers/server-link";
 
 function CalendarPage({ data, trigger }) {
@@ -65,7 +65,7 @@ function CalendarPage({ data, trigger }) {
         trigger(input);
       })
       .catch((err) => {
-        console.log(err);
+        errorHandler(err);
       });
   };
 
