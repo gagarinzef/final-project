@@ -6,7 +6,7 @@ const PORT = process.env.PORT || 3001;
 const router = require("./routes/index");
 const errorHandler = require("./middleware/errorHandler");
 
-const exoress = require("express");
+const express = require("express");
 const app = express();
 // const server = require("http").Server(app);
 const bodyParser = require("body-parser");
